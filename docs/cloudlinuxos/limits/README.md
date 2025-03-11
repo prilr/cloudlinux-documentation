@@ -725,7 +725,22 @@ Ability to manage the limiting modes of user processes started from web interfac
     
 Also, there is a short list of processes, that runs without CageFS in every modes. They are not affecting security, but we are working on removing them from excludes.
 
-To use it, add the `web_resource_limit_mode` parameter to the `/etc/sysconfig/cloudlinux` file.
+The `web_resource_limit_mode` parameter can be added to any section of the configuration file for convenience and better organization. There are no strict requirements on which section it must be placed in, as configuration files ignore sections. However, it is recommended to add the parameter to existing sections or create a new one.
+
+Example of Adding the Parameter to Existing Sections:
+
+    [license_check]
+    email = CP`
+    cpanel_getemail_script = /usr/share/cloudlinux/clgetcpanelemail
+    plesk_getemail_script = /usr/share/cloudlinux/clgetpleskemail
+    web_resource_limit_mode = unlimited
+    
+    [cldiag_cron]
+    disabled_cldiag_cron_checkers = check-usepam
+    web_resource_limit_mode = all
+    
+    [custom_section]
+    web_resource_limit_mode = unlimited
     
 Possible parameter values:
 
@@ -738,7 +753,6 @@ Possible parameter values:
 
 1. CloudLinux OS should be installed on the server
 2. Packages:
-    * cagefs package installed
     * lve-wrappers >= 0.7.2
     * lvemanager >= 7.5.9
     * kmod-lve >= 2.0.36
