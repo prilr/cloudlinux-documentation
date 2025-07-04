@@ -3270,7 +3270,7 @@ Please note that MariaDB 10.4 release isn’t supported by cPanel, thus you can�
 Please make full database backup (including system tables) before you upgrade MySQL or switch to MariaDB. This action will prevent data loss in case if something goes wrong.
 :::
 
-**_MySQL Governor is compatible only with MySQL 5.x, 8.0; MariaDB & Percona Server 5.6._**
+**_MySQL Governor is compatible only with MySQL 5.x, 8.x, MariaDB and Percona Server 5.6._**
 
 To install <span class="notranslate"> MySQL Governor </span> on your server install <span class="notranslate"> governor-mysql </span> package at first:
 
@@ -3302,6 +3302,7 @@ Please make sure to specify your current MySQL version instead of XX as follows:
 * 56 — MySQL v5.6
 * 57 — MySQL v5.7
 * 80 — MySQL v8.0 (requires MySQL Governor 1.2-37+)
+* 84 — MySQL v8.4 (requires MySQL Governor 1.2-129+)
 
 If you are installing <span class="notranslate"> CloudLinux OS </span> on a server running <span class="notranslate"> MariaDB </span> already, do instead:
 
@@ -3362,6 +3363,7 @@ If you are installing <span class="notranslate"> MySQL Governor </span> on a ser
 |mysql56 |MySQL v5.6 | 
 |mysql57 |MySQL v5.7 | 
 |mysql80 |MySQL v8.0 (requires MySQL Governor 1.2-37+)| 
+|mysql84 |MySQL v8.4 (requires MySQL Governor 1.2-129+)| 
 |mariadb55 |MariaDB v5.5 |
 |mariadb100 |MariaDB v10.0 |
 |mariadb101 |MariaDB v10.1 |
@@ -3790,12 +3792,17 @@ To install beta version of MySQL:
 |mysql56 | MySQL v5.6|
 |mysql57 | MySQL v5.7|
 |mysql80 | MySQL v8.0 (requires MySQL Governor 1.2-37+)|
+|mysql84 | MySQL v8.4 (requires MySQL Governor 1.2-129+)| 
 |mariadb55 | MariaDB v5.5|
 |mariadb100 | MariaDB v10.0|
 |mariadb101 | MariaDB v10.1|
 |mariadb102 | MariaDB v 10.2|
 |mariadb103 | MariaDB v 10.3 [requires <span class="notranslate"> MySQL Governor 1.2-36+; for cPanel - MySQL Governor 1.2-41+ </span> ]|
-|mariadb104 |MariaDB v 10.4 [requires <span class="notranslate">MySQL Governor</span> 1.2-53+]||
+|mariadb104 | MariaDB v 10.4 [requires <span class="notranslate">MySQL Governor</span> 1.2-53+]||
+|mariadb105 | MariaDB v 10.5 [requires <span class="notranslate">MySQL Governor</span> 1.2-62+]|
+|mariadb106 | MariaDB v 10.6 [requires <span class="notranslate">MySQL Governor</span> 1.2-76+]|
+|mariadb1011 | MariaDB v 10.11 [requires <span class="notranslate">MySQL Governor</span> 1.2-103+]| 
+|mariadb1104 | MariaDB v 11.4 [requires <span class="notranslate">MySQL Governor</span> 1.2-122+]|
 |percona56 | Percona v 5.6|
 
 * We don't recommend to downgrade from MySQL v5.6, MariaDB 10.x
