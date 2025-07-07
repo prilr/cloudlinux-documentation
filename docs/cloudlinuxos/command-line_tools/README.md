@@ -1448,7 +1448,16 @@ When running user command as root, please use <span class="notranslate">`--user`
 }   //   end of json
 ```
 </div>
+    
+* Get Python script execution timeout in seconds :
   
+    <div class="notranslate">
+
+    ```
+    cloudlinux-selector get --json --interpreter python --get-run-script-timeout
+    ```
+    </div>
+
 * Get Python script execution timeout in seconds :
   
     <div class="notranslate">
@@ -1535,7 +1544,7 @@ When running user command as root, please use <span class="notranslate">`--user`
      <div class="notranslate">
     
      ```
-     cloudlinux-selector set --json --interpreter=python --run-script=5
+     cloudlinux-selector set --json --interpreter=python --run-script-timeout=5
      ```
      </div>
 
@@ -1566,8 +1575,6 @@ When running user command as root, please use <span class="notranslate">`--user`
         cloudlinux-selector change-version-multiple --json --interpreter python --data  <pairs user:app-root as json> --new-version <str>
         ```
         </div>
-
-
 #### *Examples*
 
 1. Change version for a specific application:
@@ -1896,7 +1903,7 @@ To start all users CLI commands use <span class="notranslate">`cagefs_enter`</sp
     <div class="notranslate">
     
     ```
-    cloudlinux-selector get --json --interpreter=python --get-run-script
+    cloudlinux-selector get --json --interpreter=python --get-run-script-timeout
     ``` 
     </div>
 
@@ -2033,7 +2040,7 @@ Get Nodejs script execution timeout in seconds :
 <div class="notranslate">
 
 ```
-cloudlinux-selector get --json --interpreter=nodejs --get-run-script
+cloudlinux-selector get --json --interpreter=nodejs --get-run-script-timeout
 ``` 
 </div>
 
@@ -2120,7 +2127,7 @@ Set Nodejs script execution timeout value in seconds :
 <div class="notranslate">
 
 ```
-cloudlinux-selector set --json --interpreter nodejs --run-script=5
+cloudlinux-selector set --json --interpreter nodejs --run-script-timeout=5
 ```
 </div>
 
@@ -2406,7 +2413,7 @@ Get Nodejs script execution timeout in seconds :
 <div class="notranslate">
 
 ```
-cloudlinux-selector get --json --interpreter=nodejs --get-run-script
+cloudlinux-selector get --json --interpreter=nodejs --get-run-script-timeout
 ``` 
 </div>
 
