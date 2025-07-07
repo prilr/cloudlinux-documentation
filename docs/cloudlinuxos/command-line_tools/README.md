@@ -1567,6 +1567,8 @@ When running user command as root, please use <span class="notranslate">`--user`
         cloudlinux-selector change-version-multiple --json --interpreter python --data  <pairs user:app-root as json> --new-version <str>
         ```
         </div>
+
+
 #### *Examples*
 
 1. Change version for a specific application:
