@@ -1448,7 +1448,7 @@ When running user command as root, please use <span class="notranslate">`--user`
 }   //   end of json
 ```
 </div>
-    
+
 * Get Python script execution timeout in seconds :
   
     <div class="notranslate">
@@ -1457,7 +1457,6 @@ When running user command as root, please use <span class="notranslate">`--user`
     cloudlinux-selector get --json --interpreter python --get-run-script-timeout
     ```
     </div>
-
 
 * Set default version, supported versions, and status of Python Selector:
 
