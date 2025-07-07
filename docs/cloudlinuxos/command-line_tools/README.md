@@ -1458,14 +1458,6 @@ When running user command as root, please use <span class="notranslate">`--user`
     ```
     </div>
 
-* Get Python script execution timeout in seconds :
-  
-    <div class="notranslate">
-
-    ```
-    cloudlinux-selector get --json --interpreter python --get-run-script
-    ```
-    </div>
 
 * Set default version, supported versions, and status of Python Selector:
 
