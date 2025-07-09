@@ -794,7 +794,7 @@ After the reboot, login into the system and check:
 
 Verify that the current OS successfully upgraded to the new version.
 
-```bash
+```
 cat /etc/redhat-release
 cat /etc/os-release
 ```
@@ -818,10 +818,10 @@ Ensure that your system is fully updated before starting the upgrade process.
 
 To prepare for the upgrade, download the latest version of the cloudlinux7to8 tool from the [releases page](https://github.com/plesk/cloudlinux7to8/releases/latest):
 
-```bash
+```
 
-> wget https://github.com/plesk/cloudlinux7to8/releases/download/latest/cloudlinux7to8-1.0.0.zip
-> unzip cloudlinux7to8-1.0.0.zip
+> wget https://github.com/plesk/cloudlinux7to8/releases/download/v1.1.3/cloudlinux7to8-1.1.3.zip
+> unzip cloudlinux7to8-1.1.3.zip
 > chmod 755 cloudlinux7to8
 
 ```
@@ -830,20 +830,20 @@ To prepare for the upgrade, download the latest version of the cloudlinux7to8 to
 
 To monitor the conversion process, it is recommended to use the `screen` utility to run the conversion process in a separate session.
 
-```bash
+```
 > screen -S cloudlinux7to8
 > ./cloudlinux7to8
 ```
 
 If the connection is lost, you can reattach to the session with the following command:
 
-```bash
+```
 > screen -r cloudlinux7to8
 ```
 
 The process can also be run in the background:
 
-```bash
+```
 > nohup ./cloudlinux7to8 &
 ```
 
@@ -859,13 +859,13 @@ The conversion process will take some time to complete.
 
 To check the status of the conversion process, use the `--status` flag.
 
-```bash
+```
 > ./cloudlinux7to8 --status
 ```
 
 To monitor the progress of the conversion process in real time, use the `--monitor` flag.
 
-```bash
+```
 > ./cloudlinux7to8 --monitor
 ( stage 3 / action re-installing plesk components  ) 02:26 / 06:18
 ```
@@ -876,7 +876,7 @@ Aside from the main Leapp logs contained in `/var/log/leapp`, the cloudlinux7to8
 
 If the process fails during the initial stages, you can attempt to revert the system to its original state by running the cloudlinux7to8 tool with the `--revert` flag.
 
-```bash
+```
 > ./cloudlinux7to8 --revert
 ```
 
