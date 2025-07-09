@@ -1450,6 +1450,15 @@ When running user command as root, please use <span class="notranslate">`--user`
 }   //   end of json
 ```
 </div>
+  
+* Get Python script execution timeout in seconds :
+  
+    <div class="notranslate">
+
+    ```
+    cloudlinux-selector get --json --interpreter python --get-run-script
+    ```
+    </div>
 
 * Set default version, supported versions, and status of Python Selector:
 
@@ -1523,6 +1532,14 @@ When running user command as root, please use <span class="notranslate">`--user`
     cloudlinux-selector disable-version --json --interpreter python --version 2.7
     ```
     </div>
+
+8. Set Python script execution timeout value in seconds :
+     <div class="notranslate">
+    
+     ```
+     cloudlinux-selector set --json --interpreter=python --run-script=5
+     ```
+     </div>
 
 * Change version for an application:
     * For a specific application:
@@ -1876,6 +1893,14 @@ To start all users CLI commands use <span class="notranslate">`cagefs_enter`</sp
     ```
     </div>
 
+* Get Python script execution timeout in seconds :
+    
+    <div class="notranslate">
+    
+    ```
+    cloudlinux-selector get --json --interpreter=python --get-run-script
+    ``` 
+    </div>
 
 ## Ruby Selector
 
@@ -2005,6 +2030,15 @@ cloudlinux-selector [get] [--json] --interpreter nodejs
 ```
 </div>
 
+Get Nodejs script execution timeout in seconds :
+    
+<div class="notranslate">
+
+```
+cloudlinux-selector get --json --interpreter=nodejs --get-run-script
+``` 
+</div>
+
 Set default version, supported versions, and status of <span class="notranslate"> Node.js Selector </span> :
 <div class="notranslate">
 
@@ -2080,6 +2114,15 @@ Disable required Node.js version (note that it is impossible to disable default 
 
 ```
 cloudlinux-selector disable-version --json --interpreter nodejs --version 8
+```
+</div>
+
+Set Nodejs script execution timeout value in seconds :
+  
+<div class="notranslate">
+
+```
+cloudlinux-selector set --json --interpreter nodejs --run-script=5
 ```
 </div>
 
@@ -2358,6 +2401,15 @@ cloudlinux-selector run-script --json --interpreter nodejs --user user1 --app-ro
 		  "data": "script output as Base64 encoded string"
 }
 ```
+</div>
+
+Get Nodejs script execution timeout in seconds :
+    
+<div class="notranslate">
+
+```
+cloudlinux-selector get --json --interpreter=nodejs --get-run-script
+``` 
 </div>
 
 Activate virtual environment of NodeJS:
