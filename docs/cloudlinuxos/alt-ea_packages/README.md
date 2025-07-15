@@ -1127,7 +1127,7 @@ When you deploy an updated version of PHP, using your system’s regular update 
 the new version will be installed under `/opt/alt/php[version]/`. This means that all modules, configurations and additional files pertaining to this version will be contained inside that path. 
 Different versions of PHP will each have their own path and can coexist without issues on the same system. Below you will find the location of all the relevant files, should you want to make any changes.
 
-#### The bin files:
+### The bin files:
 
 <div class="notranslate">
 
@@ -1138,7 +1138,7 @@ dbunit           lsphp            peardev          phar             php         
 ```
 </div>
 
-#### Modules and pecl extensions:
+### Modules and pecl extensions:
 
 <div class="notranslate">
 
@@ -1180,7 +1180,7 @@ igbinary.so         oauth.so           stats.so
 ```
 </div>
 
-#### Running code on a specific version through the CLI:
+### Running code on a specific version through the CLI:
 
 <div class="notranslate">
 
@@ -1190,7 +1190,7 @@ Hello, World!
 ```
 </div>
 
-#### Location of ini config files:
+### Location of ini config files:
 
 <div class="notranslate">
 
@@ -1232,7 +1232,7 @@ lzf.ini               raphf.ini
 ```
 </div>
 
-#### Location of default.ini:
+### Location of default.ini:
 
 <div class="notranslate">
 
@@ -1241,7 +1241,7 @@ ls /opt/alt/phpXY/etc/php.d/default.ini
 ```
 </div>
 
-#### Listing enabled modules on a specific version:
+### Listing enabled modules on a specific version:
 
 <div class="notranslate">
 
@@ -1281,7 +1281,7 @@ zlib
 ```
 </div>
 
-#### Enabling a module through the CLI:
+### Enabling a module through the CLI:
 
 <div class="notranslate">
 
@@ -1326,66 +1326,80 @@ As you can see, each version is entirely self-contained,
 and changing configurations in one will not impact the others, 
 a desired feature in hosting environments.
 
-#### Enabling a module through the configuration files:
+### Additional configurations (optional)
 
-**1. Direct inclusion in the specific extension's ini file:**
+The **default.ini** file is important for configuring alt-php. It sets default PHP settings and can be used to enable default extensions. We do not modify this file on our side. You need to update **default.ini** yourself to adjust PHP settings based on your Endless Lifecycle Support (ELS) usage and specific requirements.
 
-- If each extension has its own ini file (e.g., memcached.ini), 
-open that file. Location of ini config files: 
+PHP extensions can be enabled or disabled in different configuration files. 
+* If you need to enable or disable an extension by *default* across all systems, list it by updating the `default.ini`.
+* If you want to enable or disable an extension only for a *specific* PHP version or setup, start by editing that extension's individual `.ini` file.
 
-<div class="notranslate">
+#### Enabling a module through `default.ini`
 
-```
-/opt/alt/phpXY/etc/php.d.all/
-```
-</div>
+To enable or disable extensions in your installed PHP version:
 
-- Inside the ini file, find lines starting with `;` before the extension name 
-(e.g., `;extension=memcached.so`). The `;` sign at the beginning of the line means that this extension is currently inactive.
-
-- Remove the `;` before the line with the extension name to activate it.
-
-- Save the changes in the ini file.
-
-If there is no such line:
-
-- Inside the ini file, add line `extension=memcached.so`
-
-- Save the changes in the ini file.
-
-**2. Enabling through default.ini:**
-
-- Open the default.ini file, usually located in the PHP configuration directory: 
+1. Open the `default.ini` file, usually located in the PHP configuration directory, in an editor of your choice: 
 
 <div class="notranslate">
 
 ```
 /opt/alt/phpXY/etc/php.d/default.ini
 ```
+
 </div>
 
-- Find lines starting with `;` before the extension name. The `;` sign at the beginning of the line means that this extension is currently inactive.
+2. Edit the list of extensions:
+   * To enable an extension, remove the semicolon `;` at the beginning of the line.
+   * To disable an extension, add a semicolon `;` at the beginning of the line.
+   * If the extension line is missing, add it in this format: `extension=extension_name.so` (replace `extension_name.so` with the actual extension name).
 
-- Remove the `;` before the line with the extension name to activate it.
+3. Save the changes in the `default.ini` file.
 
-If there is no such line:
+#### Enabling a module through the configuration files
 
-- Add line `extension=extension name.so`
-(where `extension name.so` - name of extension you need).
+Typically, extensions with their own `.ini` files are enabled or disabled directly in those files, allowing more control for a specific PHP configuration.
+* If you're unsure which file to modify to enable a specific extension, it's recommended to first try enabling it in the extension's own `.ini` file.
+* If that does not work or you want to enable it on all systems by default, add it to `default.ini`.
 
-- Save the changes in the default.ini file.
+1. Locate the extension’s `.ini` file (e.g., `memcached.ini`) in the directory:
 
-***Note:***
+  <div class="notranslate">
 
-*- Typically, extensions with their own ini files are enabled or disabled directly in their respective ini files, 
-allowing for more explicit specification of which extensions should be enabled for a specific PHP configuration.*
+  ```
+  /opt/alt/phpXY/etc/php.d.all/
+  ```
+  </div>
 
-*- On the other hand, extensions that should be enabled by default on all systems may be listed in default.ini. 
-This file is used to set default settings for PHP and can be used to enable default extensions.*
+2. Open the file and find the lines starting with a semicolon `;` before the extension name (e.g., `;extension=memcached.so`). 
+   * The semicolon sign at the beginning of the line means that this extension is currently inactive. To enable an extension, remove the semicolon `;` at the beginning of the line.
+   * To disable an extension, add a semicolon `;` at the beginning of the line.
+   * If the extension line is missing, add the line: 
+     <div class="notranslate">
+    
+     ```
+     extension=memcached.so
+     ```
 
-*- If you're unsure which file to modify to enable a specific extension, it's recommended to first try enabling it in the extension's own ini file. 
-If you encounter issues or need to enable an extension on all systems by default, you can try adding it to default.ini.*
+     </div>
 
+3. Save the changes in the ini file.
+
+#### Increase Upload/Memory Limits
+
+If you need to increase memory and upload size limits:
+
+1. Open the `default.ini` file in an editor of your choice.
+2. Set the limits as needed, e.g:
+
+    <div class="notranslate">
+
+    ```text
+    upload_max_filesize=40M
+    post_max_size=40M
+    memory_limit=256M
+    ```
+
+    </div>
 
 
 ## alt-python
