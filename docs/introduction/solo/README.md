@@ -45,7 +45,7 @@ We've pre-installed a couple of useful features in our distribution. The complet
   Website Monitoring tool can gather and display information regarding the slowest websites on the server, 
   notify by emails about errors happened on websites and send you daily website performance reports.
 
-  [See more](/solo/manager/#website-monitoring-tool).
+  [See more](/cloudlinuxos/lve_manager/#website-monitoring-tab).
 
 * **PHP Slow Site analyzer**
 
@@ -54,7 +54,7 @@ We've pre-installed a couple of useful features in our distribution. The complet
 
   The Slow Site analyzer tracks all PHP-based requests and selects slow ones by specific rules.
 
-  [See more](/solo/manager/#php-slow-site-analyzer).
+  [See more](/cloudlinuxos/lve_manager/#php-slow-site-analyzer).
 
 * **X-Ray**
 
@@ -63,7 +63,7 @@ We've pre-installed a couple of useful features in our distribution. The complet
   X-Ray can gather and visualize information about top slowest system functions, external requests, 
   software modules and database queries of the client’s PHP website.
 
-  [See more](/solo/manager/#x-ray).
+  [See more](/cloudlinuxos/shared-pro/#x-ray).
 
 ### How can I try your distribution before paying for it?
 
@@ -88,7 +88,7 @@ Currently, the following version are supported:
 
 ### What's next
 
-1. The [Installation](/cloudlinuxos/installation) section contains information about how to install this OS.
+1. The [Installation](/cloudlinuxos/cloudlinux_installation/) section contains information about how to install this OS.
 2. The [landing page](https://lp.cloudlinux.com/cloudlinux-os-solo) contains the instructions about how to buy license or get trial. 
 
 ## Licensing
@@ -180,7 +180,7 @@ The Website Monitoring tool is intended for monitoring the domain main page gene
 * The administrator can receive the daily reports with the list of the slow requests.
 * The administrator receives instant emails if the domain main page is unavailable.
 
-You can read more about the Website Monitoring tool [here](/solo/manager/#website-monitoring-tool).
+You can read more about the Website Monitoring tool [here](/cloudlinuxos/lve_manager/#website-monitoring-tab).
 
 ### What is the X-Ray tool intended for?
 
