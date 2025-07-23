@@ -43,14 +43,6 @@
       :class="{ fullscreen: isMobile, 'desktop-view': !isMobile }"
     >
       <div class="chat-header">
-        <div class="header-content">
-          <img
-            :src="botOptions.botAvatarImg"
-            alt="Bot icon"
-            class="header-avatar"
-          />
-          <span class="bot-title">{{ botOptions.botTitle }}</span>
-        </div>
         <div class="header-actions">
           <button class="close-btn" @click="toggleChat">
             <svg
@@ -86,17 +78,11 @@
 </template>
 
 <script>
-import BotIcon from "cl-doc-vue-bot-ui/src/assets/icons/bot.png";
-
 export default {
   data() {
     return {
       showChat: false,
       isLoading: true,
-      botOptions: {
-        botAvatarImg: BotIcon,
-        botTitle: "AI Assistant",
-      },
       iframeUrl: "https://chatbot.cloudlinux.com/docs/cloudlinux",
       windowWidth: 0, // Changed from window.innerWidth to avoid SSR error
     };
