@@ -251,7 +251,7 @@ mobile-breakpoint = 768px
   color: white
   padding: 1rem 1.5rem
   display: flex
-  justify-content: space-between
+  justify-content: flex-end
   align-items: center
 
   .header-content {
