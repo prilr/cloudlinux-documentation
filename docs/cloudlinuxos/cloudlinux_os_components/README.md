@@ -5860,6 +5860,7 @@ See also [Ruby Selector CLI tools](/cloudlinuxos/command-line_tools/#ruby-select
 | —                | alt‑nodejs 19.x  | alt‑nodejs 19.x  | alt‑nodejs 19.x  |
 | —                | alt‑nodejs 20.x  | alt‑nodejs 20.x  | alt‑nodejs 20.x  | 
 | —                | -                | alt‑nodejs 22.x  | alt‑nodejs 22.x  |
+| —                | -                | alt‑nodejs 24.x  | alt‑nodejs 24.x  |
 
 #### **Requirements**
 
