@@ -3351,10 +3351,15 @@ cloudlinux-config set --json --data '{"options":{"uiSettings":{"hideRubyApp":fal
 ### cl-quota
 
 * [General provisions](./#general-provisions)
+* [Known cl-quota limitations behaviour](./#known-cl-quota-limitations-behaviour)
+* [cPanel User File Synchronization](./#cpanel-user-file-synchronization)
+* [What is Synchronized](./#what-is-synchronized)
+* [What is NOT Synchronized](./#what-is-not-synchronized)
 * [Setting limits and integration with panel packages](./#setting-limits-and-integration-with-panel-packages)
 * [Limits inheritance](./#limits-inheritance)
 * [Caching and synchronizing the limits](./#caching-and-synchronizing-the-limits)
 * [Quotas DB file](./#quotas-db-file)
+* [Troubleshooting](./#troubleshooting)
 * [CLI options/examples](./#cli-options-examples)
 
 <span class="notranslate">**cl-quota**</span> utility is designed to control <span class="notranslate">disk quotas</span> and provides:
@@ -3400,6 +3405,50 @@ cat /var/log/messages | grep clquota
 
 ::: tip Note
 You should not set soft limit higher than hard limit. cl-quota does not control it in any way, but in some cases, the system can ban such limits combination and they won’t be set or will be set in some other way.
+:::
+
+#### Known cl-quota limitations behaviour
+
+::: tip Key Points Administrators Should Know:
+
+* **User Creation**: All users (including panel users) are created with limits equal to 0
+* **Synchronization Timing**: Limits are applied within 5 minutes of user creation via automatic cron job
+* **File Discrepancies**: cPanel user files may show different values than actual enforced limits
+* **Cache Mechanism**: Non-root users see cached data from `/etc/container/cl-quotas.cache`
+* **Package Inheritance**: Users inherit package limits unless individual limits are set
+* **Special Values**: 
+  - `0` means inherit from package or uid=0
+  - `-1` means unlimited (displayed as dash `-`)
+  - Words "default" and "unlimited" are interchangeable with 0 and -1
+* **Auto-Sync Control**: Can be disabled via `cl_quota_limits_autosync=no` in `/etc/sysconfig/cloudlinux`
+* **Root User**: Limits are never set for root (uid=0) but stored for inheritance
+* **Validation**: cl-quota doesn't validate soft/hard limit relationships
+:::
+
+#### cPanel User File Synchronization
+
+* <span class="notranslate">cl-quota</span> does **NOT** synchronize inode limits with cPanel user configuration files (<span class="notranslate">`/var/cpanel/users/*`</span>)
+* Changes made through LVE Manager to package inode limits are correctly applied at the system quota level but do **not** update the corresponding user files
+* This can result in discrepancies where:
+  - <span class="notranslate">`/var/cpanel/packages/packagename`</span> shows updated limits
+  - <span class="notranslate">`/var/cpanel/users/username`</span> shows old limit values
+  - System quota (<span class="notranslate">`repquota`</span>) and API show correct current limits
+  - Actual quota enforcement works correctly despite the file discrepancy
+
+#### What is Synchronized
+
+<span class="notranslate">cl-quota</span> synchronizes the following:
+* Internal quota database file (<span class="notranslate">`/etc/container/cl-quotas.dat`</span>)
+* cPanel package files
+* System-level quota limits
+
+#### What is NOT Synchronized
+
+<span class="notranslate">cl-quota</span> does **NOT** synchronize:
+* cPanel user configuration files (<span class="notranslate">`/var/cpanel/users/*`</span>)
+
+::: tip Note
+The lack of user file synchronization does not affect the actual quota enforcement. Inode limits are applied at the system quota level and function correctly regardless of what is stored in cPanel user files. The discrepancy is cosmetic and affects only file-based configuration visibility.
 :::
 
 #### Setting limits and integration with panel packages
@@ -3519,6 +3568,63 @@ It follows that:
 * Limits 5000:-1 are set for pack1 package, therefore its real limits are: <span class="notranslate"> soft_limit=5000 </span> and <span class="notranslate"> hard_limit=0 </span> (unlimited).
 
 * The users of <span class="notranslate"> pack1 </span> package will get <span class="notranslate"> pack1 </span> limits (5000:-1), the users of all the rest of the packages will get the limits of uid=0 because no limits are set for them. Exceptions: uid=500 and 958. uid=500 has both limits set individually, and uid=958 inherits only <span class="notranslate"> soft </span> limits.
+
+#### Troubleshooting
+
+**Inode Limits Synchronization Issues**
+
+If you notice discrepancies between different sources showing inode limits, this is likely due to the [known limitations](#known-cl-quota-limitations-behaviour) of <span class="notranslate">cl-quota</span>. Here's how to troubleshoot:
+
+**How to check actual limits**
+
+To check what limits are actually enforced, please use these commands:
+
+<div class="notranslate">
+
+```bash
+# Check system quota (this is what's actually enforced)
+repquota -u /
+
+# Check specific user quota
+quota -u username
+
+# Check what cl-quota thinks the limits are
+cl-quota
+
+# Check package limits
+cl-quota --package-limits
+```
+</div>
+
+**Script to verify user package and actual limits via CLI**
+
+<div class="notranslate">
+
+```bash
+# Script to show user, package, and actual quota comparison
+for userfile in /var/cpanel/users/*; do
+  user=$(basename "$userfile")
+  plan=$(grep '^PLAN=' "$userfile" | cut -d= -f2)
+  
+  # Get package limits
+  pkg_soft=$(grep '^lve_inodes_soft=' "/var/cpanel/packages/$plan" 2>/dev/null | cut -d= -f2)
+  pkg_hard=$(grep '^lve_inodes_hard=' "/var/cpanel/packages/$plan" 2>/dev/null | cut -d= -f2)
+  
+  # Get user file limits
+  user_soft=$(grep '^lve_inodes_soft=' "$userfile" 2>/dev/null | cut -d= -f2)
+  user_hard=$(grep '^lve_inodes_hard=' "$userfile" 2>/dev/null | cut -d= -f2)
+  
+  # Get actual system quota
+  actual_quota=$(repquota -u / | grep "^$user " | awk '{print $6 ":" $7}')
+  
+  echo "User: $user, Package: $plan"
+  echo "  Package limits: ${pkg_soft:-N/A}:${pkg_hard:-N/A}"
+  echo "  User file limits: ${user_soft:-N/A}:${user_hard:-N/A}"
+  echo "  Actual quota: ${actual_quota:-N/A}"
+  echo "---"
+done
+```
+</div>
 
 #### CLI options/examples
 

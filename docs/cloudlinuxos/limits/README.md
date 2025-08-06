@@ -391,6 +391,10 @@ End users can monitor their inodes usage through cPanel only (not available on P
 
 End user can also see the usage inside resource usage menu.
 
+::: tip Important Note about Synchronization
+When using inode limits with cPanel, please note that changes made through LVE Manager may not be reflected in cPanel user configuration files (<span class="notranslate">`/var/cpanel/users/*`</span>). This is a known limitation where the actual quota enforcement works correctly, but the user files may show outdated limit values. See [Known cl-quota limitations behaviour](/cloudlinuxos/command-line_tools/#known-cl-quota-limitations-behaviour) and [Troubleshooting](/cloudlinuxos/command-line_tools/#troubleshooting) for more details.
+:::
+
 ## Network traffic bandwidth control and accounting system
 
 :::tip Note
