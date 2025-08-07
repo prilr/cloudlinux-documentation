@@ -4115,7 +4115,7 @@ The mark `x` stands for a supported version.
 
 |             | Cloudlinux 6 | Cloudlinux 7 | Cloudlinux 8 | Cloudlinux 9 |
 |:-----------:|:------------:|:------------:|:------------:|:------------:|
-| alt-php 5.1 |       x      |       x      |       x      |              |
+| alt-php 5.1 |       x      |       x      |       x      |       –      |
 | alt-php 5.2 |       x      |       x      |       x      |       x      |
 | alt-php 5.3 |       x      |       x      |       x      |       x      |
 | alt-php 5.4 |       x      |       x      |       x      |       x      |
@@ -4130,7 +4130,7 @@ The mark `x` stands for a supported version.
 | alt-php 8.1 |       x      |       x      |       x      |       x      |
 | alt-php 8.2 |       x      |       x      |       x      |       x      |
 | alt-php 8.3 |       x      |       x      |       x      |       x      | 
-| alt-php 8.4 |       x      |       x      |       x      |       x      |
+| alt-php 8.4 |       –      |       x      |       x      |       x      |
 
 ### Installation and update
 
