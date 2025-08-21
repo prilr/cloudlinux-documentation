@@ -529,12 +529,6 @@ To summarize:
 This scenario contains steps on how to upgrade CloudLinux on no-panel/custom panel systems.
 
 :::tip
-The below scenario outlines the steps to upgrade a CloudLinux 7 machine to CloudLinux 8.
-For CloudLinux 8 to CloudLinux 9 upgrades, the process is the same, with the exception of the target release version.
-That is, instead of `elevate-release-latest-el7.noarch.rpm` you would install `elevate-release-latest-el8.noarch.rpm`, etc.
-:::
-
-:::tip
 ELevating CloudLinux 7 to CloudLinux 8 for **DirectAdmin** is now supported and the elevation process for systems with DirectAdmin **mirrors the procedure used for no-panel or custom panel systems**. More details in [our blog](https://blog.cloudlinux.com/elevating-cloudlinux-7-to-cloudlinux-8-with-directadmin-now-supported).
 :::
 
@@ -543,7 +537,7 @@ ELevating CloudLinux 7 to CloudLinux 8 for **DirectAdmin** is now supported and 
 2. After that, download and install "elevate-release" package to configure necessary RPM repositories:
 
 ```
-sudo yum install https://repo.cloudlinux.com/elevate/elevate-release-latest-el7.noarch.rpm
+sudo yum install https://repo.cloudlinux.com/elevate/elevate-release-latest-el$(rpm --eval %rhel).noarch.rpm
 ```
 
 3. Install leapp packages and migration data for the CloudLinux OS.
@@ -645,9 +639,13 @@ After the reboot, login into the system and check the migration report. Verify t
 ```bash
 cat /etc/redhat-release
 cat /etc/os-release
-rpm -qa | grep el7 # check if there are unupgraded packages present
 cat /var/log/leapp/leapp-report.txt
 cat /var/log/leapp/leapp-upgrade.log
+```
+
+```bash
+# Check for leftover packages from the previous OS version
+rpm -qa | grep el$(($(rpm --eval %rhel)-1))
 ```
 
 In addition, check the leapp logs for .rpmnew configuration files that may have been created during the upgrade process. In some cases os-release or yum package files may not be replaced automatically, requiring the user to rename the .rpmnew files manually.
@@ -712,7 +710,7 @@ sudo yum -y update
 
 In addition, make sure your system is running the latest available version of cPanel.
 
-Ensure that you have the package `ea-cpanel-tools >= 1.0-67.el7.cloudlinux` installed.
+Ensure that you have the package `ea-cpanel-tools >= 1.0-67` installed.
 You may need to activate the `cloudlinux-ea4-testing` package repository for that version to become accessible.
 By default, it is located at `/etc/yum.repos.d/cloudlinux-ea4-testing.repo`.
 
