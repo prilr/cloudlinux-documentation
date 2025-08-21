@@ -21,15 +21,15 @@ In addition, support will not be provided if you have any third-party utilities 
 ### What is ELevate?
 The ELevate project is an initiative to support migrations between major version of RHEL-derivatives.
 
-The CloudLinux ELevate variant, built on top of the [AlmaLinux ELevate project](https://wiki.almalinux.org/elevate/), aims to provide a streamlined method of upgrading CloudLinux 7 systems to CloudLinux 8 in-place.
+The CloudLinux ELevate variant, built on top of the [AlmaLinux ELevate project](https://wiki.almalinux.org/elevate/), aims to provide a streamlined method of upgrading older CloudLinux systems to newer major OS versions in-place.
 
 The [Leapp utility](https://leapp.readthedocs.io/) is the main tool used to perform the upgrade.
 
-The [ELevate Scenario - CloudLinux 7 with cPanel](#elevate-scenario-cloudlinux-7-with-cpanel) uses the [cPanel ELevate](https://github.com/cpanel/elevate) project as an additional layer of the upgrade process.
+The [ELevate Scenario - CloudLinux with cPanel](#elevate-scenario-cloudlinux-with-cpanel) uses the [cPanel ELevate](https://github.com/cpanel/elevate) project as an additional layer of the upgrade process.
 
-The [ELevate Scenario - CloudLinux 7 with Plesk](#elevate-scenario-cloudlinux-7-with-plesk) also uses an additional layer - the [cloudlinux7to8](https://github.com/plesk/cloudlinux7to8) project.
+The [ELevate Scenario - CloudLinux with Plesk](#elevate-scenario-cloudlinux-with-plesk) also uses an additional layer - the [cloudlinux7to8](https://github.com/plesk/cloudlinux7to8) project.
 
-ELevate is a project aimed to provide the ability to migrate between major versions of RHEL-based distributions from 7.x to 8.x. It combines Red Hat's Leapp framework with a community created library and service for the migration metadata set required for it.
+ELevate is a project aimed to provide the ability to migrate between major versions of RHEL-based distributions. It combines Red Hat's Leapp framework with a community created library and service for the migration metadata set required for it.
 
 
 ### Is it ready for production use?
@@ -40,7 +40,7 @@ We guarantee functionality of CloudLinux products and services on the post-upgra
 
 However, we cannot guarantee that the third-party software and RPM packages will be updated correctly on all system configurations. [See below](#will-it-upgrade-everything-i-have-on-my-system).
 
-Systems with configurations and packages that substantially differ from a typical CloudLinux 7 installation could encounter issues previously not seen before.
+Systems with configurations and packages that substantially differ from a typical CloudLinux installation could encounter issues previously not seen before.
 
 
 ### Can it break something on my system?
@@ -102,48 +102,55 @@ Depending on the amount and size of the packages that need to be updated, the up
 
 If the machine remains unresponsive for more than 2 hours after rebooting, assume the upgrade process failed during the post-reboot phase, and the machine cannot return to normal functionality automatically.
 
-
-### How do I use it?
-
-Depending on the web panel you have installed on your system, the upgrade process will require different steps.
+### Which CL OS versions are supported?
 
 At the moment, ELevate migration from CloudLinux 7 to CloudLinux 8 is supported on:
 
 * *no panel/custom panel* systems;
-* *cPanel* systems.
-* *DirectAdmin* systems.
+* *cPanel* systems;
+* *DirectAdmin* systems;
 * *Plesk* systems.
 
+For CloudLinux 8 to CloudLinux 9 migrations, migration is supported on:
 
-#### I have a CL7 system with no webpanel/a custom webpanel installed, how do I upgrade to CL8?
+* *no panel/custom panel* systems;
+* *cPanel* systems.
+
+Support for CloudLinux 9 to CloudLinux 10 migrations is not yet available.
+
+### How do I use it?
+
+Depending on the web panel you have installed on your system, the upgrade process will require different steps. Look for the specific instructions for your panel below.
+
+#### I have a system with no webpanel/a custom webpanel installed, how do I upgrade?
 
 In such case, you can upgrade through the Leapp tool directly.
 
-Please refer to the [CloudLinux 7 with no panel/custom panel ELevate Scenario](#elevate-scenario-cloudlinux-7-with-no-panel-or-a-custom-panel) for step-by-step instructions.
+Please refer to the [CloudLinux with no panel/custom panel ELevate Scenario](#elevate-scenario-cloudlinux-with-no-panel-or-a-custom-panel) for step-by-step instructions.
 
-#### I have a CL7 system with cPanel installed, how do I upgrade to CL8?
+#### I have a system with cPanel installed, how do I upgrade?
 
 With cPanel present on the machine, you need to run the upgrade process through the `elevate-cpanel` tool.
 
-Please refer to the [ELevate Scenario - CloudLinux 7 with cPanel](#elevate-scenario-cloudlinux-7-with-cpanel) for step-by-step instructions.
+Please refer to the [ELevate Scenario - CloudLinux with cPanel](#elevate-scenario-cloudlinux-with-cpanel) for step-by-step instructions.
 
-#### I have a CL7 system with DirectAdmin installed, how do I upgrade to CL8?
+#### I have a system with DirectAdmin installed, how do I upgrade?
 
 The DirectAdmin panel does not require any additional actions or tools compared to the no-panel upgrade scenario.
 
-You can make use of the [CloudLinux 7 with no panel/custom panel ELevate Scenario](#elevate-scenario-cloudlinux-7-with-no-panel-or-a-custom-panel) to upgrade systems with the DirectAdmin panel much like you would for systems without one.
+You can make use of the [CloudLinux with no panel/custom panel ELevate Scenario](#elevate-scenario-cloudlinux-with-no-panel-or-a-custom-panel) to upgrade systems with the DirectAdmin panel much like you would for systems with no panel.
 
-#### I have a CL7 system with Plesk installed, how do I upgrade to CL8?
+#### I have a system with Plesk installed, how do I upgrade?
 
 Like cPanel, the Plesk panel requires you to make use of an additional tool to perform the upgrade on a system. In this case, you need to use the `cloudlinux7to8` tool [provided by the Plesk team](https://github.com/plesk/cloudlinux7to8).
 
-Please refer to the [ELevate Scenario - CloudLinux 7 with Plesk](#elevate-scenario-cloudlinux-7-with-plesk) for step-by-step instructions.
+Please refer to the [ELevate Scenario - CloudLinux with Plesk](#elevate-scenario-cloudlinux-with-plesk) for step-by-step instructions.
 
-#### I have a CL7 system with a different panel installed, how do I upgrade to CL8?
+#### I have a system with a different panel installed, how do I upgrade?
 
 Unfortunately, CloudLinux ELevate doesn't support these system configurations yet.
 
-Instead, you can create a new machine with CloudLinux 8 and migrate your system's license and configuration to it.
+Instead, you can create a new machine with the new CloudLinux version and migrate your system's license and configuration to it.
 
 Please refer to the following documentation links for instructions on how to do so:
 
@@ -184,7 +191,7 @@ When filing an issue, include:
 - All files in `/var/log/leapp`
 - `/var/lib/leapp/leapp.db`
 - journalctl
-- If using the CloudLinux 7 with cPanel scenario, `/var/log/elevate-cpanel.log`
+- If using the CloudLinux with cPanel scenario, `/var/log/elevate-cpanel.log`
 - If you want, you can also send anything else would you like to provide (e.g. storage info)
 
 **For your convenience you can pack all logs with this command:**
@@ -286,15 +293,17 @@ If it is not, you may want to force a [re-registration.](/cloudlinuxos/cloudlinu
 
 #### CLN channel remains targeting CL8 after an unsuccessful migration
 
-If you roll back a machine after an unsuccessful migration, you may find that your server still pulls package updates from the CLN repository for CL8.
+If you roll back a machine after an unsuccessful migration, you may find that your server still pulls package updates from the CLN channel for a newer OS version.
 
-This will be indicated by upgrades pulling packages from the `cloudlinux-x86_64-server-8` repository.
+This will be indicated by upgrades pulling packages from the `cloudlinux-x86_64-server-X` repository, where X is the OS version you were attempting to upgrade to.
 
-To switch back to the CL7 channel manually, run the following command:
+To switch back to the previously used channel manually, run the following command:
 
 ```
-cln-switch-channel -t 7 -o -f
+cln-switch-channel -t <OLD_OS_VERSION> -o -f
 ```
+
+To revert to the CL7 channel, use `-t 7`, etc.
 
 
 #### DNF plugin installation
@@ -345,7 +354,7 @@ If neither of those appear to be the problem, its source may be different from t
 
 ### ELevate cPanel Scenario issues
 
-These issues can occur during the upgrade on CloudLinux 7 + cPanel systems.
+These issues can occur during the upgrade on CloudLinux + cPanel systems.
 
 #### Post-reboot dnf upgrade error
 
@@ -457,10 +466,10 @@ If you'd like to add the configuration data for new repositories and packages to
 CloudLinux Elevate is intended for use with the default CloudLinux repositories. If you have custom/local repositories providing CloudLinux packages, or have disalbed CLN communication, you most likely won't be able to complete the upgrade process.
 
 If you encounter problems in this scenario:
-_ Before restarting the upgrade, restore the stock configuration of repositories.
-_ Re-enable RHN plugins and ensure that the system is registered with CLN.
-_ Make sure there are no repositories that are hardcoded to use a specific major OS version (e.g. 7) instead of $releasever.
-_ Continue with the upgrade process.
+* Before restarting the upgrade, restore the stock configuration of repositories.
+* Re-enable RHN plugins and ensure that the system is registered with CLN.
+* Make sure there are no repositories that are hardcoded to use a specific major OS version (e.g. 7) instead of $releasever.
+* Continue with the upgrade process.
 
 
 ## Known issues
@@ -508,22 +517,28 @@ Note that Elevate only uses the provided information about new repositories duri
 If mapping package repositories from old to new (CL7 repositories -> CL8 repositories), as well as mapping the package changes, is not sufficient for a successful upgrade of your system, consider adding [custom Python scripts](https://github.com/CloudLinux/leapp-repository/tree/cloudlinux#adding-complex-changes-custom-actors-for-migration) (called Leapp actors) that handle your upgrade scenario, e.g. configuration migrations, system modifications, etc.
 
 To summarize:
-* [Install CloudLinux Elevate](/cloudlinuxos/elevate/#elevate-scenario-cloudlinux-7-with-no-panel-or-a-custom-panel) and run `leapp preupgrade`.
+* [Install CloudLinux Elevate](/cloudlinuxos/elevate/#elevate-scenario-cloudlinux-with-no-panel-or-a-custom-panel) and run `leapp preupgrade`.
 * Check the pre-upgrade report (`/var/log/leapp/leapp-report.txt`) for packages that will not be upgraded.
 * For those packages that you want to see upgraded, [extend the Elevate configuration files](https://github.com/CloudLinux/leapp-repository/tree/cloudlinux#third-party-integration) with package repository mappings and package migration events.
 * If required, [add additional custom scripts](https://github.com/CloudLinux/leapp-repository/tree/cloudlinux#adding-complex-changes-custom-actors-for-migration) (Leapp actors) to handle any extra arbitrary actions during the upgrade.
 * Rerun the pre-upgrade procedure to ensure that your changes are integrated correctly, then test the upgrade process as desired.
 
 
-## ELevate Scenario - CloudLinux 7 with no panel or a custom panel (incl. DirectAdmin)
+## ELevate Scenario - CloudLinux with no panel or a custom panel (incl. DirectAdmin)
 
-This scenario contains steps on how to upgrade CloudLinux 7 to CloudLinux 8 on no-panel/custom panel systems. 
+This scenario contains steps on how to upgrade CloudLinux on no-panel/custom panel systems.
 
-:::tip 
+:::tip
+The below scenario outlines the steps to upgrade a CloudLinux 7 machine to CloudLinux 8.
+For CloudLinux 8 to CloudLinux 9 upgrades, the process is the same, with the exception of the target release version.
+That is, instead of `elevate-release-latest-el7.noarch.rpm` you would install `elevate-release-latest-el8.noarch.rpm`, etc.
+:::
+
+:::tip
 ELevating CloudLinux 7 to CloudLinux 8 for **DirectAdmin** is now supported and the elevation process for systems with DirectAdmin **mirrors the procedure used for no-panel or custom panel systems**. More details in [our blog](https://blog.cloudlinux.com/elevating-cloudlinux-7-to-cloudlinux-8-with-directadmin-now-supported).
 :::
 
-1. First of all, make sure that your CloudLinux 7 is fully upgraded and on the latest kernel version.
+1. First of all, make sure that your CloudLinux machine is fully upgraded and on the latest kernel version.
 
 2. After that, download and install "elevate-release" package to configure necessary RPM repositories:
 
@@ -552,7 +567,7 @@ sudo yum install -y leapp-upgrade leapp-data-cloudlinux
 Start a preupgrade check. In the meanwhile, the Leapp utility creates a special `/var/log/leapp/leapp-report.txt` file that contains possible problems and recommended solutions. No rpm packages will be installed during this phase.
 
 :::danger WARNING
-The preupgrade check will likely fail as the default CloudLinux 7 doesn't meet all requirements for migration. That is expected.
+The preupgrade check will likely fail as the default CloudLinux configuration doesn't meet all requirements for migration. That is expected.
 :::
 
 ```
@@ -638,9 +653,9 @@ cat /var/log/leapp/leapp-upgrade.log
 In addition, check the leapp logs for .rpmnew configuration files that may have been created during the upgrade process. In some cases os-release or yum package files may not be replaced automatically, requiring the user to rename the .rpmnew files manually.
 
 
-## ELevate Scenario - CloudLinux 7 with cPanel
+## ELevate Scenario - CloudLinux with cPanel
 
-This scenario contains steps on how to upgrade CloudLinux 7 to CloudLinux 8 on systems with cPanel present.
+This scenario contains steps on how to upgrade CloudLinux machines with cPanel present.
 
 It uses an additional tool to assist with migration of cPanel-related features - the script provided by the cPanel team: [elevate-cpanel](https://github.com/cpanel/elevate).
 
@@ -802,9 +817,9 @@ cat /etc/os-release
 Check the leapp logs for `.rpmnew` configuration files that may have been created during the upgrade process. In some cases files like `/etc/os-release` or yum package files may not be replaced automatically - in particular, when said files were modified - requiring the user to rename the `.rpmnew` files manually.
 
 
-## ELevate Scenario - CloudLinux 7 with Plesk
+## ELevate Scenario - CloudLinux with Plesk
 
-This scenario contains steps on how to upgrade CloudLinux 7 to CloudLinux 8 on systems with Plesk present.
+This scenario contains steps on how to upgrade CloudLinux systems with Plesk present.
 
 The process is performed through a tool provifed and maintained by the Plesk team, [cloudlinux7to8](https://github.com/plesk/cloudlinux7to8), with CL Leapp as a component of the process.
 
