@@ -18,7 +18,7 @@ In your CLN account you can only see the licenses purchased directly from CloudL
 ## Create new account
 
 
-If you are a first time user, go to [https://cln.cloudlinux.com/console/register/customer ](https://cln.cloudlinux.com/console/register/customer%20) and fill in the simple registration form to create your account. You will find your login and password in your welcome email. After you confirm your email, you can log in to the CLN.
+If you are a first time user, go to [https://cln.cloudlinux.com/console/register/customer ](https://cln.cloudlinux.com/console/register/customer) and fill in the simple registration form to create your account. You will find your login and password in your welcome email. After you confirm your email, you can log in to the CLN.
 
 ## Log in
 
