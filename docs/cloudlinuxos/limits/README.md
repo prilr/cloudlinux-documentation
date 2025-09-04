@@ -725,33 +725,34 @@ It is possible that you still have some questions left unanswered about Reseller
 
 ## WEB interface resource limiting modes
 
-Ability to manage the limiting modes of user processes started from web interface (e.g. Node.JS, Ruby and Python Selectors). The configuration allows to disable LVE limiting for some commands or don't limit web commands at all.
+CloudLinux provides flexible resource limiting modes for user processes started from the web interface (e.g., Node.js, Ruby, and Python Selectors). The configuration allows administrators to control how LVE limits are applied to web commands, with automatic fallback mechanisms to ensure consistent resource management across different environments.
     
 Also, there is a short list of processes, that runs without CageFS in every modes. They are not affecting security, but we are working on removing them from excludes.
 
-The `web_resource_limit_mode` parameter can be added to any section of the configuration file for convenience and better organization. There are no strict requirements on which section it must be placed in, as configuration files ignore sections. However, it is recommended to add the parameter to existing sections or create a new one.
+The web_resource_limit_mode parameter controls resource limiting behavior and can be added to any section of `/etc/sysconfig/cloudlinux` for convenience and better organization. Configuration files ignore section boundaries, so the parameter can be placed in existing sections or new custom sections.
 
-Example of Adding the Parameter to Existing Sections:
+Example Configuration:
+```
+[license_check]
+email = CP`
+cpanel_getemail_script = /usr/share/cloudlinux/clgetcpanelemail
+plesk_getemail_script = /usr/share/cloudlinux/clgetpleskemail
+web_resource_limit_mode = unlimited
 
-    [license_check]
-    email = CP`
-    cpanel_getemail_script = /usr/share/cloudlinux/clgetcpanelemail
-    plesk_getemail_script = /usr/share/cloudlinux/clgetpleskemail
-    web_resource_limit_mode = unlimited
+[cldiag_cron]
+disabled_cldiag_cron_checkers = check-usepam
+web_resource_limit_mode = all
 
-    [cldiag_cron]
-    disabled_cldiag_cron_checkers = check-usepam
-    web_resource_limit_mode = all
-
-    [custom_section]
-    web_resource_limit_mode = unlimited
+[custom_section]
+web_resource_limit_mode = unlimited
+```
     
 Possible parameter values:
 
 * `all`: the default option. All processes will run inside CageFS and with LVE limits being applied.
 * `heavy`: there is a list of processes that are considered lightweight. In this mode, they will be executed inside CageFS, but no resource limits: CPU, IO, memory, and NUMPROC. List of ligthweight processes is defined by CloudLinux and it's guarantied that user can't bypass LVE limits for a long-term.
     For example, this mode allows a user to execute the `cloudlinux-selector stop` process, even if the user hits the NUMPROC limit.
-* `unlimited`: all processes will run inside CageFS, but ignore CPU, IO, memory, and NUMPROC limits. Not recommended for production usage.
+* `unlimited`: All processes run without CPU, memory, IO, and NUMPROC limits. CageFS isolation is still applied when available for security. Not recommended for production environments.
 
 ### Requirements:
 
