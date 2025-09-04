@@ -275,6 +275,21 @@ Allow Leapp to disable the pam_pkcs11 module in PAM configuration by adding an e
 sudo leapp answer --section remove_pam_pkcs11_module_check.confirm=True
 ```
 
+#### NetworkManager configuration symlink
+
+The following error can be seen when running the pre-reboot upgrade phase.
+
+```
+Actor target_userspace_creator has crashed error [update-ca-trust'] failed with exit code 1.
+
+2025-03-11 01:02:07.648 DEBUG    PID: 3593092 leapp.workflow.TargetTransactionFactsCollection.target_userspace_creator: curl: (6) Could not resolve host: repo.cloudlinux.com; Unknown error
+2025-03-11 01:02:07.662 DEBUG    PID: 3593092 leapp.workflow.TargetTransactionFactsCollection.target_userspace_creator: error: https://repo.cloudlinux.com/cloudlinux/security/RPM-GPG-KEY-CloudLinux: import read failed(2).
+```
+
+In the known cases, this issue is caused by the user switching the nameserver setup to NetworkManager - with a symlink /etc/resolv.conf to the location where NetworkManager manages it (nmcli).
+
+The issue can be resolved by removing the symlink and setting up the nameservers directly in /etc/resolv.conf.
+
 #### CLN registration
 
 Should you encounter an issue with the `switch_cln_channel` actor, make sure that your system is registered with the CLN network.
