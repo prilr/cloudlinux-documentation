@@ -694,6 +694,18 @@ E.g. if the control panel has two domains: <span class="notranslate">`user1.com`
 |<span class="notranslate">--name, -n</span>|False|Used for filtering output; set a name of the domain, to display information about it|
 |<span class="notranslate">--with-php</span>|False (X-Ray support only)|Used for extending output with PHP configuration, required by X-Ray (available since API v1.2, see [versioning](./#versioning))|
 
+:::warning IMPORTANT
+Do not add the **--with-php** flag to the **integration.ini** file.
+The integration script must only support it as optional parameter.
+All logic of running the script with or without this parameter is handled on the CloudLinux side.
+
+✅ Correct:
+`domains = /opt/cpvendor/bin/vendor_integration_script domains`
+
+❌ Not allowed:
+`domains = /opt/cpvendor/bin/vendor_integration_script domains --with-php`
+:::
+
 **Output example**
 
 <div class="notranslate">
