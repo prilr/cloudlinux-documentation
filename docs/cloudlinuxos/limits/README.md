@@ -148,7 +148,16 @@ Example:
 ```
 </div>
 
-Sets <span class="notranslate">CPU</span> limit to 25%, <span class="notranslate">IO</span> limit to 1024KB/s, <span class="notranslate">virtual memory</span> limit to 1GB (memory limit is set as a number of 4096 bytes pages), <span class="notranslate">physical memory</span> limit to 1GB, <span class="notranslate"> CPU</span> cores per LVE to 1, maximum entry processes to 200 and no limit for number of processes for all LVEs. It also sets the limit of 30% and number of processes limit to 5 for LVE with ID 532.
+Sets <span class="notranslate">CPU</span> limit to 25%, <span class="notranslate">IO</span> limit to 1024KB/s, <span class="notranslate">virtual memory</span> limit to 1GB (memory limit is set as a number of 4096 bytes pages), <span class="notranslate">physical memory</span> limit to 1GB, <span class="notranslate"> CPU</span> cores per LVE to 1, maximum entry processes to 200 and no limit for number of processes for all LVEs. It also sets the limit of 30% and number of processes limit to 5 for LVE with ID 532. 
+
+:::tip Limitation in controlling LVE limits via the cPanel package.  
+As of now, setting a value to be inherited from the `LVE_DEFAULT` package will not be applied to the current LVE package, e.g.:
+```
+/var/cpanel/packages/cltest
+lve_nproc=DEFAULT
+```
+Limits for packages are not inherited from `VE_DEFAULT`; they are hardcoded and cannot be changed.
+:::
 
 ### Checking LVE usage
 
