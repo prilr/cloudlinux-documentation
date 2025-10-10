@@ -29,23 +29,29 @@ For stability purposes we have also prepared the LTS (Long Term Support) kernel 
 
 We recommend this kernel as it minimizes changes while maintaining comprehensive CVE coverage. 
 
-Also, this kernel is available for CL8 serving as a analogue of Hybrid kernel (CL9 kernel + CL8 system).
+Also, this kernel is available for CL8 serving as an analogue of Hybrid kernel (CL9 LTS kernel + CL8 system).
 
 ### How To Install
+
+The LTS kernel is compatible with CL8 / CL9 systems.
 
 Install the LTS kernel main packages
 
 ```
 dnf install kernel-lts
 ```
-Note: if kernel-lts-purge-all was previously installed then add --allowerasing
+::: tip Note
+If kernel-lts-purge-all was previously installed then add --allowerasing
+:::
 
 After that, you should reboot:
 
 ```
 reboot
 ```
-Note: some systems might do additional SELinux relabeling and they will reboot one more time.
+::: tip Note
+Some systems might do additional SELinux relabeling and they will reboot one more time.
+:::
 
 After the reboot, replace all kernel packages with LTS versions
 ```
