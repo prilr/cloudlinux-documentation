@@ -3,7 +3,7 @@
 This documentation describes specific features of the CloudLinux kernel. In other cases the kernel has the same features and innovations as any similar RHEL kernel.
 More information about the actual kernel changes and releases can be obtained from our [changelog](https://changelog.cloudlinux.com/).
 
-* [CL9 LTS kernel](./#cl9-lts-kernel)
+* [LTS kernel](./#lts-kernel)
 * [Hybrid Kernels](./#hybrid-kernels)
 * [SecureLinks and Link Traversal Protection](./#securelinks-and-link-traversal-protection)
 * [File change API](./#file-change-api)
@@ -21,7 +21,7 @@ More information about the actual kernel changes and releases can be obtained fr
 * [Enter LVE when using cPanel utilities](./#enter-lve-when-using-cpanel-utilities)
 * [Proactive reporting kernel crash events with Sentry and Kernel Panic Receiver](./#proactive-reporting-kernel-crash-events-with-sentry-and-kernel-panic-receiver)
 
-## CL9 LTS kernel 
+## LTS kernel 
 
 In CL9 we don’t have our own kernel, instead we use AlmaLinux’s one which gets regular upstream updates.  
 
@@ -29,33 +29,60 @@ For stability purposes we have also prepared the LTS (Long Term Support) kernel 
 
 We recommend this kernel as it minimizes changes while maintaining comprehensive CVE coverage. 
 
+Also, this kernel is available for CL8 serving as an analogue of Hybrid kernel (CL9 LTS kernel + CL8 system).
+
 ### How To Install
 
-Run the following commands:
+The LTS kernel is compatible with CL8 / CL9 systems.
+
+Install the LTS kernel main packages
 
 ```
-dnf install -y --allowerasing kernel-lts kmod-lve-lts perf-lts bpftool-lts
+dnf install kernel-lts
 ```
-In case you have dkms third-party modules that need devel package you should install them too: 
-```
-dnf install -y kernel-lts-devel kernel-lts-devel-matched 
-```
+::: tip Note
+If kernel-lts-purge-all was previously installed then add --allowerasing
+:::
 
 After that, you should reboot:
 
 ```
 reboot
 ```
+::: tip Note
+Some systems might do additional SELinux relabeling and they will reboot one more time.
+:::
 
-After the reboot, you should delete regular kernels to prevent regular updates from overwriting default boot kernel: 
+After the reboot, replace all kernel packages with LTS versions
 ```
-dnf remove kernel-core
+dnf install --allowerasing kernel-lts-install-all
 ``` 
+This will:
+- Install all matching -lts tools (e.g., perf-lts, bpftool-lts, etc.)
+- Remove kernel-core to avoid accidental switch to it on updates
+- Remove original kernel tools packages to avoid file conflicts
 
-You should see the similar dnf output:  
+### Reverting to the Original Kernel Environment
 
-![](/images/dnf-cl9-lts.png) 
+Use this path to return from the LTS kernel to the generic kernel.
 
+Install the original kernel core
+```
+dnf install --allowerasing kernel
+```
+
+After that, you should reboot:
+```
+reboot
+```
+
+Replace all LTS kernel packages with original versions
+```
+dnf install --allowerasing kernel-lts-purge-all
+```
+This will:
+- Install original versions of tools (e.g., perf, bpftool, etc.)
+- Remove all -lts packages (except kernel-lts-purge-all itself, it's ok to remove it later, but not required)
 
 ## Hybrid Kernels
 
