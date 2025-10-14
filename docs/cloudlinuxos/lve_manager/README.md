@@ -1198,6 +1198,11 @@ To enable or disable **Website monitoring**, use the following slider.
 * **Time allowed for response** - if there is no answer from the website for this period of time, the Website Monitoring tool will regard this behaviour as the `HTTP 408` error.
 * **Concurrent requests limit** - how many concurrent requests can be done by the Website Monitoring tool.
 
+:::tip Note
+The scanner tries HTTPS first (following redirects) and, if the final HTTPS response isn’t 200, retries over HTTP and stores whichever protocol returns 200 as the domain’s URL; if both fail, it records the HTTP URL with the failure status. Reports and notifications use this stored URL, so successful sites appear as https and non‑HTTPS/failed ones as http.
+:::
+
+
 To enable or disable the **Slow site analyzer**, use the following slider.
 
 :::tip Note
