@@ -1,4 +1,4 @@
-# Introduction to CloudLinux OS 
+# Introduction to CloudLinux OS
 
 * [CloudLinux OS editions](/introduction/cloudlinux-os-editions/)
     * [CloudLinux OS Solo](/introduction/solo/)
@@ -34,7 +34,7 @@
 
 \** LVE limits are disabled by default.
 
-\*** Python/Node.js/Ruby Selectors are available only for cPanel, DirectAdmin servers, and servers with custom panel with own integration.  
+\*** Python/Node.js/Ruby Selectors are available only for cPanel, DirectAdmin servers, and servers with custom panel with own integration.
 
 ## CloudLinux OS components
 
@@ -132,8 +132,9 @@ Currently, the following versions are available and supported:
 |CloudLinux OS 6 | Feb 1, 2011 | Nov 30, 2020 ([ELS until June 30, 2024](/cln/billing/#cloudlinux-os-6-extended-lifecycle-support)) |
 |CloudLinux OS 7 | Apr 1, 2015 | Jun 30, 2024 (ELS until June 30, 2026) |
 |CloudLinux OS 8 | Mar 17, 2020 | May 31, 2029 |
-|CloudLinux OS 9 | Jan 17, 2023 | May 31, 2032 | 
+|CloudLinux OS 9 | Jan 17, 2023 | May 31, 2032 |
+|CloudLinux OS 10 | Oct 17, 2025 | ??? |
 
-:::tip 
-We retain the ability to produce critical updates for CL6 for at least the next 3 months. This period may extend to 6 or 12 months, depending on emerging necessities. More [here](https://blog.cloudlinux.com/end-of-life-announcement-for-cloudlinux-os-6). 
+:::tip
+We retain the ability to produce critical updates for CL6 for at least the next 3 months. This period may extend to 6 or 12 months, depending on emerging necessities. More [here](https://blog.cloudlinux.com/end-of-life-announcement-for-cloudlinux-os-6).
 :::

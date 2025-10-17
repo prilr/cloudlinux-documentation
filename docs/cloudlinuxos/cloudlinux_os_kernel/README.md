@@ -21,13 +21,13 @@ More information about the actual kernel changes and releases can be obtained fr
 * [Enter LVE when using cPanel utilities](./#enter-lve-when-using-cpanel-utilities)
 * [Proactive reporting kernel crash events with Sentry and Kernel Panic Receiver](./#proactive-reporting-kernel-crash-events-with-sentry-and-kernel-panic-receiver)
 
-## LTS kernel 
+## LTS kernel
 
-In CL9 we don’t have our own kernel, instead we use AlmaLinux’s one which gets regular upstream updates.  
+In CL9 we don’t have our own kernel, instead we use AlmaLinux’s one which gets regular upstream updates.
 
-For stability purposes we have also prepared the LTS (Long Term Support) kernel which is older than AlmaLinux by upstream version but has all security fixes / high scored CVEs. 
+For stability purposes we have also prepared the LTS (Long Term Support) kernel which is older than AlmaLinux by upstream version but has all security fixes / high scored CVEs.
 
-We recommend this kernel as it minimizes changes while maintaining comprehensive CVE coverage. 
+We recommend this kernel as it minimizes changes while maintaining comprehensive CVE coverage.
 
 Also, this kernel is available for CL8 serving as an analogue of Hybrid kernel (CL9 LTS kernel + CL8 system).
 
@@ -56,7 +56,7 @@ Some systems might do additional SELinux relabeling and they will reboot one mor
 After the reboot, replace all kernel packages with LTS versions
 ```
 dnf install --allowerasing kernel-lts-install-all
-``` 
+```
 This will:
 - Install all matching -lts tools (e.g., perf-lts, bpftool-lts, etc.)
 - Remove kernel-core to avoid accidental switch to it on updates
@@ -86,7 +86,7 @@ This will:
 
 ## Hybrid Kernels
 
-Hybrid kernels give you the ability to take advantage of the benefits and features available in newer kernels without having to completely upgrade to another version of the operating system. Example - for the CloudLinux 7 kernel, based on version 3.10, you can install a hybrid kernel (same as on CloudLinux 8), which is based on version 4.18. This provides more kernel options, memory and overall optimization, as well as a positive impact on system performance. 
+Hybrid kernels give you the ability to take advantage of the benefits and features available in newer kernels without having to completely upgrade to another version of the operating system. Example - for the CloudLinux 7 kernel, based on version 3.10, you can install a hybrid kernel (same as on CloudLinux 8), which is based on version 4.18. This provides more kernel options, memory and overall optimization, as well as a positive impact on system performance.
 
 #### How to migrate from the normal kernel to hybrid one
 
@@ -128,7 +128,7 @@ hybrid-to-normal
 Link Traversal Protection is disabled by default for the CloudLinux OS.
 :::
 
-CloudLinux OS provides comprehensive protection against 
+CloudLinux OS provides comprehensive protection against
 symbolic link attacks popular in shared hosting environment.
 
 The protection requires setting multiple kernel parameters to be enabled:
@@ -217,7 +217,7 @@ This is done by set following kernel options to 1:
 fs.protected_symlinks_create = 1
 fs.protected_hardlinks_create = 1
 ```
-</div>  
+</div>
 
 ::: danger
 We do not recommend to use protected_symlinks option for cPanel users as it might break some of the cPanel functionality.
@@ -261,21 +261,21 @@ If you use the `rsync` to copy/transfer files and they contain symlinks, you'll 
 <div class="notranslate">
 
 ```
-"rsync error: some files could not be transferred (code 23)" and the transfer will be failed. 
+"rsync error: some files could not be transferred (code 23)" and the transfer will be failed.
 ```
-</div> 
+</div>
 
  It affects `rsync` tasks as well as cPanel transfer tools.
 
 * backup extracting may not work. Errors during the restoration:
-  
+
 <div class="notranslate">
 
 ```
 Error extracting /home/domain/backups/home.tar.gz : /bin/tar: .cagefs/tmp/mysql.sock: Cannot create symlink to `/var/lib/mysql/mysql.sock'.
 Permission denied. /bin/tar: .cagefs/tmp/.s.PGSQL.5432: Cannot create symlink to `/var/run/postgres/.s.PGSQL.5432': No such file or directory.
 ```
-</div> 
+</div>
 
 Any backup for accounts (including cPanel backup) cannot be extracted.
 
@@ -287,7 +287,7 @@ Any backup for accounts (including cPanel backup) cannot be extracted.
 may_create_sym_link: can't find ea-phpXX in cron
 may_create_sym_link: can't find ea-phpXX in ea-php-cli
 ```
-</div> 
+</div>
 
 It's popping up each second and may increase the size of the <span class="notranslate">`/var/log/messages`</span> file.
 
@@ -341,7 +341,7 @@ UID:absolute path to file changed
 UID:absolute path to file changed
 …
 ```
-</div>   
+</div>
 
 :::tip Note
 The timestamp in output is needed so you can clearly identify from which timestamp to get list of changed files next.
@@ -371,9 +371,9 @@ The timestamp in output is needed so you can clearly identify from which timesta
 <div class="notranslate">
 
 ```
-[user@localhost ~]$ cloudlinux-backup-helper-uid               
+[user@localhost ~]$ cloudlinux-backup-helper-uid
 1,1495530576
-1000:/home/user/.bash_history 
+1000:/home/user/.bash_history
 
 [user@localhost ~]$ cloudlinux-backup-helper-uid -t 1495547922
 1,1495548343
@@ -491,7 +491,7 @@ Configuration resides in <span class="notranslate">/etc/sysconfig/cloudlinux-fch
 # exclude=tmp
 
 # Daemon polling interval in seconds
-polling_interval=5 
+polling_interval=5
 
 # Time to keep entries in days. Does not clean if commented out or zero
 time_to_keep=1
@@ -507,14 +507,14 @@ user_ro_mode_min_uid=-1
 # Events of users with UID less then specified are not handled.
 # By default 500 (non-system users for redhat-based systems)
 #minimal_event_uid=500
- 
+
 # SQLite shared lock prevents setting more restrictive locks. That is a
 # process cannot write to a database table when a concurrent process reads
 # from the table. As saving data to database is considered far more important
 # than getting them (data could be reread a second later after all), database
 # writer could try to terminate concurrent reading processes. Just set
 # terminate rivals to 'yes' to turn this ability on.
-# terminate_rivals=no 
+# terminate_rivals=no
 
 # Events to be handled. Currently the following types of events are processed:
 # 1. file creation
@@ -583,7 +583,7 @@ There are three profiles provided by CloudLinux OS:
 </div>
 
 
-<span class="notranslate"> cloudlinux-dummy</span> and  <span class="notranslate"> cloudlinux-vz</span> are used for internal needs or when  <span class="notranslate"> Virtuozzo/OpenVZ </span>  detected and actually do nothing.  
+<span class="notranslate"> cloudlinux-dummy</span> and  <span class="notranslate"> cloudlinux-vz</span> are used for internal needs or when  <span class="notranslate"> Virtuozzo/OpenVZ </span>  detected and actually do nothing.
 
 <span class="notranslate"> cloudlinux-default </span> is one to be used, it actually does the following:
 
@@ -603,8 +603,8 @@ If standard software CPU governors are used.
 
 
 
- 2. Applies the following kernel options:  
-<span class="notranslate"> 
+ 2. Applies the following kernel options:
+<span class="notranslate">
 vm.force_scan_thresh=100 </span> - Improves kernel memory clean-up in case of big number of running LVE.
 
 UBC parameters set the limits for the containers:
@@ -612,7 +612,7 @@ UBC parameters set the limits for the containers:
 <span class="notranslate">  ubc.dirty_ratio=100 </span> - Defines maximum RAM percentage for dirty memory pages.
 <span class="notranslate"> dirty_background_ratio=75</span> - Defines RAM percentage when to allow writing dirty pages on the disk.
 
-3. _[CloudLinux OS 7 only]_ Detects used disk types and changes elevator to <span class="notranslate"> 'deadline' </span> for HDD and to <span class="notranslate"> 'noop' </span> for SSD in <span class="notranslate"> /sys/block/[blockname]/queue/scheduler </span> . 
+3. _[CloudLinux OS 7 only]_ Detects used disk types and changes elevator to <span class="notranslate"> 'deadline' </span> for HDD and to <span class="notranslate"> 'noop' </span> for SSD in <span class="notranslate"> /sys/block/[blockname]/queue/scheduler </span> .
 
 ::: tip Note
 <span class="notranslate">The script uses /sys/block/[blockname]/queue/rotational flag, some RAID controllers can not set it properly. For example, SSD used for RAID but rotational is set to 1 by RAID driver. As a workaround add the following to /etc/rc.d/rc.local to make it applied on boot:</span>
@@ -621,7 +621,7 @@ UBC parameters set the limits for the containers:
 <div class="notranslate">
 
 ```
-echo "noop" > /sys/block/[blockname]/queue/scheduler  
+echo "noop" > /sys/block/[blockname]/queue/scheduler
 echo "0" > /sys/block/[blockname]/queue/rotational
 ```
 </div>
@@ -697,7 +697,7 @@ Starting from **lve-utils-3.0-23.7**  fs.proc_super_gid and fs.symlinkown_gid wi
 For **lve-utils** versions from 3.0-21.2 to 3.0-23.7 the migration was performed the same way, but during every package install/update.
 Variables setting guidelines are the same as for CageFS (see above).
 
-The CL kernel with the lve module restricts an access to all files in /proc/net/* except the ones in the following whitelist:  
+The CL kernel with the lve module restricts an access to all files in /proc/net/* except the ones in the following whitelist:
 ```
 tcp, tcp6, udp, udp6, assocs, raw, raw6, unix, dev
 ```
@@ -785,7 +785,7 @@ service lve_namespaces restart
 </div>
  Or
 <div class="notranslate">
- 
+
 ```
 /usr/share/cloudlinux/remount_proc.py
 ```
@@ -811,14 +811,14 @@ proc /proc proc defaults,hidepid=2,gid=clsupergid 0 0
 </div>
  You should execute
 <div class="notranslate">
- 
+
 ```
 mount -o remount /proc
 ```
 </div>
 
-to apply `/etc/fstab` changes.  
-Nevertheless, we recommend to manage procfs mount options via `/etc/sysctl.conf` as described above for backward compatibility. 
+to apply `/etc/fstab` changes.
+Nevertheless, we recommend to manage procfs mount options via `/etc/sysctl.conf` as described above for backward compatibility.
 
 ::: tip Note
 There is a known issue on CloudLinux OS 6 systems. User cannot see full /proc inside CageFS even when this user is in “super” group, that should see full /proc. This issue does not affect users with CageFS disabled. CloudLinux OS 7 is not affected.
@@ -854,7 +854,7 @@ On Cloudlinux OS 8, changing the `/etc/fstab` file for setting `/proc` remountin
 
 :::tip
 Since CL7 kernel it’s recommended to use the native sysctl parameter `yama.ptrace_scope`. For details refer to the [official documentation](https://docs.kernel.org/admin-guide/LSM/Yama.html#ptrace-scope).
-::: 
+:::
 
 Starting with kernel 3.10.0-427.18.s2.lve1.4.21 ( <span class="notranslate"> CloudLinux  OS </span> 7) and 2.6.32-673.26.1.lve1.4.17 ( <span class="notranslate"> CloudLinux OS </span> 6) we re-implemented <span class="notranslate"> ptrace block </span> to protect against <span class="notranslate"> ptrace </span> family of vulnerabilities. It prevents end user from using any <span class="notranslate"> ptrace </span> related functionality, including such commands as <span class="notranslate"> strace, lsof </span> or <span class="notranslate"> gdb </span> .
 
@@ -890,7 +890,7 @@ $ sysctl -p
 ```
 </div>
 
-Different software could need different access to <span class="notranslate"> ptrace </span> , you may need to change only one option to 0 to make them working. In this case, there will be only partial <span class="notranslate"> ptrace </span> protection. 
+Different software could need different access to <span class="notranslate"> ptrace </span> , you may need to change only one option to 0 to make them working. In this case, there will be only partial <span class="notranslate"> ptrace </span> protection.
 
 ::: danger
 ptrace protection is known to break PSA service for Plesk 11
@@ -909,12 +909,12 @@ This is needed only for CloudLinux OS 6 and <span class="notranslate"> Hybrid </
 
 :::tip Note
 CloudLinux OS 6, CloudLinux OS 6 hybrid, CloudLinux OS 7, CloudLinux OS 7 hybrid kernels.
-::: 
- 
+:::
+
 Starting from the kernel module **lve-kmod-2.0-10**, the behavior of umask is changed.
 
 Now, when entering LVE task's original umask value is preserved, instead of using LVE's umask value.
-This behavior is typical for all kernels: CloudLinux OS 6, CloudLinux OS 6 hybrid, CloudLinux OS 7, CloudLinux OS 7 hybrid kernels. 
+This behavior is typical for all kernels: CloudLinux OS 6, CloudLinux OS 6 hybrid, CloudLinux OS 7, CloudLinux OS 7 hybrid kernels.
 
 ## IO limits latency
 
@@ -942,7 +942,7 @@ echo 2000000000 > /sys/module/kmodlve/parameters/latency
 ```
 </div>
 
-It is possible to set, for example, 1000 as a permanent value. To do so, create a file <span class="notranslate">/etc/modprobe.d/kmodlve.conf </span> with the following content:  
+It is possible to set, for example, 1000 as a permanent value. To do so, create a file <span class="notranslate">/etc/modprobe.d/kmodlve.conf </span> with the following content:
 <span class="notranslate">`options kmodlve latency=1000` </span>
 
 
@@ -970,8 +970,8 @@ CloudLinux OS kernel provides real time usage data in file.
 
 All the statistics can be read from that file in real time. Depending on your kernel version you will get either Version 6 of the file, or version 4 of the file.
 You can detect the version by reading the first line of the file. It should look like:
- 
-6:LVE... for version 6  
+
+6:LVE... for version 6
 4:LVE... for version 4
 
 First line presents headers for the data.

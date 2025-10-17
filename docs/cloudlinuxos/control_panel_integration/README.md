@@ -87,9 +87,9 @@ Summary: added AccelerateWP integration.
 4. New field `php_version_id` in [domains](#domains) script added.
 5. New field 'handler` in [domains](#domains) script added.
 
-In order to integrate AccelerateWP, you should implement a new script [php](#php), 
-follow [integration guide of X-RAY](/cloudlinuxos/control_panel_integration/#how-to-integrate-x-ray-and-acceleratewp-with-a-control-panel) 
-and add extra field `php_version_id` in [domains](#domains) script. 
+In order to integrate AccelerateWP, you should implement a new script [php](#php),
+follow [integration guide of X-RAY](/cloudlinuxos/control_panel_integration/#how-to-integrate-x-ray-and-acceleratewp-with-a-control-panel)
+and add extra field `php_version_id` in [domains](#domains) script.
 
 Version 1.3
 
@@ -199,7 +199,7 @@ sudo opt/cpvendor/bin/domains_real
 Of course, you must configure <span class="notranslate">`/etc/sudoers`</span> to make it work without a password prompt and with enough security.
 
 :::tip Note
-Your script will run with <span class="notranslate">`root`</span> permissions, but limited with user's LVE. 
+Your script will run with <span class="notranslate">`root`</span> permissions, but limited with user's LVE.
 You may see the following warning:
 ```
 ***************************************************************************
@@ -249,7 +249,7 @@ There are two expected formats of integration script responses. In case of succe
 ```
 </div>
 
-In case of error, the output should be one of the following: Internal errors, Restricted access, Error in arguments,  Nonexistent entities. 
+In case of error, the output should be one of the following: Internal errors, Restricted access, Error in arguments,  Nonexistent entities.
 
 #### Internal errors
 
@@ -277,7 +277,7 @@ When data is temporarily unavailable due to internal errors in the integration s
 
 #### Restricted access
 
-When data is unavailable due to restricted access of a user that called the script, the output is as follows: 
+When data is unavailable due to restricted access of a user that called the script, the output is as follows:
 
 <div class="notranslate">
 
@@ -497,7 +497,7 @@ Integration script is optional, when there is no script, [lve-stats won’t coll
 
 #### <span class="notranslate">packages</span>
 
-The package is an abstraction that represents a group of users that have the same default limits. 
+The package is an abstraction that represents a group of users that have the same default limits.
 
 **Usage example**
 
@@ -533,7 +533,7 @@ The package is an abstraction that represents a group of users that have the sam
     {
       "name": "package",
       "owner": "reseller"
-    }  
+    }
   ],
   "metadata": {
     "result": "ok"
@@ -589,7 +589,7 @@ If a reseller user or administrator user has a corresponding UNIX-user in the sy
       "owner": "root",
       "domain": "ins5yo3.com",
       "package": {
-        "name": "package", 
+        "name": "package",
         "owner": "root"
       },
       "email": "ins5yo3@ins5yo3.com",
@@ -601,12 +601,12 @@ If a reseller user or administrator user has a corresponding UNIX-user in the sy
       "owner": "root",
       "domain": "ins5yo4.com",
       "package": {
-        "name": "package", 
+        "name": "package",
         "owner": "root"
       },
       "email": "ins5yo4@ins5yo4.com",
       "locale_code": "EN_us"
-    }  
+    }
   ],
   "metadata": {
     "result": "ok"
@@ -638,7 +638,7 @@ If a reseller user or administrator user has a corresponding UNIX-user in the sy
     {
       "id": 1001,
       "email": "ins5yo3@ins5yo3.com"
-    }  
+    }
   ],
   "metadata": {
     "result": "ok"
@@ -668,7 +668,7 @@ If a reseller user or administrator user has a corresponding UNIX-user in the sy
 Returns key-value object, where a key is a domain (or subdomain) and a value is a key-value object contains the owner name (UNIX users), the path to the site root specified in the HTTP server config, and the domain status (main or alternative).
 
 X-Ray support is available since API v1.2 (see [versioning](./#versioning)). In order to enable X-Ray support, the value for each domain should include php configuration. Full X-Ray integration documentation can be found [here](./#how-to-integrate-x-ray-with-a-control-panel)
-AccelerateWP support is available since API v1.4 (see [versioning](./#versioning)). In order to enable AccelerateWP support, 
+AccelerateWP support is available since API v1.4 (see [versioning](./#versioning)). In order to enable AccelerateWP support,
 the `php_version_id` fields should be included in php configuration. `php_version_id` should match unique identifier retured by [php](#php) script and `handler` must be specified, one of the following: `fpm`, `cgi`, `lsapi`.
 
 ::: warning WARNING
@@ -721,7 +721,7 @@ All logic of running the script with or without this parameter is handled on the
     "subdomain.domain.com": {
       "owner": "username",
       "document_root": "/home/username/public_html/subdomain/",
-      "is_main": false  
+      "is_main": false
     }
   },
   "metadata": {
@@ -813,7 +813,7 @@ This script returns the information about resellers. A reseller is an entity tha
       "name": "reseller",
       "locale_code": "EN_us",
       "email": "reseller@domain.zone",
-      "id": 10001   
+      "id": 10001
     }
   ],
   "metadata": {
@@ -837,7 +837,7 @@ This script returns the information about resellers. A reseller is an entity tha
 #### <span class="notranslate">admins</span>
 
 Gives information about panel’s administrators, output information about all panel’s administrators who:
-* could be (or actually are) the owners of the users, listed in users() 
+* could be (or actually are) the owners of the users, listed in users()
 * could be (or actually are) the owners of the packages, listed in packages()
 * has UNIX users with the rights to run LVE Manager UI
 
@@ -1246,11 +1246,11 @@ echo $manager->insertPanel();
 
 Pass the plugin name to the class constructor to initialize the plugin (user name will be defined).
 At the time of the insertPanel method invocation, the SPA application with the specified Selector will be embedded.
-	
+
 `vendor_php` (optional for PHP integration only) - a full path to the `vendor.php` file. This option allows the vendor to implement specific logic before initializing the plugin (for example drop permission).
-	
+
 Example:
-	
+
 ```
 vendor_php = /opt/cpvendor/etc/vendor.php
 ```
@@ -1314,7 +1314,7 @@ PHP Selector run outside of CageFS. When PHP Selector is called, it is not limit
 
 CageFS documentation can be found here: [CageFS](/cloudlinuxos/cloudlinux_os_components/#cagefs)
 
-### CageFS MIN_UID  
+### CageFS MIN_UID
 
 CageFS has UID_MIN setting. Users with UIDs < UID_MIN will not be limited by CageFS. This setting is configured based on UID_MIN setting from <span class="notranslate">`/etc/login.defs`</span> file by default. So, typically UID_MIN is 500 on CloudLinux OS 6 and 1000 on CloudLinux OS 7.
 
@@ -1390,7 +1390,7 @@ The commands above require root privileges. You can use the following command wh
 Starting from lve-wrappers 0.7.5-1, `cagefs_enter_user` accepts a subset of `lvectl` limit parameters as input. Using any of them will result in a creation of a temporary LVE with a unique ID. That LVE will have the provided limits set and will be destroyed after the given command is run.
 
 The following parameters are accepted: `--speed`, `--pmem`, `--vmem`, `--io`, `--iops`, `--nproc`, `--maxEntryProcs`.
-	
+
 <div class="notranslate">
 
 ```
@@ -1455,8 +1455,8 @@ cagefsctl --remount-all
 ```
 </div>
 
-to apply changes. After that, session files will be stored in <span class="notranslate">`/opt/alt/php54/var/lib/php/session`</span> inside user’s CageFS. In real file systems these files can be found inside `.cagefs` directory in user’s home directory. For above example, given that user’s home directory is <span class="notranslate">`/home/user`</span>, the files will reside in <span class="notranslate">`/home/user/.cagefs/opt/alt/php54/var/lib/php/session`</span> directory. TMP directory for the user will be located in <span class="notranslate">`/home/user/.cagefs/tmp`</span>. 
-Temporary files including php sessions in `/tmp` directories in CageFS are cleaned using `tmpwatch`. You can change the period of removing old temporary files or set up additional directories for cleaning according to the documentation: 
+to apply changes. After that, session files will be stored in <span class="notranslate">`/opt/alt/php54/var/lib/php/session`</span> inside user’s CageFS. In real file systems these files can be found inside `.cagefs` directory in user’s home directory. For above example, given that user’s home directory is <span class="notranslate">`/home/user`</span>, the files will reside in <span class="notranslate">`/home/user/.cagefs/opt/alt/php54/var/lib/php/session`</span> directory. TMP directory for the user will be located in <span class="notranslate">`/home/user/.cagefs/tmp`</span>.
+Temporary files including php sessions in `/tmp` directories in CageFS are cleaned using `tmpwatch`. You can change the period of removing old temporary files or set up additional directories for cleaning according to the documentation:
 [TMP directories](/cloudlinuxos/cloudlinux_os_components/#tmp-directories).
 
 Knowing the location where PHP sessions are stored (described above), you can also implement any custom script for cleaning PHP sessions. Remember to drop permissions (switch to the appropriate user) when removing the files (for example using sudo).
@@ -1586,13 +1586,13 @@ You can find more info [here](/cloudlinuxos/cloudlinux_os_components/#mount-poin
 CageFS mounts users' home directories to CageFS automatically. Usually, there is no need to configure anything. However, if your control panel uses a custom path to users' home directories (for example <span class="notranslate">`/home/$USER/data`</span> instead of <span class="notranslate">`/home/$USER`</span>), then it may be necessary to configure Base Home Directory setting:
 [Base Home Directory](/cloudlinuxos/cloudlinux_os_components/#base-home-directory)
 
-The modes of mounting users' home directories into CageFS are described here: 
+The modes of mounting users' home directories into CageFS are described here:
 [Mounting user’s home directory inside CageFS](/cloudlinuxos/cloudlinux_os_components/#mounting-users-home-directory-inside-cagefs)
 
 ### Excluding files from CageFS
 
 CageFS has a default set of files and directories that are visible to users inside CageFS. If you wish to exclude some of these files or directories from CageFS, you can do this as described below:
-[Excluding files](/cloudlinuxos/cloudlinux_os_components/#excluding-files) 
+[Excluding files](/cloudlinuxos/cloudlinux_os_components/#excluding-files)
 
 ### Executing commands outside CageFS via proxyexec
 
@@ -1643,7 +1643,7 @@ You can configure CloudLinux OS  PHP Selector to allow your customers to select 
 [Roll your own PHP](/cloudlinuxos/cloudlinux_os_components/#roll-your-own-php)
 
 Also, you can compile and add your own PHP extensions to CloudLinux OS PHP Selector:
-[Compiling your own extensions](/cloudlinuxos/cloudlinux_os_components/#compiling-your-own-extensions) 
+[Compiling your own extensions](/cloudlinuxos/cloudlinux_os_components/#compiling-your-own-extensions)
 
 ## Integration of Apache modules in control panels
 
@@ -1659,7 +1659,7 @@ RPMs of Apache provided by CloudLinux OS, if you are using:
 
 
 If you use custom Apache, follow this documentation on how to build a package for your Apache.
-	
+
 :::tip Note
 The supported Apache versions are 2.2 and 2.4.
 :::
@@ -1753,8 +1753,8 @@ In this case, you should specify the paths of your custom Apache in <span class=
 <div class="notranslate">
 
 ```
-FIND_PATH (APACHE2_2_HTTPD_INCLUDE_DIR 
-   NAMES 
+FIND_PATH (APACHE2_2_HTTPD_INCLUDE_DIR
+   NAMES
       httpd.h
    PATHS
       ${APACHE2_2_INCLUDES_DIR}
@@ -1765,7 +1765,7 @@ FIND_PATH (APACHE2_2_HTTPD_INCLUDE_DIR
 )
 ```
 </div>
-	
+
 5. Rebuild the package again, if you set everything correctly, there shouldn't be any problems.
 
 6. Install the module, check that it is successfully loaded into Apache.
@@ -1860,7 +1860,7 @@ And, also, for the module you should substitute the following line in the <span 
 <div class="notranslate">
 
 ```
-install -D -m 755 build/lib/mod_lsapi.so $RPM_BUILD_ROOT%{g_path}standard/mod_lsapi.so 
+install -D -m 755 build/lib/mod_lsapi.so $RPM_BUILD_ROOT%{g_path}standard/mod_lsapi.so
 ```
 </div>
 
@@ -1906,8 +1906,8 @@ In this case, you should specify the paths of your custom Apache in the <span cl
 <div class="notranslate">
 
 ```
-FIND_PATH (APACHE2_2_HTTPD_INCLUDE_DIR 
-   NAMES 
+FIND_PATH (APACHE2_2_HTTPD_INCLUDE_DIR
+   NAMES
       httpd.h
    PATHS
       ${APACHE2_2_INCLUDES_DIR}
@@ -1921,8 +1921,8 @@ FIND_PATH (APACHE2_2_HTTPD_INCLUDE_DIR
 
 Starting from mod_lsapi-1.1-57, you can use macros for custom paths to the Apache/APR includes/binaries.
 
-A custom Apache location can be defined via the `CUSTOM_APACHE_ROOT` variable. This implies the following structure under the `${CUSTOM_APACHE_ROOT}`:	
-	
+A custom Apache location can be defined via the `CUSTOM_APACHE_ROOT` variable. This implies the following structure under the `${CUSTOM_APACHE_ROOT}`:
+
 |     |     |
 | :---|:----|
 |`${CUSTOM_APACHE_ROOT}/bin`| Apache binary directory, apachectl location|
@@ -1932,18 +1932,18 @@ A custom Apache location can be defined via the `CUSTOM_APACHE_ROOT` variable. T
 |`${CUSTOM_APACHE_ROOT}/lib`|apr lib directory, libapr.so location|
 |`${CUSTOM_APACHE_ROOT}/lib`|apr-util lib directory, libaprutil.so location|
 |`${CUSTOM_APACHE_ROOT}/modules`|Apache modules directory, mod_alias.so location|
-	
+
 If the real structure of Apache root differs from the implied one, it's possible to define a custom location for every single component.
-	
+
 |     |     |
-| :---|:----|	
+| :---|:----|
 |`CUSTOM_APACHE_BIN`|Apache binary directory, apachectl location|
 |`CUSTOM_APACHE_INC_HTTPD`|Apache include directory, httpd.h location|
 |`CUSTOM_APACHE_INC_APR`|apr include directory, apr.h location|
 |`CUSTOM_APACHE_INC_APU`|apr-util include directory, apu.h location|
 |`CUSTOM_APACHE_LIB_APR`|apr lib directory, libapr.so location|
 |`CUSTOM_APACHE_LIB_APU`|apr-util lib directory, libaprutil.so location|
-|`CUSTOM_APACHE_MODULES`|Apache modules directory, mod_alias.so location|       
+|`CUSTOM_APACHE_MODULES`|Apache modules directory, mod_alias.so location|
 
 7. To customize the switch_mod_lsapi script add into `mod_lsapi.spec` custom script and its configuration file. Configuration file name should be `config.ini` file. Script file name can be arbitrary, because its name should be mentioned in `config.ini` file. Both of them should be copied into */usr/share/lve/modlscapi/custom* in the *%install* section of the `mod_lsapi.spec` file. For example, if script file name is `custom.sh`, you should add the following lines into *%install* section of `mod_lsapi.spec` file:
 
@@ -1955,13 +1955,13 @@ install -D -m 755 custom.sh $RPM_BUILD_ROOT%{g_path}/custom/custom.sh
 Also you should add mentions of both files in the *%files* section of `mod_lsapi.spec`:
 
 ```
-/usr/share/lve/modlscapi/custom/config.ini 
+/usr/share/lve/modlscapi/custom/config.ini
 /usr/share/lve/modlscapi/custom/custom.sh
 ```
 
 The requirements to the `config.ini` file and script file are described in the following [section](#how-to-integrate-switch_mod_lsapi-script-with-custom-panels)
 
-8. Rebuild the package again, if you set everything correctly, there shouldn't be any problems. 
+8. Rebuild the package again, if you set everything correctly, there shouldn't be any problems.
 
 Use this command to rebuild a package
 <div class="notranslate">
@@ -2062,35 +2062,35 @@ application/x-httpd-php81-lsphp /usr/local/apps/php81/bin/lsphp
 
 ```
 #!/bin/bash
- 
+
 CMD=$1
- 
+
 if [ "$CMD" == "--setup" ]; then
     	echo "application/x-httpd-php81-lsphp /usr/local/apps/php81/bin/lsphp"     >>/etc/container/php.handler
-fi 
- 
+fi
+
 if [ "$CMD" == "--uninstall" ]; then
     sed -i "#application/x-httpd-php81-lsphp#d" /etc/container/php.handler
 fi
- 
+
 if [ "$CMD" == "--enable-domain" ]; then
     http_root=`/opt/ExamplePanel/domain2root $2`
     if [ -e $http_root/.htaccess ]; then
         sed -i '/lsphp/d' $http_root/.htaccess
     fi
-fi 
- 
+fi
+
 if [ "$CMD" == "--disable-domain" ]; then
     http_root=`/opt/ExamplePanel/domain2root $2`
     if [ -e $http_root/.htaccess ]; then
         sed -i '/lsphp/d' $http_root/.htaccess
     fi
-fi 
- 
+fi
+
 # if command not supported
 if [ "$CMD" == "--enable-global" ]; then
     echo "LSAPI enable global command is not supported by ExamplePanel"; exit 1
-fi 
+fi
 ```
 
 ## MySQL Governor
@@ -2153,8 +2153,8 @@ dbtop
 If you are using Apache from the CloudLinux OS repository (such as httpd or httpd24-httpd), skip this section.
 :::
 
-If you use custom Apache, you need to apply patches so that the processes launched by the Apache are working with LVE and CageFS properly. 
-Cloudlinux OS provides patches for the following packages: 
+If you use custom Apache, you need to apply patches so that the processes launched by the Apache are working with LVE and CageFS properly.
+Cloudlinux OS provides patches for the following packages:
 
 * `suphp`
 * `suexec`
@@ -2179,17 +2179,17 @@ Here's an example with `apr` library:
 <div class="notranslate">
 
 ```
-# ls 
+# ls
 apr-1.4.8.tar.bz2  apr-2.4-httpd.2.patch
 # tar xvjf apr-1.4.8.tar.bz2
 # cp apr-2.4-httpd.2.patch ./apr-1.4.8
 # cd ./apr-1.4.8
-# patch -p3 < apr-2.4-httpd.2.patch 
+# patch -p3 < apr-2.4-httpd.2.patch
 patching file include/apr_thread_proc.h
 Hunk #1 succeeded at 204 (offset -2 lines).
 patching file threadproc/unix/proc.c
 
-Patch applied Successfully, recompile apr. 
+Patch applied Successfully, recompile apr.
 ```
 
 </div>
@@ -2296,7 +2296,7 @@ Run the following command to add administrators into <span class="notranslate">`
 ```
 </div>
 
-:::tip Note 
+:::tip Note
 This administrator should exist as a system user.
 :::
 
@@ -2325,8 +2325,8 @@ cldiag --symlinksifowner
 Check fs.enforce_symlinksifowner is correctly enabled in sysctl conf:
 	OK: fs.enforce_symlinksifowner = 1
 
-There are 0 errors found.  
-............ 
+There are 0 errors found.
+............
 
 cldiag --check-symlinkowngid
 Check fs.symlinkown_gid:
@@ -2373,7 +2373,7 @@ See [versioning](./#versioning) for changelog.
 AccelerateWP has following known limitaions:
 - only cgi, fpm, and lsapi handlers are supported
 :::
-- 
+-
 :::tip Note
 Both X-Ray and Accelerate WP require CloudLinux Shared Pro license.
 :::

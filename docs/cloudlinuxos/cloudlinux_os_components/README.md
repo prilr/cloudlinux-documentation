@@ -230,7 +230,7 @@ If MySQL Server is not installed, then install it according to control panel doc
 For non-panel system:
 
 * CloudLinux OS 6
-  
+
   <div class="notranslate">
 
   ```
@@ -241,7 +241,7 @@ For non-panel system:
   </div>
 
 * CloudLinux OS 7
-  
+
   <div class="notranslate">
 
   ```
@@ -324,14 +324,14 @@ Username, password and DB name must be the same as in point 2 of Database Setup 
 <div class="notranslate">
 
 ```
-/usr/sbin/lve-create-db 
+/usr/sbin/lve-create-db
 ```
 </div>
 
   For DB primary initialization (creating tables, indexes, etc). There is no need to create anything in the DB manually.
 
 * When done, restart server by running:
-  
+
 <div class="notranslate">
 
 ```
@@ -354,7 +354,7 @@ CREATE USER 'lvestats2_read'@'localhost' IDENTIFIED BY 'lvestats2_read_passwd';
 </div>
 
 * granting read-only privilege to the user
-  
+
 <div class="notranslate">
 
 ```
@@ -460,7 +460,7 @@ Run all the commands below under <span class="notranslate">root</span>.
 * **Setup**
 
   * In <span class="notranslate">`/var/lib/pgsql/data/pg_hba.conf`</span> config file change user authentication mode. Add the following lines (place before all other authentication parameters):
-  
+
     <div class="notranslate">
 
     ```
@@ -470,7 +470,7 @@ Run all the commands below under <span class="notranslate">root</span>.
     host dblvestat all ::1/128 password
     ```
     </div>
-    
+
     These lines enable user authentication by the password for <span class="notranslate">IP4/IP6</span> connections. You can set other modes if needed.
 
   * Apply config changes by running:
@@ -490,7 +490,7 @@ Run all the commands below under <span class="notranslate">root</span>.
 <div class="notranslate">
 
 ```
-sudo -u postgres psql postgres 
+sudo -u postgres psql postgres
 ```
 </div>
 
@@ -567,7 +567,7 @@ service lvestats stop
 </div>
 
 * In server config file <span class="notranslate">`/etc/sysconfig/lvestats2`</span> edit options for connecting to DB:
-  
+
 <div class="notranslate">
 
 ```
@@ -587,7 +587,7 @@ collect_usernames=true
 <div class="notranslate">
 
 ```
-/usr/sbin/lve-create-db 
+/usr/sbin/lve-create-db
 ```
 </div>
 
@@ -669,7 +669,7 @@ After that <span class="notranslate">`сonnect_string`</span> will look as follo
 ```
 </div>
 
-#### Customize LVE-stats2 notifications 
+#### Customize LVE-stats2 notifications
 
 <span class="notranslate">[Jinja2](http://jinja.pocoo.org/)</span> is used as a template engine for the notifications.
 
@@ -684,7 +684,7 @@ By default the templates for English are set: <span class="notranslate">`/usr/sh
 * <span class="notranslate">`user_notify.txt`</span> for user.
 
 
-Starting from `lve-stats-4.1.2`, it allows server administrators to use their own lvestats notifier email notification templates. 
+Starting from `lve-stats-4.1.2`, it allows server administrators to use their own lvestats notifier email notification templates.
 
 To use the custom templates, place them and the `locales.json` file to the `/etc/cl.emails.d/LOCALE` directory. File names are the same as in general `/etc/cl.emails.d/LOCALE` file.
 
@@ -757,11 +757,11 @@ Customized subjects have the higher priority than the key <span class="notransla
 Example for the file <span class="notranslate">`user_notify.txt`</span>
 
 <div class="notranslate" v-pre>
-	
+
 ```
 Subject: Customized subject example
 Dear {{TONAME}},
- 
+
 Your {{DOMAIN}} web hosting account exceeded one or more of its resources within the last {{PERIOD}}.
 {% if epf %}Exceeded the maximum of {{lep}} concurrent website connections. Your website was not available {{epf}} times because of this problem.
 {% endif %}{% if pmemf %}Exceeded the physical memory limit of {{lpmem}}KB. Your website was not available {{pmemf}} times because of this problem.
@@ -771,14 +771,14 @@ Your {{DOMAIN}} web hosting account exceeded one or more of its resources within
 {% endif %}{% if iof %}You reached limit of {{lio}}KB/s disk io rate {{iof}} times. The disk io speed for your account was slowed as a result of this problem.
 {% endif %}{% if iopsf %}You reached limit of {{liops}} I/O operations {{iopsf}} times. The disk io speed for your account was slowed as a result of this problem.
 {% endif %}
- 
+
 To view full details about your web hosting account's resource usage, including the time of each incident listed above, please click the link below and log into your cpanel hosting control panel, then click the "Resource Usage" link under the "Logs and Statistics" section.
 http://{{DOMAIN}}:2083
- 
+
 If your account is regularly exceeding it's available resources, please consider upgrading to a higher level hosting plan that includes more resources. If you have any questions or need help with anything, just reply to this email and let us know.
- 
+
 Sincerely,
- 
+
 Your Friendly Web Hosting Support Team
 ```
 </div>
@@ -817,7 +817,7 @@ In the new version, in order for the lve-stats notifier to include these words i
 }
 ```
 
-The file format should be JSON, and the file encoding should be UTF-8. If this file is found and successfully read, the words from it will be used in emails. 
+The file format should be JSON, and the file encoding should be UTF-8. If this file is found and successfully read, the words from it will be used in emails.
 In case of any file reading/parsing error, a corresponding message will be written in the lve-stats log, and the contents of the file will be completely ignored.
 If a key in the JSON file content is missing, then lve-stats notifier uses the word contained in the body of the program (just like in previous lve-stats versions).
 Also, this file allows you to override/localize the subject of the email.
@@ -1017,21 +1017,21 @@ That is why we realize 4 plugins: <span class="notranslate"> **collector, analyz
 # Part 1. Collector
 
 import os
-from lvestats.core.plugin import LveStatsPlugin 
+from lvestats.core.plugin import LveStatsPlugin
 
 # Key name
 COLLECTOR_KEY = 'FSizeWatcher_fsize'
-COLLECTOR_KEY_FILENAME = 'FSizeWatcher_fname'  
+COLLECTOR_KEY_FILENAME = 'FSizeWatcher_fname'
 
 class FSize_watcher_collector (LveStatsPlugin):
 	# this plugin should be first in chain
 	order = 0
 	# File to monitoring
-	file_to_monitoring = None 
-	
+	file_to_monitoring = None
+
 	def __init__(self):
-		pass 
-		
+		pass
+
 	# Sets configuration to plugin
 	def set_config(self, config):
 		self.file_to_monitoring = config.get('file_to_monitoring', None)
@@ -1041,12 +1041,12 @@ class FSize_watcher_collector (LveStatsPlugin):
 		try:
 			# if monitoring file absent, do nothing
 			if self.file_to_monitoring is None or not os.path.exists(self.file_to_monitoring):
-		return 
-		
+		return
+
 			# Get file size
 			stat_info = os.stat(self.file_to_monitoring)
-			fsize = stat_info.st_size 
-			
+			fsize = stat_info.st_size
+
 			# Place file name and file size to server data dictionary
 			lve_data[COLLECTOR_KEY_FILENAME] = self.file_to_monitoring
 			lve_data[COLLECTOR_KEY] = fsize
@@ -1094,43 +1094,43 @@ Note that plugin can monitor one file only.
 ```
 # FSize_watcher_analyzer.py
 # Example plugin for monitoring file size.
-# Part 2. Analyzer 
+# Part 2. Analyzer
 
-from lvestats.core.plugin import LveStatsPlugin 
+from lvestats.core.plugin import LveStatsPlugin
 
 # Key name from collector plugin
-COLLECTOR_KEY = 'FSizeWatcher_fsize' 
+COLLECTOR_KEY = 'FSizeWatcher_fsize'
 
 # Key name 1 for saver plugin
 SAVER_KEY = 'FSizeWatcher_fsize_to_store'
 # Key name 2 for saver plugin
-SAVER_DATA_PRESENCE = 'FSizeWatcher_fsize_present'  
+SAVER_DATA_PRESENCE = 'FSizeWatcher_fsize_present'
 
 class FSize_watcher_analyzer (LveStatsPlugin):
 	# this plugin should be second in chain
 	order = 1
 	# Last file size
 	file_last_size = 0
-	# Plugin run period in secondsperiod = 60 
-	
+	# Plugin run period in secondsperiod = 60
+
 	def __init__(self):
-		pass 
-		
+		pass
+
 	# work method
 	def execute(self, lve_data):
 		# Default setting for saver
 		lve_data[SAVER_DATA_PRESENCE] = 0
 		# Check presence data
 		if COLLECTOR_KEY not in lve_data:
-		return 
-		
+		return
+
 		# Get file size from server data dictionary
-		fsize = lve_data[COLLECTOR_KEY] 
-		
+		fsize = lve_data[COLLECTOR_KEY]
+
 		# Check, if file size changed, store it for saver plugin
 		if fsize == self.file_last_size:
-			return 
-			
+			return
+
 		# Put new size for saver plugin
 		lve_data[SAVER_KEY] = fsize
 		self.file_last_size = fsize
@@ -1159,19 +1159,19 @@ Plugin starts every 60 seconds (1 minute), because we need data fixation to be p
 ```
 # FSize_watcher_saver.py
 # Example plugin for monitoring file size and last modification date-time.
-# Part 3. Data saver 
+# Part 3. Data saver
 
 import signal
 import sys
 import time
-from lvestats.core.plugin import LveStatsPlugin 
+from lvestats.core.plugin import LveStatsPlugin
 
 # Key name 1 for saver plugin
 SAVER_KEY = 'FSizeWatcher_fsize_to_store'
 # Key name 2 for saver plugin
 SAVER_DATA_PRESENCE = 'FSizeWatcher_fsize_present'
 # Monitoring file name
-COLLECTOR_KEY_FILENAME = 'FSizeWatcher_fname'  
+COLLECTOR_KEY_FILENAME = 'FSizeWatcher_fname'
 
 class FSize_watcher_saver (LveStatsPlugin):
 	# this plugin should be third in chain
@@ -1181,16 +1181,16 @@ class FSize_watcher_saver (LveStatsPlugin):
 	# Log filename
 	log_file_name = None
 	# First run flag
-	is_first_run = True 
-	
+	is_first_run = True
+
 	def __init__(self):
-		signal.signal(signal.SIGTERM, self.sigterm_handler) 
-		
+		signal.signal(signal.SIGTERM, self.sigterm_handler)
+
 	# Sets configuration to plugin
 	def set_config(self, config):
 		# Get log filename
-		self.log_file_name = config.get('log_filename', None) 
-		
+		self.log_file_name = config.get('log_filename', None)
+
 	# work method
 	def execute(self, lve_data):
 		# do nothing, if log file not defined
@@ -1203,7 +1203,7 @@ class FSize_watcher_saver (LveStatsPlugin):
 				return
 			# Get file size from server data dictionary
 			fsize = lve_data[SAVER_KEY]
-			
+
 			# Store data to log
 			f = open(self.log_file_name, 'a')
 			if self.is_first_run:
@@ -1213,8 +1213,8 @@ class FSize_watcher_saver (LveStatsPlugin):
 			f.close()
 		except:
 			# Ignore all errors
-			pass 
-			
+			pass
+
 	# Terminate handler
 	def sigterm_handler(self, signum, frame):
 		if self.log_file_name:
@@ -1313,23 +1313,23 @@ Also we can notice that handler <span class="notranslate"> SIG_TERM </span> was 
 ```
 # FSize_watcher_saver.py
 # Example plugin for monitoring file size and last modification date-time.
-# Part 4. Notifier 
+# Part 4. Notifier
 
 import time
-import smtplib 
+import smtplib
 
 from lvestats.lib.commons import dateutil
-from lvestats.core.plugin import LveStatsPlugin  
+from lvestats.core.plugin import LveStatsPlugin
 
 
 # Key name
 COLLECTOR_KEY_FSIZE = 'FSizeWatcher_fsize'
-COLLECTOR_KEY_FILENAME = 'FSizeWatcher_fname' 
+COLLECTOR_KEY_FILENAME = 'FSizeWatcher_fname'
 
 # email message pattern
 EMAIL_MESSAGE_PATTERN = """Hello, administrator!
 Size of the file '%s' is %d bytes.
-"""  
+"""
 
 
 class FSize_watcher_notifier (LveStatsPlugin):
@@ -1364,8 +1364,8 @@ class FSize_watcher_notifier (LveStatsPlugin):
 		f.write('       - From: %s\n' % self.email_from)
 		f.write('       - To: %s\n' % self.email_to)
 		f.write('       - Subject: \'%s\'\n' % self.email_subject)
-		f.close() 
-		
+		f.close()
+
 	# work method
 	def execute(self, lve_data):
 		if COLLECTOR_KEY_FSIZE not in lve_data or COLLECTOR_KEY_FILENAME not in lve_data:
@@ -1381,12 +1381,12 @@ class FSize_watcher_notifier (LveStatsPlugin):
 			msg = MIMEText(EMAIL_MESSAGE_PATTERN % (lve_data[COLLECTOR_KEY_FILENAME], lve_data[COLLECTOR_KEY_FSIZE]))
 		msg['Subject'] = self.email_subject
 		msg['From'] = self.email_from
-		msg['To'] = self.email_to 
-		
+		msg['To'] = self.email_to
+
 		s = smtplib.SMTP('localhost')
 		s.sendmail(self.email_from, [self.email_to], msg.as_string())
-			s.quit() 
-			
+			s.quit()
+
 		f = open(self.log_file_name, 'a')
 			f.write('%s - FSize_watcher_notifier plugin: email message was successfully sent\n' % time.asctime(time.localtime()))
 			f.close()
@@ -1402,7 +1402,7 @@ Configuration file <span class="notranslate"> _/etc/sysconfig/lvestats.config/FS
 
 ```
 # Config file for FSize_watcher_notifier.py plugin
-# Please define email options here 
+# Please define email options here
 
 NOTIFY_FROM_EMAIL=user@hostname
 NOTIFY_FROM_SUBJECT=Message from FSize_watcher_notifier
@@ -1598,7 +1598,7 @@ If the `/var/cagefs` directory already exists, you can move it. Learn how to mov
 [https://docs.cloudlinux.com./#moving-var-cagefs-directory](https://docs.cloudlinux.com./#moving-var-cagefs-directory)
 
 ::: danger IMPORTANT
-If you place the skeleton in the <span class="notranslate">`/home`</span> directory on cPanel servers, configure the following option in cPanel WHM: <span class="notranslate"> **WHM -> Server Configuration -> Basic cPanel/WHM Setup -> Basic Config -> Additional home directories** </span>.  
+If you place the skeleton in the <span class="notranslate">`/home`</span> directory on cPanel servers, configure the following option in cPanel WHM: <span class="notranslate"> **WHM -> Server Configuration -> Basic cPanel/WHM Setup -> Basic Config -> Additional home directories** </span>.
 Set the value to blank (not the default <span class="notranslate"> Home </span>). Without this change, cPanel will create new accounts in incorrect locations.
 :::
 
@@ -1738,11 +1738,11 @@ You can also use [CageFS CLI](/cloudlinuxos/command-line_tools/#cagefs)
   * [Split by username](./#split-by-username)
 
   * [Splitted by user’s UID mounts](./#splitted-by-user-s-uid-mounts)
-  
-  * [Mounting user’s home directory inside CageFS](./#mounting-users-home-directory-inside-cagefs)  
+
+  * [Mounting user’s home directory inside CageFS](./#mounting-users-home-directory-inside-cagefs)
 
   * [How to hide directory inside mount point](./#how-to-hide-directory-inside-mount-point)
-  
+
   * [Example](./#example)
 
 * [Base home directory](./#base-home-directory)
@@ -1804,7 +1804,7 @@ To update the template, you should run:
 ```
 </div>
 
-The behavior of the commands (and the files copied into <span class="notranslate"> _/usr/share/cagefs-skeleton_ </span> directory) depends on the configuration files in _/etc/cagefs/conf.d_  
+The behavior of the commands (and the files copied into <span class="notranslate"> _/usr/share/cagefs-skeleton_ </span> directory) depends on the configuration files in _/etc/cagefs/conf.d_
 You can add additional files, users, groups and devices into CageFS template by adding .cfg file, and running:
 <div class="notranslate">
 
@@ -1867,7 +1867,7 @@ ffmpeg RPM should be installed on the system already.
 
 #### Excluding Files
 
-To exclude files and directories from CageFS, create a file with the <span class="notranslate">`.black.list`</span> extension inside the <span class="notranslate">`/etc/cagefs/`</span> directory. 
+To exclude files and directories from CageFS, create a file with the <span class="notranslate">`.black.list`</span> extension inside the <span class="notranslate">`/etc/cagefs/`</span> directory.
 List the files or directories to exclude, one per line.
 
 Run the following command to apply the changes:
@@ -1887,7 +1887,7 @@ Do not edit the <span class="notranslate">`/etc/cagefs/black.list`</span> file d
 
 To exclude users from CageFS, create a file (any name would work) inside <span class="notranslate">`/etc/cagefs/exclude`</span> folder, and list users that you would like to exclude from CageFS in that file (each user in separate line).
 
-Then execute the following command to apply changes: 
+Then execute the following command to apply changes:
 <div class="notranslate">
 
 ```
@@ -1961,7 +1961,7 @@ This command will kill all current processes and reset mount points.
 
 _[CageFS 5.1 and higher]_
 
-* _Please, see [Split by username](./#split-by-username) feature, as it might be simpler to implement in some cases._ 
+* _Please, see [Split by username](./#split-by-username) feature, as it might be simpler to implement in some cases._
 
 Starting with CageFS 5.1 you can specify additional directories to be mounted inside user's CageFS. This can be specified for each user.
 To specify virtual mount points for a user, create a file:
@@ -2184,7 +2184,7 @@ mount_basedir=1
 ```
 </div>
 
-Directory structure in <span class="notranslate"> _/var/www/vhosts/sitename.com_ </span> will be mounted in CageFS for appropriate users.  
+Directory structure in <span class="notranslate"> _/var/www/vhosts/sitename.com_ </span> will be mounted in CageFS for appropriate users.
 Each user will have access to whole directory structure in <span class="notranslate"> _/var/www/vhosts/sitename.com_ </span> (according to their permissions).
 
 ::: tip Note
@@ -2210,7 +2210,7 @@ tо _/etc/cagefs/cagefs.mp_ file and then execute:
 <div class="notranslate">
 
 ```
-cagefsctl --remount-all 
+cagefsctl --remount-all
 ```
 </div>
 
@@ -2244,7 +2244,7 @@ cagefsctl  --reconfigure-cagefs
 <div class="notranslate">
 
 ```
-service postgresql restart 
+service postgresql restart
 ```
 </div>
 
@@ -2254,7 +2254,7 @@ And update line:
 <div class="notranslate">
 
 ```
-flags=-umc 
+flags=-umc
 ```
 </div>
 
@@ -2362,14 +2362,14 @@ If the path to the program being executed does not match any path specified in t
 * You cannot specify both white and black list (<span class="notranslate">`allow`</span> and <span class="notranslate">`deny`</span>).
 
 It is possible to verify that a path specified as a parameter for an option does not refer outside of the user’s home directory. This check is performed for options specified in the <span class="notranslate">`restrict_path`</span> list. All issues are reported in <span class="notranslate">`/var/log/secure`</span> log file.
-	
+
 > NOTE: By default, option filters only compare the starting parts of arguments with entries specified by lists.
 For instance, if option "-f" is forbidden, "-f /etc/list" will be forbidden, but "-vf /etc/list" will not.
 
 Starting from cagefs v. #7.4.12-1, specifying a `"strict_options": true` switch inside a filter file entry enables an extended parsing mechanism where each short option from a cluster is parsed separately.
 
 It is recommended to enable this option, unless it causes issues with the restricted command's functionality.
-	
+
 <div class="notranslate">
 
 ```
@@ -2469,8 +2469,8 @@ We use the <span class="notranslate">`/etc/passwd`</span> file because it is tru
 <div class="notranslate">
 
 ```
-cat /opt/scripts/superbinary  
-............ 
+cat /opt/scripts/superbinary
+............
 
 #!/usr/bin/env bash
 if [[ -e /var/cagefs ]]; then
@@ -2595,8 +2595,8 @@ PROXYEXEC_GID
 ```
 [root ~]# id test
 uid=1226(test) gid=1227(test) groups=1227(test)
-[root ~]# su - test -c "/my/scripts/superbinary"                                                
-I am running without CageFS                                                                          
+[root ~]# su - test -c "/my/scripts/superbinary"
+I am running without CageFS
 I am running as: root
 Number or records in /etc/passwd: 49
 PROXYEXEC_UID=1226
@@ -2648,7 +2648,7 @@ The default wrapper already contains a check that does not allow to run it by th
 ```
 #!/bin/bash
 ##CageFS proxyexec wrapper - ver 15
-    
+
 if [[ $EUID -eq 0 ]]; then
     echo 'Cannot be run as root'
     exit 1
@@ -2662,9 +2662,9 @@ Add the new check below:
 <div class="notranslate">
 
 ```
-if [[ $1 == "/etc/passwd" ]]; then                                                    
-    echo "it is not allowed for user to view this file!"                  
-    exit 1      
+if [[ $1 == "/etc/passwd" ]]; then
+    echo "it is not allowed for user to view this file!"
+    exit 1
 fi
 ```
 </div>
@@ -2707,12 +2707,12 @@ PROXYEXEC_GID=1227
 
 _[4.0-5 and later]_
 
-To create a custom file in /etc directory for end user, create a directory:  
+To create a custom file in /etc directory for end user, create a directory:
 <span class="notranslate"> _/etc/cagefs/custom.etc/[username]_ </span>
 
 Put all custom files, and sub-directories into that direcotry.
 
-For example, if you want to create custom <span class="notranslate"> _/etc/hosts_ file for USER1 </span> , create a directory:  
+For example, if you want to create custom <span class="notranslate"> _/etc/hosts_ file for USER1 </span> , create a directory:
 <span class="notranslate"> _/etc/cagefs/custom.etc/USER1_ </span>
 
 Inside that directory, create a <span class="notranslate"> _hosts_ </span> file, with the content for that user.
@@ -2755,8 +2755,8 @@ There are two ways:
 <div class="notranslate">
 
 ```
-mkdir /home/cagefs-skeleton 
-ln -s /home/cagefs-skeleton /usr/share/cagefs-skeleton 
+mkdir /home/cagefs-skeleton
+ln -s /home/cagefs-skeleton /usr/share/cagefs-skeleton
 cagefsctl --init
 ```
 </div>
@@ -2769,7 +2769,7 @@ cagefsctl --init
 To move <span class="notranslate">`/var/cagefs`</span> to another location:
 
 <div class="notranslate">
- 
+
 ```
 cagefsctl --disable-cagefs
 cagefsctl --unmount-all
@@ -2911,7 +2911,7 @@ The following features are applied during the cleanup:
 
 **Disable PHP sessions cleanup on cPanel and Plesk**
 
-Here is a possible workaround for PHP session expiration problem (session lives longer than it is possible in a control panel). To use your own custom PHP sessions cleanup scripts - you can turn off built-in sessions cleanup implementation in the following way: 
+Here is a possible workaround for PHP session expiration problem (session lives longer than it is possible in a control panel). To use your own custom PHP sessions cleanup scripts - you can turn off built-in sessions cleanup implementation in the following way:
 add <span class="notranslate"> `clean_user_php_sessions=false` line to _/etc/sysconfig/cloudlinux_ </span> .
 
 
@@ -2946,11 +2946,11 @@ In order to do so, please create a file <span class="notranslate"> _/etc/contain
 <div class="notranslate">
 
 ```
-cat /etc/container/exclude_mounts.conf     
-............ 
+cat /etc/container/exclude_mounts.conf
+............
 
 ^/dir1/
-^/dir2$ 
+^/dir2$
 ```
 ```
 lvectl start
@@ -2961,7 +2961,7 @@ After that, all new created <span class="notranslate"> LVEs </span> will be with
 <div class="notranslate">
 
 ```
-lvectl destroy all   
+lvectl destroy all
 lvectl apply all
 ```
 </div>
@@ -2990,7 +2990,7 @@ To enable `/dev/shm` isolation, do the following steps:
   </div>
 
 2. Create a configuration file with mount options for shared memory
-   
+
   <div class="notranslate">
 
   ```
@@ -2999,7 +2999,7 @@ To enable `/dev/shm` isolation, do the following steps:
   </div>
 
 3. Remount CageFS to apply changes
-   
+
   <div class="notranslate">
 
   ```
@@ -3087,14 +3087,14 @@ when the size of the `/dev/shm` is specified in percentage of user’s physical 
 
 Starting from CageFS v.7.2.0-1, you can prevent a process from work if it can't enter to CageFS. The option is disabled by default.
 
-To enable it, run the following commands: 
+To enable it, run the following commands:
 
 ```
 touch /etc/cagefs/fail.on.error
 cagefsctl --remount-all (cagefsctl --remount <user>)
 ```
 
-To disable it, run the following commands: 
+To disable it, run the following commands:
 
 ```
 rm -f /etc/cagefs/fail.on.error
@@ -3145,7 +3145,7 @@ To update CageFS skeleton, click <span class="notranslate"> Update CageFS Skelet
 
 ##### CageFS inbuilt in Cloudlinux Manager
 
-To enable or disable CageFS for a proper user (users), in <span class="notranslate"> Cloudlinux Manager </span>, go to the Users tab and use the Toggle next to the chosen user(s) from the list under the <span class="notranslate"> CageFS </span> column. 
+To enable or disable CageFS for a proper user (users), in <span class="notranslate"> Cloudlinux Manager </span>, go to the Users tab and use the Toggle next to the chosen user(s) from the list under the <span class="notranslate"> CageFS </span> column.
 
 ![](/images/cloudlinuxos/cloudlinux_os_components/cpanel-enable-disable-cagefs2.webp)
 
@@ -3157,7 +3157,7 @@ To update CageFS skeleton, go to <span class="notranslate"> Cloudlinux Manager >
 
 CageFS is an option inbuilt in Cloudlinux Manager that allows initializing and updating CageFS template, as well as managing users and mode of operation for CageFS.
 
-To enable or disable CageFS for a proper user (users), in <span class="notranslate"> Cloudlinux Manager </span>, go to the Users tab and use the Toggle next to the chosen user(s) from the list under the <span class="notranslate"> CageFS </span> column. 
+To enable or disable CageFS for a proper user (users), in <span class="notranslate"> Cloudlinux Manager </span>, go to the Users tab and use the Toggle next to the chosen user(s) from the list under the <span class="notranslate"> CageFS </span> column.
 
 ![](/images/cloudlinuxos/cloudlinux_os_components/enable-disable-cagefs-for-user.webp)
 
@@ -3189,7 +3189,7 @@ The "All" mode will be deprecated starting from September 1, 2021. You can read 
 
 <span class="notranslate"> MySQL Governor </span> has two active modes of operations:
 * **off** - In this mode MySQL Governor will not throttle customer's queries, instead it will let you monitor the MySQL usage.
-* **abusers** - In this mode, once user goes over the limits specified in the MySQL Governor, all customer's queries will execute inside that user's LVE. 
+* **abusers** - In this mode, once user goes over the limits specified in the MySQL Governor, all customer's queries will execute inside that user's LVE.
 
 More details of the governor operation modes are described in the [Modes of operation](./#modes-of-operation) section
 
@@ -3213,7 +3213,7 @@ The main purpose of MySQL Governor is to monitor how many common resources are u
 
 Before any SQL request, MySQL Governor determines which user sent the request and if this user exceed limits, the MySQL Governor pushes the request to appropriate LVE container.
 
-This is how common server resources can be managed. 
+This is how common server resources can be managed.
 
 #### Why the СPU/IO charts are different for database and LVE usage?
 
@@ -3223,7 +3223,7 @@ SQL requests are not limited inside LVE, so there are not any calculations for I
 
 **Blue chart (database)**:
 
-This is the user’s real IO Database usage which was calculated by MySQL Governor. 
+This is the user’s real IO Database usage which was calculated by MySQL Governor.
 
 **Green chart (LVE)**:
 
@@ -3325,7 +3325,7 @@ Please make sure to specify your current <span class="notranslate"> MariaDB </sp
 * 105 - MariaDB v10.5 [requires <span class="notranslate">MySQL Governor</span> 1.2-62+]
 * 106 - MariaDB v10.6 [requires <span class="notranslate">MySQL Governor</span> 1.2-76+]
 * 1011 - MariaDB v10.11 [requires <span class="notranslate">MySQL Governor</span>  1.2-103+]
-* 1104 - MariaDB v11.4 [requires <span class="notranslate">MySQL Governor</span>  1.2-122+] 
+* 1104 - MariaDB v11.4 [requires <span class="notranslate">MySQL Governor</span>  1.2-122+]
 
 :::tip Updated note
 MariaDB version 10.4 is available for CloudLinux OS 6.
@@ -3358,12 +3358,12 @@ If you are installing <span class="notranslate"> MySQL Governor </span> on a ser
 
 | | |
 |-|-|
-|mysql51 |MySQL v5.1 |  
-|mysql55 |MySQL v5.5 | 
-|mysql56 |MySQL v5.6 | 
-|mysql57 |MySQL v5.7 | 
-|mysql80 |MySQL v8.0 (requires MySQL Governor 1.2-37+)| 
-|mysql84 |MySQL v8.4 (requires MySQL Governor 1.2-129+)| 
+|mysql51 |MySQL v5.1 |
+|mysql55 |MySQL v5.5 |
+|mysql56 |MySQL v5.6 |
+|mysql57 |MySQL v5.7 |
+|mysql80 |MySQL v8.0 (requires MySQL Governor 1.2-37+)|
+|mysql84 |MySQL v8.4 (requires MySQL Governor 1.2-129+)|
 |mariadb55 |MariaDB v5.5 |
 |mariadb100 |MariaDB v10.0 |
 |mariadb101 |MariaDB v10.1 |
@@ -3372,7 +3372,7 @@ If you are installing <span class="notranslate"> MySQL Governor </span> on a ser
 |mariadb104 |MariaDB v 10.4 [requires <span class="notranslate">MySQL Governor</span> 1.2-53+]|
 |mariadb105 |MariaDB v 10.5 [requires <span class="notranslate">MySQL Governor</span> 1.2-62+]|
 |mariadb106 |MariaDB v 10.6 [requires <span class="notranslate">MySQL Governor</span> 1.2-76+]|
-|mariadb1011 |MariaDB v 10.11 [requires <span class="notranslate">MySQL Governor</span> 1.2-103+]| 
+|mariadb1011 |MariaDB v 10.11 [requires <span class="notranslate">MySQL Governor</span> 1.2-103+]|
 |mariadb1104 |MariaDB v 11.4 [requires <span class="notranslate">MySQL Governor</span> 1.2-122+]|
 |percona56 | <span class="notranslate"> Percona Server v 5.6 </span> |
 
@@ -3465,7 +3465,7 @@ The script will install original MySQL server, and remove <span class="notransla
 The "All" mode will be deprecated starting from September 1, 2021. You can read more [here.](https://blog.cloudlinux.com/mysql-governor-moving-from-all-to-abusers)
 :::
 
-<span class="notranslate"> MySQL Governor </span> configuration is located in <span class="notranslate"> /etc/container/mysql-governor.xml </span> 
+<span class="notranslate"> MySQL Governor </span> configuration is located in <span class="notranslate"> /etc/container/mysql-governor.xml </span>
 
 It is best to modify it using <span class="notranslate"> [dbctl](/cloudlinuxos/command-line_tools/#dbctl) </span> tool.
 
@@ -3481,7 +3481,7 @@ Example configuration:
 <div class="notranslate">
 
 ```
-<governor> 
+<governor>
 
 <!--  'off' - do not throttle anything, monitoring only -->
 <!--  'abusers' - when user reaches the limit, put user's queries into LVE for that user -->
@@ -3489,20 +3489,20 @@ Example configuration:
 <!--  'single' - single LVE=3 for all abusers. -->
 <!-- 'on' - deprecated (old restriction type) -->
 <!-- To change resource usage of restricted user in LVE mode use command /usr/sbin/lvectl set 3 --cpu=<new value> --ncpu=<new value> --io=<new value> --save-all-parameters -->
-<lve use="on|single|off|abusers|all"/> 
+<lve use="on|single|off|abusers|all"/>
 
 <!-- connection information -->
 <!-- If host, login and password are not present, this information is taken from /etc/my.cnf and ~root/.my.cnf -->
-<!-- Use symbol specified in prefix to figure out hosting accounts (mysql username will be split using prefix_separator, and first part will be used as account name). If prefix is not set, or empty -- don’t use prefixes/accounts --> 
+<!-- Use symbol specified in prefix to figure out hosting accounts (mysql username will be split using prefix_separator, and first part will be used as account name). If prefix is not set, or empty -- don’t use prefixes/accounts -->
 
 <!-- db governor will try to split MySQL user names using prefix separator (if present)and statistics will be aggregated for the prefix (account name) -->
-<connector host="..." login="..." password=".." prefix_separator="_"/> 
+<connector host="..." login="..." password=".." prefix_separator="_"/>
 
 <!-- Intervals define historical intervals for burstable limits. In seconds -->
-<intervals short="5" mid="60" long="300"/> 
+<intervals short="5" mid="60" long="300"/>
 
 <!-- log all errors/debug info into this log -->
-<log file=”/var/log/dbgovernor-error.log” mode=”DEBUG|ERROR”/> 
+<log file=”/var/log/dbgovernor-error.log” mode=”DEBUG|ERROR”/>
 
 <!-- s -- seconds, m -- minutes, h -- hours, d -- days -->
 <!-- on restart, restrict will disappear -->
@@ -3517,13 +3517,13 @@ MEDIUM - restrict info, _all_tracked_values_
 LONG - restrict info, _all_tracked_values_, load average and vmstat info
 VERYLONG - restrict info, _all_tracked_values_, load average and vmstat info, slow query info -->
 <!-- script -- path to script to be triggered when account is restricted -->
-<!-- user_max_connections - The number of simultaneous connections of blocked user (in LVE mode) --> 
+<!-- user_max_connections - The number of simultaneous connections of blocked user (in LVE mode) -->
 
 <!-- restriction levels/format/script are deprecated -->
 <restrict level1="60s" level2="15m" level3="1h" level4="1d" timeout="1h"
 log="/var/log/dbgovernor-restrict.log" format="SHORT|MEDIUM|LONG|VERYLONG"
 script="/path/to/script"
-user_max_connections="30"/> 
+user_max_connections="30"/>
 
 <!-- period (deprecated) - period based restriction that has multiple levels (see above) -->
 <!-- limit (by default) - when user hits limits, the account will be marked as restricted and if user does not hit  limit again during "unlimit=1m" account will be unrestricted. This mode doesn't have any additional levels/penalties. -->
@@ -3531,8 +3531,8 @@ user_max_connections="30"/>
 
 <!-- killing slow SELECT queries (no other queries will be killed) -->
 <!-- if "log" attribute was set all killed queries will be saved in log file -->
-<!-- slow parameter in the <limit name="slow" current="30"/> will no be applied without enabling slow_queries --> 
-<slow_queries run="on|off" log="/var/log/dbgovernor-kill.log"/> 
+<!-- slow parameter in the <limit name="slow" current="30"/> will no be applied without enabling slow_queries -->
+<slow_queries run="on|off" log="/var/log/dbgovernor-kill.log"/>
 <!-- Enable or disable saving of statistics for lve-stats - On - enabled, Off-disabled -->
 <statistic mode="on|off"></statistic>
 <!-- Enable logging user queries on restrict, can be On or Off -->
@@ -3549,18 +3549,18 @@ user_max_connections="30"/>
 <!-- Requests are checked at 15 second intervals, so a request will be canceled after a timeout + 15 seconds maximum -->
 <limit name="slow" current="30"/>
 </default>
-<!-- name will matched account name, as extracted via prefix extraction --> 
+<!-- name will matched account name, as extracted via prefix extraction -->
 
 <!-- mysql_name will match exact MySQL user name. If both name and mysql_name are present, system will produce error -->
 <!-- mode restrict -- default mode, enforcing restrictions -->
-<!-- mode norestrict -- track usage, but don’t restrict user --> 
+<!-- mode norestrict -- track usage, but don’t restrict user -->
 <!-- mode ignore -- don’t track and don’t restrict user -->
 <user name=”xxx” mysql_name=”xxx” mode=”restrict|norestrict|ignore”>
 <limit...>
-</user> 
+</user>
 
 <!-- debug mode for particular user. The information logged to restrict log. -->
-<debug_user name="xxx"/> 
+<debug_user name="xxx"/>
 
 </governor>
 ```
@@ -3622,7 +3622,7 @@ Here they are:
 * absolute values of the LVE limits
 
 
-MySQL Governor allows setting the burstable limits for accounts. To provide that possibility, four levels of limits are defined: `current`, `short`, `middle`, and `long`. Correctly set limits can give users more CPU without having a bottleneck on MySQL. 
+MySQL Governor allows setting the burstable limits for accounts. To provide that possibility, four levels of limits are defined: `current`, `short`, `middle`, and `long`. Correctly set limits can give users more CPU without having a bottleneck on MySQL.
 
 **General principles of choosing the limits**:
 
@@ -3659,13 +3659,13 @@ service db_governor stop
 ```
 </div>
 
-#### Mapping a user to a database 
+#### Mapping a user to a database
 
 
 **[** <span class="notranslate"> **MySQL Governor** </span> **1.x]**
 
 Traditionally <span class="notranslate"> MySQL Governor </span> used prefixes to map user to database. With the latest version, we automatically generate <span class="notranslate"> user -> database user </span> mapping for <span class="notranslate"> cPanel </span>, <span class="notranslate"> Plesk </span> and <span class="notranslate"> DirectAdmin </span> control panels.
-	
+
 The mapping file is recreated daily by cron.
 
 Mapping recreation is also triggered by the following events on cPanel servers:
@@ -3673,9 +3673,9 @@ Mapping recreation is also triggered by the following events on cPanel servers:
 * creation of user
 * modification of user
 * removal of user
-	
+
 You can also rebuild the mapping file manually on cPanel, Plesk and DirectAdmin control panels by running the following command:
-	
+
 ```
 /usr/share/lve/dbgovernor/mysqlgovernor.py --dbupdate
 ```
@@ -3710,7 +3710,7 @@ pupkin3a_12 pupkin3a 506
 
 This would specify that db users: <span class="notranslate"> pupkinas_u2, pupkinas_u1, pupkinas_u3 </span> belong to user <span class="notranslate"> pupkinas </span> with uid (lve id) 502
 db user <span class="notranslate"> pupkin2a_uuu1 </span> belongs to user <span class="notranslate"> pupkin2a </span> with uid 505, etc...
-	
+
 `db_governor` service checks this file for modifications every 5 minutes.
 
 If you need to force reload the mapping file, run:
@@ -3738,7 +3738,7 @@ Restrictions:
 
 ```
 _timestamp_ _username_ LIMIT_ENFORCED _limit_setting_ __current_value_                         _restrict_level__ SERVER_LOAD TRACKED_VALUES_DUMP
- ... 
+ ...
 ```
 </div>
 
@@ -3792,7 +3792,7 @@ To install beta version of MySQL:
 |mysql56 | MySQL v5.6|
 |mysql57 | MySQL v5.7|
 |mysql80 | MySQL v8.0 (requires MySQL Governor 1.2-37+)|
-|mysql84 | MySQL v8.4 (requires MySQL Governor 1.2-129+)| 
+|mysql84 | MySQL v8.4 (requires MySQL Governor 1.2-129+)|
 |mariadb55 | MariaDB v5.5|
 |mariadb100 | MariaDB v10.0|
 |mariadb101 | MariaDB v10.1|
@@ -3801,7 +3801,7 @@ To install beta version of MySQL:
 |mariadb104 | MariaDB v 10.4 [requires <span class="notranslate">MySQL Governor</span> 1.2-53+]||
 |mariadb105 | MariaDB v 10.5 [requires <span class="notranslate">MySQL Governor</span> 1.2-62+]|
 |mariadb106 | MariaDB v 10.6 [requires <span class="notranslate">MySQL Governor</span> 1.2-76+]|
-|mariadb1011 | MariaDB v 10.11 [requires <span class="notranslate">MySQL Governor</span> 1.2-103+]| 
+|mariadb1011 | MariaDB v 10.11 [requires <span class="notranslate">MySQL Governor</span> 1.2-103+]|
 |mariadb1104 | MariaDB v 11.4 [requires <span class="notranslate">MySQL Governor</span> 1.2-122+]|
 |percona56 | Percona v 5.6|
 
@@ -3843,7 +3843,7 @@ To switch on the PrivateDevices mode, follow these steps.
   ```
   PrivateDevices=true
   DeviceAllow=/dev/lve
-  BindPaths=/dev/lve 
+  BindPaths=/dev/lve
   ```
 * Invoke `systemctl daemon-reload`
 * Restart _mysqld_ service
@@ -3864,9 +3864,9 @@ The following script could be used before installing MySQL-governor and MySQL/Ma
 ```
 /usr/share/lve/dbgovernor/scripts/mysql_backup.sh
 ```
-</div> 
+</div>
 
-:::tip 
+:::tip
 The script `mysql_backup.sh` is provided starting from the Governor version 1.2-115.
 :::
 
@@ -3924,7 +3924,7 @@ The main purpose of MySQL Governor is to monitor how many common resources are u
 
 Before any SQL request, MySQL Governor determines which user sent the request and if this user exceed limits, the MySQL Governor pushes the request to appropriate LVE container.
 
-This is how common server resources can be managed. 
+This is how common server resources can be managed.
 
 #### Why the СPU/IO charts are different for database and LVE usage?
 
@@ -3934,7 +3934,7 @@ SQL requests are not limited inside LVE, so there are not any calculations for I
 
 **Blue chart (database)**:
 
-This is the user’s real IO Database usage which was calculated by MySQL Governor. 
+This is the user’s real IO Database usage which was calculated by MySQL Governor.
 
 **Green chart (LVE)**:
 
@@ -3999,7 +3999,7 @@ touch /etc/systemd/system/mariadb.service.d/limits.conf
 <div class="notranslate">
 
 ```
-[Service] 
+[Service]
 LimitNOFILE=99999
 ```
 </div>
@@ -4109,7 +4109,7 @@ After installing native PHP, please run the `cloudlinux-selector setup --interpr
 
 ### Supported versions
 
-::: tip 
+::: tip
 The mark `x` stands for a supported version.
 :::
 
@@ -4129,7 +4129,7 @@ The mark `x` stands for a supported version.
 | alt-php 8.0 |       x      |       x      |       x      |       x      |
 | alt-php 8.1 |       x      |       x      |       x      |       x      |
 | alt-php 8.2 |       x      |       x      |       x      |       x      |
-| alt-php 8.3 |       x      |       x      |       x      |       x      | 
+| alt-php 8.3 |       x      |       x      |       x      |       x      |
 | alt-php 8.4 |       –      |       x      |       x      |       x      |
 
 ### Installation and update
@@ -4148,7 +4148,7 @@ yum groupinstall alt-php
 ```
 </div>
 
-Update CageFS & <span class="notranslate"> LVE Manager with support for PHP Alternatives: </span> 
+Update CageFS & <span class="notranslate"> LVE Manager with support for PHP Alternatives: </span>
 <div class="notranslate">
 
 ```
@@ -4239,7 +4239,7 @@ yum groupinstall alt-php
   </div>
 
   * via cPanel admin interface
-  
+
   Go to <span class="notranslate">cPanel → Admin interface → LVE Manager → Dashboard</span> → click <span class="notranslate">_Refresh_</span>
 
   ![](/images/cloudlinuxos/cloudlinux_os_components/cageFS-verify.webp)
@@ -4339,7 +4339,7 @@ Go to the _External App_ tab, _External Application_ ➞ Add.
 
 ![](/images/cloudlinuxos/cloudlinux_os_components/LiteSpeedExternalAppTab.webp)
 
-* The _Command line_ should be `/var/www/cgi-bin/cgi_wrapper/cloudlinux_wrapper` on Plesk. 
+* The _Command line_ should be `/var/www/cgi-bin/cgi_wrapper/cloudlinux_wrapper` on Plesk.
 * For other control panels, the _Command line_ should be `/usr/local/bin/lsphp`.
 * The _Run On Start Up_ line must contain `Yes` or `No`.
 
@@ -4541,7 +4541,7 @@ done
 ```
 
 This command will reset the extensions for all users on PHP version 8.4 to the default list. You can specify a different PHP version by modifying the `--version` argument in the command above.
- 
+
 To reset the extensions for a specific user, you can use the following command:
 ```
 selectorctl --reset-user-extensions --version=8.4 --user=user1
@@ -4555,7 +4555,7 @@ Note, that this is <span class="notranslate"> 'local' to CageFS, </span> and dif
 <div class="notranslate">
 
 ```
-# cagefsctl -e USERNAME 
+# cagefsctl -e USERNAME
 ```
 </div>
 
@@ -4621,8 +4621,8 @@ php.ini=/etc/php.ini
 
 3. For each user that needs custom file, create directory <span class="notranslate"> _/etc/cagefs/custom.etc/USER_NAME/php.ini_ </span> .
 
-For example if you want to create custom for <span class="notranslate"> USER1 </span> and <span class="notranslate"> USER2 </span> you would create files:  
-<span class="notranslate"> _/etc/cagefs/custom.etc/USER1/php.ini_ </span>  
+For example if you want to create custom for <span class="notranslate"> USER1 </span> and <span class="notranslate"> USER2 </span> you would create files:
+<span class="notranslate"> _/etc/cagefs/custom.etc/USER1/php.ini_ </span>
 <span class="notranslate"> _/etc/cagefs/custom.etc/USER2/php.ini_ </span>
 
 Create such files for each user that should have custom file.
@@ -4632,7 +4632,7 @@ Create such files for each user that should have custom file.
 <div class="notranslate">
 
 ```
-cagefsctl --force-update 
+cagefsctl --force-update
 ```
 </div>
 
@@ -4655,7 +4655,7 @@ cagefsctl --update-etc
 
 in order to apply changes to CageFS for all users.
 
-OR 
+OR
 
 <div class="notranslate">
 
@@ -4675,7 +4675,7 @@ It is enough to put `php.ini` in the directory where PHP script is located in or
 :::
 
 1. For each user that needs custom file, create directory <span class="notranslate">`/etc/cagefs/custom.etc/USER_NAME/php.ini`</span>.
-    
+
     For example, if you want to create a custom file for USER1 and USER2 you would create files:
 
     <div class="notranslate">
@@ -4698,7 +4698,7 @@ It is enough to put `php.ini` in the directory where PHP script is located in or
     </div>
 
 3. Configure `php.ini` load path for user’s domains.
-   
+
 * When using **suphp** handler, you should use `SuPHP_ConfigPath` directive in virtual host configuration for these domains, or use this directive in `.htaccess` files: `suPHP_ConfigPath/etc`.
 
 * When using **mod_lsapi**, you should use `lsapi_phprc` directive in virtual host configuration: `lsapi_phprc/etc/`.
@@ -4725,7 +4725,7 @@ It is enough to put `php.ini` in the directory where PHP script is located in or
 5. If you have modified anything in `/etc/cagefs/custom.etc` directory, you should execute one of the following:
 
     * to apply changes to CageFS for all users, run:
-  
+
     <div class="notranslate">
 
     ```
@@ -4734,7 +4734,7 @@ It is enough to put `php.ini` in the directory where PHP script is located in or
     </div>
 
     * to apply changes to CageFS for specific users, run:
-  
+
     <div class="notranslate">
 
     ```
@@ -4826,7 +4826,7 @@ Once <span class="notranslate"> FFmpeg </span> is installed you can install PHP 
 <div class="notranslate">
 
 ```
-yum install alt-php*ffmpeg 
+yum install alt-php*ffmpeg
 ```
 </div>
 
@@ -4886,7 +4886,7 @@ To use `alt-php72-zts` with PHP Selector you need the following:
 **Using zts PHP**
 
 1. Install `alt-php72-zts` with the following command:
-  
+
   <div class="notranslate">
 
   ```
@@ -4939,9 +4939,9 @@ To use `alt-php72-zts` with PHP Selector you need the following:
 **Using non-zts PHP**
 
 1. Make sure that <span class="notranslate">`/etc/cl.selector/selector.conf`</span> file contains correct paths to the `non-zts` PHP binaries.
-   
+
   You should remove the old lines:
-  
+
   <div class="notranslate">
 
   ```
@@ -4959,7 +4959,7 @@ And replace them with the lines with the new paths:
   php-cli 7.2 7.2.20 /opt/alt/php72/usr/bin/php
   ```
   </div>
-  
+
 2. Make sure that <span class="notranslate">`/opt/alt/php72/etc/php.d.all`</span> path refers to the directory containing `ini` files for `non-zts` PHP extensions:
 
   <div class="notranslate">
@@ -5119,8 +5119,8 @@ Add an absolute path to PHP binaries into <span class="notranslate"> /etc/cl.sel
 <div class="notranslate">
 
 ```
-php     5.1 5.1.2 /opt/alt/php51/usr/bin/php-cgi 
-php-cli 5.1 5.1.2 /opt/alt/php51/usr/bin/php 
+php     5.1 5.1.2 /opt/alt/php51/usr/bin/php-cgi
+php-cli 5.1 5.1.2 /opt/alt/php51/usr/bin/php
 php-fpm 5.1 5.1.2 /opt/alt/php51/usr/sbin/php-fpm
    ^     ^    ^                ^----- absolute path
    |     |    |---------------------- real version
@@ -5213,37 +5213,37 @@ selectorctl --setup-without-cagefs USER
 
 When executing <span class="notranslate">`--setup-without-cagefs`</span>, the following actions are performed:
 
-* Creating symlinks to the user modules and options for each <span class="notranslate"> Alt-PHP </span> version:  
+* Creating symlinks to the user modules and options for each <span class="notranslate"> Alt-PHP </span> version:
 <span class="notranslate"> _/opt/alt/php55/link/conf/alt_php.ini -> /home/USER/.cl.selector/alt_php55.ini_ </span>
 
-* In user home directory creating:  
+* In user home directory creating:
 <span class="notranslate"> _.cl.selector/_ </span>
 
-“Backup” settings files (selected version, modules, options):  
-<span class="notranslate"> _.cl.selector/defaults.cfg_ </span>  
+“Backup” settings files (selected version, modules, options):
+<span class="notranslate"> _.cl.selector/defaults.cfg_ </span>
 <span class="notranslate"> _.cl.selector/alt_php44.cfg_ </span>
 
-Symlinks to the selected version:  
-<span class="notranslate"> _.cl.selector/lsphp -> /opt/alt/php44/usr/bin/lsphp_ </span>  
-<span class="notranslate"> _.cl.selector/php.ini -> /opt/alt/php44/etc/php.ini_ </span>  
-<span class="notranslate"> _.cl.selector/php-cli -> /opt/alt/php44/usr/bin/php_ </span>  
-<span class="notranslate"> _.cl.selector/php -> /opt/alt/php44/usr/bin/php-cgi_ </span>  
+Symlinks to the selected version:
+<span class="notranslate"> _.cl.selector/lsphp -> /opt/alt/php44/usr/bin/lsphp_ </span>
+<span class="notranslate"> _.cl.selector/php.ini -> /opt/alt/php44/etc/php.ini_ </span>
+<span class="notranslate"> _.cl.selector/php-cli -> /opt/alt/php44/usr/bin/php_ </span>
+<span class="notranslate"> _.cl.selector/php -> /opt/alt/php44/usr/bin/php-cgi_ </span>
 
-Additional symlinks for environment variable <span class="notranslate"> $PATH </span> (search path) in the file <span class="notranslate"> ~/.bashrc </span> :  
-<span class="notranslate"> _.cl.selector/selector.path/_ </span>  
-<span class="notranslate"> _.cl.selector/selector.path/php-cgi -> ../php_ </span>  
-<span class="notranslate"> _.cl.selector/selector.path/php -> ../php-cli_ </span>  
+Additional symlinks for environment variable <span class="notranslate"> $PATH </span> (search path) in the file <span class="notranslate"> ~/.bashrc </span> :
+<span class="notranslate"> _.cl.selector/selector.path/_ </span>
+<span class="notranslate"> _.cl.selector/selector.path/php-cgi -> ../php_ </span>
+<span class="notranslate"> _.cl.selector/selector.path/php -> ../php-cli_ </span>
 
 Generated ini files with selected modules and options for each version:
-<span class="notranslate"> _.cl.selector/alt_php44.ini_ </span>  
-<span class="notranslate"> _.cl.selector/alt_php51.ini_ </span>  
-<span class="notranslate"> _.cl.selector/alt_php52.ini_ </span>  
-<span class="notranslate"> _.cl.selector/alt_php53.ini_ </span>  
-<span class="notranslate"> _.cl.selector/alt_php54.ini_ </span>  
-<span class="notranslate"> _.cl.selector/alt_php55.ini_ </span>  
-<span class="notranslate"> _.cl.selector/alt_php56.ini_ </span>  
-<span class="notranslate"> _.cl.selector/alt_php70.ini_ </span>  
-<span class="notranslate"> _.cl.selector/alt_php71.ini_ </span>  
+<span class="notranslate"> _.cl.selector/alt_php44.ini_ </span>
+<span class="notranslate"> _.cl.selector/alt_php51.ini_ </span>
+<span class="notranslate"> _.cl.selector/alt_php52.ini_ </span>
+<span class="notranslate"> _.cl.selector/alt_php53.ini_ </span>
+<span class="notranslate"> _.cl.selector/alt_php54.ini_ </span>
+<span class="notranslate"> _.cl.selector/alt_php55.ini_ </span>
+<span class="notranslate"> _.cl.selector/alt_php56.ini_ </span>
+<span class="notranslate"> _.cl.selector/alt_php70.ini_ </span>
+<span class="notranslate"> _.cl.selector/alt_php71.ini_ </span>
 
 Symlinks above are being created according to the settings in <span class="notranslate"> ~/.cl.selector/defaults.cfg </span> and <span class="notranslate"> ~/.cl.selector/alt_php44.cfg </span> files (44 - corresponding PHP version), which are storing <span class="notranslate"> PHP Selector </span> settings for the user. These files are usually taken from user home directory backup or when migrating account from another server. Thus, when migrating account from server to server, <span class="notranslate"> PHP Selector </span> settings are saved.
 
@@ -5255,7 +5255,7 @@ is being added to the user file <span class="notranslate">`~/.bashrc` </span>
 
 <span class="notranslate"> Apache </span> PHP handlers settings are not changed.
 
-* Also <span class="notranslate">`selectorctl --setup-without-cagefs`</span> command does the following: 
+* Also <span class="notranslate">`selectorctl --setup-without-cagefs`</span> command does the following:
 
   * Turns off link traversal protection (linksafe);
   * Turns off cagefs service.
@@ -5270,7 +5270,7 @@ selectorctl --revert-to-cagefs
 
 (CageFS should be initialized by using <span class="notranslate">`cagefsctl --init`</span> command before running the command above)
 
-This command removes symlinks:  
+This command removes symlinks:
 <span class="notranslate">`/opt/alt/php55/link/conf/alt_php.ini` -> `/home/USER/.cl.selector/alt_php55.ini`</span>
 turns on link traversal protection (linksafe) and cagefs service.
 
@@ -5286,12 +5286,12 @@ CageFS 6.0-33 or higher, <span class="notranslate">LVE Manager</span> 2.0-11.2 o
 
 There is <span class="notranslate">`/etc/cl.selector/global_php.ini`</span> file, where you can specify values of PHP options that should be applied for all <span class="notranslate"> Alt-PHP </span> versions that are installed on a server. These settings will also be automatically applied to the new <span class="notranslate"> Alt-PHP </span> versions that will be installed later.
 
-Example:  
-<span class="notranslate"> _# cat /etc/cl.selector/global_php.ini_ </span>  
-<span class="notranslate"> _[Global PHP Settings]_ </span>  
-<span class="notranslate"> _date.timezone = Europe/Warsaw_ </span>  
-<span class="notranslate"> _error_log = error_log_ </span>  
-<span class="notranslate"> _memory_limit = 192M_ </span>  
+Example:
+<span class="notranslate"> _# cat /etc/cl.selector/global_php.ini_ </span>
+<span class="notranslate"> _[Global PHP Settings]_ </span>
+<span class="notranslate"> _date.timezone = Europe/Warsaw_ </span>
+<span class="notranslate"> _error_log = error_log_ </span>
+<span class="notranslate"> _memory_limit = 192M_ </span>
 Sections are ignored. Only name of an option and a value have meaning.
 
 When an option is absent in <span class="notranslate"> _/etc/cl.selector/global_php.ini_ </span> file, than it is not changed (applied) to php.ini for <span class="notranslate"> Alt-PHP </span> versions.
@@ -5306,7 +5306,7 @@ The behavior above is changed for cPanel servers with EasyApache 4. The <span cl
 
 * When <span class="notranslate">`/usr/local/lib/php.ini`</span> file exists, <span class="notranslate">`error_log`</span> and <span class="notranslate">`date.timezone`</span> options will be taken from that <span class="notranslate">`php.ini`</span> file.
 * When <span class="notranslate">`/usr/local/lib/php.ini`</span> file does not exist, <span class="notranslate">`error_log`</span> and <span class="notranslate">`date.timezone`</span> options will be taken from the <span class="notranslate">`php.ini`</span> file for system default PHP version selected in MultiPHP Manager.
-  
+
 This functionality works when the system default PHP version is <span class="notranslate">`ea-php`</span> only. When the system default PHP version is <span class="notranslate">`alt-php`, `error_log`</span> and <span class="notranslate">`date.timezone`</span> directives will be NOT taken from that <span class="notranslate">`php.ini`</span> file.
 
 
@@ -5430,8 +5430,8 @@ native(5.6) e d
 ```
 </div>
 
-The first column: PHP version  
-The second column: enabled or not ( <span class="notranslate"> e </span> - enabled)  
+The first column: PHP version
+The second column: enabled or not ( <span class="notranslate"> e </span> - enabled)
 The third column: if selected as default  ( <span class="notranslate"> d </span> - default)
 
 **Set default version:**
@@ -5488,8 +5488,8 @@ Result:
 ```
 </div>
 
-+: enabled  
-~: included in php binary (cannot be disabled) or enabled in php global config file <span class="notranslate">_/opt/alt/phpXX/etc/php.ini_</span>  
++: enabled
+~: included in php binary (cannot be disabled) or enabled in php global config file <span class="notranslate">_/opt/alt/phpXX/etc/php.ini_</span>
 -: disabled
 
 **Select default extensions (enable comma-separated list of extensions globally for a version):**
@@ -5607,7 +5607,7 @@ See also [PHP Selector CLI tools](/command-line_tools/#php-selector).
 
 ### Bundled PHP extensions
 
-You can find this information in the corresponding section of the TuxCare documentation: 
+You can find this information in the corresponding section of the TuxCare documentation:
 [List of extensions supported by the ALT&EA team for each version of PHP](https://docs.cloudlinux.com/cloudlinuxos/alt-ea_packages/#bundled-php-extensions)
 
 
@@ -5642,7 +5642,7 @@ OpenLiteSpeed is not compatible with Python Selector due to lack of `.htaccess` 
 | alt-python 3.11| alt-python 3.10| alt-python 3.10| alt-python 3.10|
 |               | alt-python 3.11| alt-python 3.11| alt-python 3.11|
 |               | alt-python 3.12| alt-python 3.12| alt-python 3.12|
-  
+
 ### Installation
 
 You can install Python Selector using the [CloudLinux OS Installation Wizard](/cloudlinuxos/lve_manager/#cloudlinux-os-shared-installation-wizard).
@@ -5661,7 +5661,7 @@ Here you can find the installation steps for supported control panels:
 To use Python Selector, it is required to install the following:
 
 * alternative Python packages by running the following command:
-  
+
 <div class="notranslate">
 
 ```
@@ -5677,7 +5677,7 @@ yum groupinstall alt-python
 yum install lvemanager lve-utils alt-python-virtualenv
 ```
 </div>
-    
+
 Phusion Passenger could be installed by using **either** ```ea-ruby24-mod_passenger``` **or** ```ea-ruby27-mod_passenger```. ```ea-ruby27-mod_passenger``` is **not** compatible with systems running CloudLinux OS 6. CloudLinux OS 7 supports **both** ```ea-ruby24-mod_passenger``` and ```ea-ruby27-mod_passenger```. If your system runs CloudLinux OS 8, you can **only** use ```ea-ruby27-mod_passenger```.
 
 Adding Python module requires executing permissions to <span class="notranslate">`gcc/make`</span> binaries.
@@ -5693,7 +5693,7 @@ cagefsctl --force-update
 * We recommend use CageFS for better security. See [CageFS documentation for details](./#cagefs).
 
 #### DirectAdmin
- 
+
 To use Python Selector, it is required to install the following:
 
 * alternative Python packages by running the following command:
@@ -5704,7 +5704,7 @@ To use Python Selector, it is required to install the following:
 yum groupinstall alt-python
 ```
 </div>
- 
+
 * CloudLinux Manager, LVE Utils and Phusion Passenger to create isolated Python environments by running the following command:
 
 <div class="notranslate">
@@ -5744,7 +5744,7 @@ To use <span class="notranslate">Ruby Selector</span> install alternative <span 
 <div class="notranslate">
 
 ```
-yum groupinstall alt-ruby 
+yum groupinstall alt-ruby
 ```
 </div>
 
@@ -5785,7 +5785,7 @@ The same result can be accomplished in CLI by running:
 cloudlinux-config set --json --data '{"options":{"uiSettings":{"hideRubyApp":false}}}'
 ```
 </div>
- 
+
 :::tip Note
 If you are using cPanel/WHM, you can also configure hide/show <span class="notranslate">CloudLinux OS Ruby Selectors</span> in <span class="notranslate">WHM | Feature Manager</span>.
 For that, you’d need to first uncheck <span class="notranslate">`Hide Ruby App in web-interface`</span> in the <span class="notranslate">LVE Manager</span>. This will make the menu appear for all accounts. After that, you are free to disable this app in <span class="notranslate">WHM | Feature Manager</span> for the required feature lists.
@@ -5859,7 +5859,7 @@ See also [Ruby Selector CLI tools](/cloudlinuxos/command-line_tools/#ruby-select
 | —                | alt‑nodejs 16.x  | alt‑nodejs 16.x  | alt‑nodejs 16.x  |
 | —                | alt‑nodejs 18.x  | alt‑nodejs 18.x  | alt‑nodejs 18.x  |
 | —                | alt‑nodejs 19.x  | alt‑nodejs 19.x  | alt‑nodejs 19.x  |
-| —                | alt‑nodejs 20.x  | alt‑nodejs 20.x  | alt‑nodejs 20.x  | 
+| —                | alt‑nodejs 20.x  | alt‑nodejs 20.x  | alt‑nodejs 20.x  |
 | —                | -                | alt‑nodejs 22.x  | alt‑nodejs 22.x  |
 | —                | -                | alt‑nodejs 24.x  | alt‑nodejs 24.x  |
 
@@ -5914,7 +5914,7 @@ yum install lvemanager lve-utils
 </div>
 
 Phusion Passenger could be installed by using **either** ```ea-ruby24-mod_passenger``` **or** ```ea-ruby27-mod_passenger```. ```ea-ruby27-mod_passenger``` is **not** compatible with systems running CloudLinux OS 6. CloudLinux OS 7 supports **both** ```ea-ruby24-mod_passenger``` and ```ea-ruby27-mod_passenger```. If your system runs CloudLinux OS 8, you can **only** use ```ea-ruby27-mod_passenger```.
-    
+
 :::tip Note
 ```ea-apache24-mod-alt-passenger``` is deprecated in favor of ```ea-ruby24-mod_passenger``` and ```ea-ruby27-mod_passenger```
 :::
@@ -6002,7 +6002,7 @@ yum install cagefs
 ```
 cloudlinux-selector create --interprete=nodejs --json --app-root=<USER_NAME> --app-uri=<APP_NAME> --app-mode=develompent --version=<VERSION> --domain=<DOMAIN>
 ```
-</div>  
+</div>
 
 ::: tip Note
 In the <span class="notranslate"> IntelliJ IDEA </span> you can create and run any remote script <span class="notranslate"> (Preferences — Remote SSH External Tools — Add).</span>
@@ -6047,7 +6047,7 @@ The following information should be displayed on this page:
 
 So that, you can be sure that deployed modules are used properly.
 
-If you’d like to use a different version of Node.js to run an application, change a path to the interpreter in the configuration settings of the running.  
+If you’d like to use a different version of Node.js to run an application, change a path to the interpreter in the configuration settings of the running.
 To apply all changes to the project, synchronize all changes with the server and restart the running application.
 
 9. To debug a script, set breakpoints in the code and run the configuration via Main Menu <span class="notranslate"> _(Main menu → Run → Debug… → Select configuration)_ </span> .
@@ -6142,7 +6142,7 @@ mod_lsapi PRO is an [Apache HTTP Server](https://httpd.apache.org/) module based
 1. Apache passes handling for PHP request to mod_lsapi PRO;
 2. mod_lsapi PRO use liblsapi to transfer request to lsphp parent process;
 3. lsphp is forking child process which executes the request and returns data to mod_lsapi PRO;
-![](/images/cloudlinuxos/cloudlinux_os_components/mod_lsapidiagrammnew.webp)  
+![](/images/cloudlinuxos/cloudlinux_os_components/mod_lsapidiagrammnew.webp)
 _mod_lsapi PRO integrates with Apache, allows to handle concurrent requests and manages the lsphp processes_
 
 * If there are no requests for lsapi_backend_pgrp_max_idle seconds, lsphp parent process will be  terminated;
@@ -6275,7 +6275,7 @@ Now all domains under php1_mode are using lsphp handler and no further actions a
 
 #### Installing on servers with no control panel
 
-:::tip Note 
+:::tip Note
 If there is a php.conf file in Apache's conf.d, which is usually brought by the php or php-fpm packages, then it should be deleted or renamed.
 
 For example, `php.conf` can be renamed into `php.conf.NO`.
@@ -6345,12 +6345,12 @@ Select the control panel you are using:
 
 #### Uninstall procedure for cPanel servers with EasyApache 4
 
-:::tip Note 
+:::tip Note
 If there is a php.conf file in Apache's conf.d, which is usually brought by the php or php-fpm packages, then it should be deleted or renamed.
 
-For example, `php.conf` can be renamed into `php.conf.NO`. 
+For example, `php.conf` can be renamed into `php.conf.NO`.
 :::
-  
+
  To remove lsapi handler from cPanel MultiPHP Manager and uninstall mod_lsapi PRO, run a command:
 <div class="notranslate">
 
@@ -6521,9 +6521,9 @@ The final lsapi.conf configuration might look like this:
 LoadModule lsapi_module modules/mod_lsapi.so
 
 
-<IfModule lsapi_module>      
-	lsapi_engine On      
-	AddType application/x-httpd-lsphp .php      
+<IfModule lsapi_module>
+	lsapi_engine On
+	AddType application/x-httpd-lsphp .php
 	lsapi_backend_connect_timeout 100000
 	lsapi_backend_connect_tries 10
 	lsapi_backend_children 20
@@ -6536,7 +6536,7 @@ LoadModule lsapi_module modules/mod_lsapi.so
 
 In order to mod_lsapi PRO work lsapi.conf should be loaded to Apache through [Include](https://httpd.apache.org/docs/2.4/mod/core.html#include) directive.
 
-For more detailed description of the module directives please visit [Configuration reference](./#configuration-references).  
+For more detailed description of the module directives please visit [Configuration reference](./#configuration-references).
 For installation guide mod_lsapi PRO please visit [Installation](./#installation-2).
 
 #### Using alternative LVE id for Virtual Hosts
@@ -6601,15 +6601,15 @@ Please note that in the example above 2 different Virtual Hosts use different LV
 
 
 [mod_lsapi customization](./#mod-lsapi-customization):
-* [lsapi_engine](./#lsapi-engine)  
-* [lsapi_socket_path](./#lsapi-socket-path)  
-* [lsapi_poll_timeout](./#lsapi-poll-timeout)  
-* [lsapi_per_user](./#lsapi-per-user)  
-* [lsapi_output_buffering](./#lsapi-output-buffering)  
-* [lsapi_disable_reject_mode](./#lsapi-disable-reject-mode)  
-* [lsapi_terminate_backends_on_exit](./#lsapi-terminate-backends-on-exit)  
-* [lsapi_avoid_zombies](./#lsapi-avoid-zombies)  
-* [lsapi_use_req_hostname](./#lsapi-use-req-hostname)  
+* [lsapi_engine](./#lsapi-engine)
+* [lsapi_socket_path](./#lsapi-socket-path)
+* [lsapi_poll_timeout](./#lsapi-poll-timeout)
+* [lsapi_per_user](./#lsapi-per-user)
+* [lsapi_output_buffering](./#lsapi-output-buffering)
+* [lsapi_disable_reject_mode](./#lsapi-disable-reject-mode)
+* [lsapi_terminate_backends_on_exit](./#lsapi-terminate-backends-on-exit)
+* [lsapi_avoid_zombies](./#lsapi-avoid-zombies)
+* [lsapi_use_req_hostname](./#lsapi-use-req-hostname)
 * [lsapi_debug](./#lsapi-debug)
 
 [Tuning LSPHP backend](./#tuning-lsphp-backend):
@@ -6629,7 +6629,7 @@ Please note that in the example above 2 different Virtual Hosts use different LV
 * [lsapi_backend_loglevel_info](./#lsapi-backend-loglevel-info)
 * [lsapi_backend_oom_score_adj](./#lsapi-backend-oom-score-adj)
 * [lsapi-server-tweak](./#lsapi-server-tweak) Beta
- 
+
 [Connection pool mode](./#connection-pool-mode):
 * [lsapi_with_connection_pool](./#lsapi-with-connection-pool)
 * [lsapi_backend_max_idle](./#lsapi-backend-max-idle)
@@ -6671,11 +6671,11 @@ Please note that in the example above 2 different Virtual Hosts use different LV
 
 #### **lsapi_engine**
 
-**Syntax** : lsapi_engine on/off  
-**Default** : lsapi_engine off  
-**Context** : httpd.conf, htaccess  
+**Syntax** : lsapi_engine on/off
+**Default** : lsapi_engine off
+**Context** : httpd.conf, htaccess
 
-**Description** :  
+**Description** :
 Switching mod_lsapi handler on or off.
 
 ---
@@ -6683,32 +6683,32 @@ Switching mod_lsapi handler on or off.
 #### **lsapi_socket_path**
 
 **Syntax** : lsapi_socket_path [path]
-**Default** : lsapi_socket_path `/var/mod_lsapi`  
-**Context** : httpd.conf  
+**Default** : lsapi_socket_path `/var/mod_lsapi`
+**Context** : httpd.conf
 
-**Description:**  
+**Description:**
 Path to backend lsphp sockets. By default `/var/mod_lsapi`
 
 ---
 
 #### **lsapi_poll_timeout**
 
-**Syntax** : lsapi_poll_timeout [number]  
-**Default** : lsapi_poll_timeout 300  
-**Context** : httpd.conf, htaccess  
+**Syntax** : lsapi_poll_timeout [number]
+**Default** : lsapi_poll_timeout 300
+**Context** : httpd.conf, htaccess
 
-**Description** :  
+**Description** :
 Time to wait for response from the lsphp daemon, in seconds. 0 stands for infinity. For preventing long running processes which can use EP (limit number of entry processes). Default value is 300. Should be more or equal to 0. In the case of wrong format, the default value will be used.
 
 ---
 
 #### **lsapi_per_user**
 
-**Syntax** : lsapi_per_user On/Off  
-**Default** : lsapi_per_user Off  
-**Context** : httpd.conf  
+**Syntax** : lsapi_per_user On/Off
+**Default** : lsapi_per_user Off
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 Invoke master lsPHP process not per VirtualHost but per account.
 When On, invoke backend not per VirtualHost but per account.
 Default value is Off.
@@ -6719,22 +6719,22 @@ Then these Virtual Hosts will have a dedicated backend process, while others wil
 
 #### **lsapi_output_buffering**
 
-**Syntax** : lsapi_output_buffering On/Off  
-**Default** : lsapi_output_buffering On  
-**Context** : httpd.conf, virtualhost, htaccess  
+**Syntax** : lsapi_output_buffering On/Off
+**Default** : lsapi_output_buffering On
+**Context** : httpd.conf, virtualhost, htaccess
 
-**Description** :  
+**Description** :
 Enable or disable output buffering on Apache level. Default value is On.
 
 ---
 
 #### **lsapi_disable_reject_mode**
 
-**Syntax** : lsapi_disable_reject_mode On/Off  
-**Default** : lsapi_disable_reject_mode Off  
-**Context** : httpd.conf, virtualhost  
+**Syntax** : lsapi_disable_reject_mode On/Off
+**Default** : lsapi_disable_reject_mode Off
+**Context** : httpd.conf, virtualhost
 
-**Description** :  
+**Description** :
 If a new HTTP request is coming to LSPHP daemon when all LSPHP workers are still busy, it can process this situation in two different ways. In REJECT mode LSPHP daemon will reject such request immediately. Otherwise, in legacy mode, LSPHP daemon will put this request into infinite queue, until one or more LSPHP daemon becomes free. When HTTP request is rejected in REJECT mode, mod_lsapi will write into Apache error_log the following message: Connect to backend rejected, and the client will receive 507 HTTP response.
 By default LSPHP daemon in CloudLinux OS uses REJECT mode. It can be switched off with this option.
 
@@ -6742,55 +6742,55 @@ By default LSPHP daemon in CloudLinux OS uses REJECT mode. It can be switched of
 
 #### **lsapi_terminate_backends_on_exit**
 
-**Syntax** : lsapi_terminate_backends_on_exit On/Off  
-**Default** : lsapi_terminate_backends_on_exit On  
-**Context** : httpd.conf  
+**Syntax** : lsapi_terminate_backends_on_exit On/Off
+**Default** : lsapi_terminate_backends_on_exit On
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 httpd.conf, On - stop lsphp services on apache restart, Off - leave live started lsphp services on apache restart (for php+opcache). The lsphp will not restart, even if Apache gets restarted.
 
 ---
 
 #### **lsapi_avoid_zombies**
 
-**Syntax** : lsapi_avoid_zombies On/Off  
-**Default** : lsapi_avoid_zombies Off  
-**Context** : httpd.conf, virtualhost  
+**Syntax** : lsapi_avoid_zombies On/Off
+**Default** : lsapi_avoid_zombies Off
+**Context** : httpd.conf, virtualhost
 
-**Description** :  
+**Description** :
 Enable or disable a mechanism to avoid creation of zombie processes by lsphp. Default value is Off.
 
 ---
 
 #### **lsapi_use_req_hostname**
 
-**Syntax** : lsapi_use_req_hostname On/Off  
-**Default** : lsapi_use_req_hostname Off  
-**Context** : httpd.conf, virtualhosts  
+**Syntax** : lsapi_use_req_hostname On/Off
+**Default** : lsapi_use_req_hostname Off
+**Context** : httpd.conf, virtualhosts
 
-**Description** :  
+**Description** :
 By default, we are using hostname from the server_rec structure (off), it means that mod_lsapi takes hostname from the VirtualHost section of the configuration file. Using hostname from the request_rec structure (On) means that mod_lsapi takes hostname from the HOST section of the request. It could be useful for those who use dynamically generated configs for virtual hosts for example with mod_lua.
 
 ---
 
 #### **lsapi_sentry**
 
-**Syntax** : lsapi_sentry On/Off  
-**Default** : lsapi_sentry On  
-**Context** : httpd.conf  
+**Syntax** : lsapi_sentry On/Off
+**Default** : lsapi_sentry On
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 When this option is enabled, errors that occur in the operation of the mod_lsapi will be sent to the remote sentry server. You can see the error messages that were sent to the sentry server in the directory /var/log/mod_lsapi. If you do not want to send error notifications from your server, you can disable this directive in lsapi.conf.
 
 ---
 
 #### **lsapi_debug**
 
-**Syntax** : lsapi_debug On/Off  
-**Default** : lsapi_debug Off  
-**Context** : httpd.conf, virtualhost  
+**Syntax** : lsapi_debug On/Off
+**Default** : lsapi_debug Off
+**Context** : httpd.conf, virtualhost
 
-**Description** :  
+**Description** :
 Extended debug logging.
 
 ---
@@ -6799,14 +6799,14 @@ Extended debug logging.
 
 #### **lsapi_set_env**
 
-**Syntax** : lsapi_set_env VAR_NAME [VAR_VALUE]  
-**Default** : -  
-**Context** : httpd.conf  
+**Syntax** : lsapi_set_env VAR_NAME [VAR_VALUE]
+**Default** : -
+**Context** : httpd.conf
 
-**Description** :  
-Pass env variable to lsphp. By default lsphp environment have only TEMP, TMP and PATH variables set.  
-Example: lsapi_set_env TMP "/var/lsphp-tmp"  
-Note: PATH env var default "/usr/local/bin:/usr/bin:/bin" cannot be changed because of security reasons.  
+**Description** :
+Pass env variable to lsphp. By default lsphp environment have only TEMP, TMP and PATH variables set.
+Example: lsapi_set_env TMP "/var/lsphp-tmp"
+Note: PATH env var default "/usr/local/bin:/usr/bin:/bin" cannot be changed because of security reasons.
 To change it, use explicitly lsapi_set_env_path option.
 
 :::tip Beta
@@ -6817,11 +6817,11 @@ When the `lsapi_server_tweak` option is switched `On`, this option can be used i
 
 #### **lsapi_set_env_path**
 
-**Syntax** : lsapi_set_env_path [path(s)]  
-**Default** : lsapi_set_env_path /usr/local/bin:/usr/bin:/bin  
-**Context** : httpd.conf  
+**Syntax** : lsapi_set_env_path [path(s)]
+**Default** : lsapi_set_env_path /usr/local/bin:/usr/bin:/bin
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 Change PATH variable in the environment of lsPHP processes. Default path /usr/local/bin:/usr/bin:/bin will be used if not set.
 
 :::tip Beta
@@ -6832,11 +6832,11 @@ When the `lsapi_server_tweak` option is switched `On`, this option can be used i
 
 #### **lsapi_backend_children**
 
-**Syntax** : lsapi_backend_children [number]  
-**Default** : lsapi_backend_children [EP]  
-**Context** : httpd.conf  
+**Syntax** : lsapi_backend_children [number]
+**Default** : lsapi_backend_children [EP]
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 Sets maximum number of simultaneously running child backend processes. Optional, a default directive value is equal to 120.   LSAPI_CHILDREN environment variable is set according to the following rules:
 * If NPROC and EP are unlimited, the directive value is used.
 * If NPROC is set to any limited value and the directive value is set to a number less than NPROC-1, the directive value is used.
@@ -6849,117 +6849,117 @@ For example, with the default lve settings NPROC=100 and EP=20, the effective LS
 
 #### **lsapi_backend_connect_tries**
 
-**Syntax** : lsapi_backend_connect_tries [number]  
-**Default** : lsapi_backend_connect_tries 20  
-**Context** : httpd.conf  
+**Syntax** : lsapi_backend_connect_tries [number]
+**Default** : lsapi_backend_connect_tries 20
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 Number of retries to connects to lsPHP daemon.
 
 ---
 
 #### **lsapi_backend_connect_timeout**
 
-**Syntax** : lsapi_backend_connect_timeout [number]  
-**Default** : lsapi_backend_connect_timeout 500000  
-**Context** : httpd.conf  
+**Syntax** : lsapi_backend_connect_timeout [number]
+**Default** : lsapi_backend_connect_timeout 500000
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 Number of usec to wait while lsPHP starts (if not started on request).
 
 ---
 
 #### **lsapi_backend_max_process_time**
 
-**Syntax** : lsapi_backend_max_process_time [number]  
-**Default** : lsapi_backend_max_process_time 300  
-**Context** : httpd.conf, virtualhost 
+**Syntax** : lsapi_backend_max_process_time [number]
+**Default** : lsapi_backend_max_process_time 300
+**Context** : httpd.conf, virtualhost
 
-**Description** :  
-Sets env variable LSAPI_MAX_PROCESS_TIME  
-Optional. Default value is 300.  
+**Description** :
+Sets env variable LSAPI_MAX_PROCESS_TIME
+Optional. Default value is 300.
 Timeout to kill runaway processes.
 
 ---
 
 #### **lsapi_backend_pgrp_max_idle**
 
-**Syntax** : lsapi_backend_pgrp_max_idle [number]  
-**Default** : lsapi_backend_pgrp_max_idle 30  
-**Context** : httpd.conf  
+**Syntax** : lsapi_backend_pgrp_max_idle [number]
+**Default** : lsapi_backend_pgrp_max_idle 30
+**Context** : httpd.conf
 
-**Description** :  
-Sets env variable LSAPI_PGRP_MAX_IDLE, in seconds.    
-Controls how long a control process will wait for a new request before it exits. # 0 stands for infinite.  
-Optional, default value is 30.  
-Should be more or equal to 0.  
+**Description** :
+Sets env variable LSAPI_PGRP_MAX_IDLE, in seconds.
+Controls how long a control process will wait for a new request before it exits. # 0 stands for infinite.
+Optional, default value is 30.
+Should be more or equal to 0.
 
 ---
 
 #### **lsapi_backend_use_own_log**
 
-**Syntax** : lsapi_backend_use_own_log On/Off  
-**Default** : lsapi_backend_use_own_log Off  
-**Context** : httpd.conf, virtualhost  
+**Syntax** : lsapi_backend_use_own_log On/Off
+**Default** : lsapi_backend_use_own_log Off
+**Context** : httpd.conf, virtualhost
 
-**Description** :  
+**Description** :
 Redirecting log output of backend processes from Apache error_log to dedicated log file or files, depending on value of lsapi_backend_common_own_log option. If Off, use Apache error log file for backend output, or separate file otherwise.
 
 ---
 
 #### **lsapi_backend_common_own_log**
 
-**Syntax** : lsapi_backend_common_own_log On/Off  
-**Default** : lsapi_backend_common_own_log Off  
-**Context** : httpd.conf, virtualhost 
+**Syntax** : lsapi_backend_common_own_log On/Off
+**Default** : lsapi_backend_common_own_log Off
+**Context** : httpd.conf, virtualhost
 
-**Description** :  
+**Description** :
 It will be used only when lsapi_backend_use_own_log set to On. On - backend processes of the all virtual hosts will share the common log file. Off - every virtual host will have its own backend log file.
 
 ---
 
 #### **lsapi_backend_coredump**
 
-**Syntax** : lsapi_backend_coredump On/Off  
-**Default** : lsapi_backend_coredump Off  
-**Context** : httpd.conf, htaccess  
+**Syntax** : lsapi_backend_coredump On/Off
+**Default** : lsapi_backend_coredump Off
+**Context** : httpd.conf, htaccess
 
-**Description** :  
-env variable LSAPI_ALLOW_CORE_DUMP (On or Off). Pass LSAPI_ALLOW_CORE_DUMP to lsphp or not. If it will be passed - core dump on lsphp crash will be created.  
-Off by default.  
+**Description** :
+env variable LSAPI_ALLOW_CORE_DUMP (On or Off). Pass LSAPI_ALLOW_CORE_DUMP to lsphp or not. If it will be passed - core dump on lsphp crash will be created.
+Off by default.
 By default LSAPI application will not leave a core dump file when crashed. If you want to have LSAPI PHP dump a core file, you should set this environment variable. If set, regardless the value has been set to, core files will be created under the directory that the PHP script in.
 
 ---
 
 #### **lsapi_backend_accept_notify**
 
-**Syntax** : lsapi_backend_accept_notify On/Off  
-**Default** : lsapi_backend_accept_notify On  
-**Context** : httpd.conf, virtualhost  
+**Syntax** : lsapi_backend_accept_notify On/Off
+**Default** : lsapi_backend_accept_notify On
+**Context** : httpd.conf, virtualhost
 
-**Description** :  
+**Description** :
 Switch LSAPI_ACCEPT_NOTIFY mode for lsphp. This option can be used both in Global and VirtualHost scopes.This mode is incompatible with PHP 4.4.
 
 ---
 
 #### **lsapi_backend_pgrp_max_reqs**
 
-**Syntax** : lsapi_backend_prgrp_max_reqs [number]  
-**Default** : lsapi_backend_max_reqs 0  
-**Context** : httpd.conf, virtualhost  
+**Syntax** : lsapi_backend_prgrp_max_reqs [number]
+**Default** : lsapi_backend_max_reqs 0
+**Context** : httpd.conf, virtualhost
 
-**Description** :  
+**Description** :
 Controls how many requests a control process will process before it exits. Should be more or equal to 0. In the case of wrong format, a default value will be used. Optional, the default value is 0, which means an unlimited number of requests.
 
 ---
 
 #### **lsapi_backend_pgrp_max_crashes**
 
-**Syntax** : lsapi_backend_prgrp_max_crashes [number]  
-**Default** : lsapi_backend_max_crashes 0  
+**Syntax** : lsapi_backend_prgrp_max_crashes [number]
+**Default** : lsapi_backend_max_crashes 0
 **Context** : httpd.conf, virtualhost
 
-**Description** :  
+**Description** :
 Controls how many crashes of its worker processes a control process will detect before it exits. Should be more or equal to 0. In the case of wrong format, a default value will be used. Optional, the default value is 0, which means an unlimited number of crashes.
 
 ---
@@ -7006,33 +7006,33 @@ For more information on setting value **oom_score_adj**, see the page [https://m
 
 #### **lsapi_with_connection_pool**
 
-**Syntax** : lsapi_with_connection_pool On/Off  
-**Default** : lsapi_with_connection_pool Off  
-**Context** : httpd.conf  
+**Syntax** : lsapi_with_connection_pool On/Off
+**Default** : lsapi_with_connection_pool Off
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 On/Off - disable enable connect pool, default is Off.
 
 ---
 
 #### **lsapi_backend_max_idle**
 
-**Syntax** : lsapi_backend_max_idle [number]  
-**Default** : lsapi_backend_max_idle 300  
-**Context** : httpd.conf  
+**Syntax** : lsapi_backend_max_idle [number]
+**Default** : lsapi_backend_max_idle 300
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 It is relevant only with lsapi_with_connection_pool option switched on. Controls how long a worker process will wait for a new request before it exits. 0 stands for infinite. Should be more or equal to 0. In the case of wrong format default value will be used. Optional, default value is 300.
 
 ---
 
 #### **lsapi_backend_max_reqs**
 
-**Syntax** : lsapi_backend_max_reqs [number]  
-**Default** : lsapi_backend_max_reqs 10000  
-**Context** : httpd.conf  
+**Syntax** : lsapi_backend_max_reqs [number]
+**Default** : lsapi_backend_max_reqs 10000
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 It is relevant only with lsapi_with_connection_pool option switched on. Controls how many requests a worker process will process before it exits. Should be more than 0. In the case of wrong format default value will be used. Optional, default value is 10000.
 
 ---
@@ -7041,90 +7041,90 @@ It is relevant only with lsapi_with_connection_pool option switched on. Controls
 
 #### **lsapi_criu**
 
-**Syntax** : lsapi_criu On/Off  
-**Default** : lsapi_criu Off  
-**Context** : httpd.conf  
+**Syntax** : lsapi_criu On/Off
+**Default** : lsapi_criu Off
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 Enable/disable CRIU for lsphp freezing. Default: Off.
 
 ---
 
 #### **lsapi_criu_socket_path**
 
-**Syntax** : lsapi_criu_socket_path [path]  
-**Default** : lsapi_criu_socket_path /var/run/criu/criu_service.socket  
-**Context** : httpd.conf  
+**Syntax** : lsapi_criu_socket_path [path]
+**Default** : lsapi_criu_socket_path /var/run/criu/criu_service.socket
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 Set path to socket for communication with criu service. Default: /var/run/criu/criu_service.socket.
 
 ---
 
 #### **lsapi_criu_imgs_dir_path**
 
-**Syntax** : lsapi_criu_imgs_dir_path [path]  
-**Default** : lsapi_criu_imgs_dir_path /var/mod_lsapi/  
-**Context** : httpd.conf  
+**Syntax** : lsapi_criu_imgs_dir_path [path]
+**Default** : lsapi_criu_imgs_dir_path /var/mod_lsapi/
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 Path to folder where images of freezed PHP will be stored. Should be path. Default: /var/mod_lsapi/
 
 ---
 
 #### **lsapi_backend_initial_start**
 
-**Syntax** : lsapi_backend_initial_start [number]  
-**Default** : lsapi_backend_initial_start 0  
-**Context** : httpd.conf  
+**Syntax** : lsapi_backend_initial_start [number]
+**Default** : lsapi_backend_initial_start 0
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 Number of requests to virtualhost, when lsphp will be freezed.  Default: 0 - means disable freezing.
 
 ---
 
 #### **lsapi_criu_use_shm**
 
-**Syntax** : lsapi_criu_use_shm Off/Signals  
-**Default** : lsapi_criu_use_shm Off  
-**Context** : httpd.conf  
+**Syntax** : lsapi_criu_use_shm Off/Signals
+**Default** : lsapi_criu_use_shm Off
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 Method of requests counting. Off - use shared memory. Signals - use signals from child processes to parent. Default: Off
 
 ---
 
 #### **lsapi_backend_semtimedwait**
 
-**Syntax** : lsapi_backend_semtimedwait On/Off  
-**Default** : lsapi_backend_semtimedwait On  
-**Context** : httpd.conf  
+**Syntax** : lsapi_backend_semtimedwait On/Off
+**Default** : lsapi_backend_semtimedwait On
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 Use semaphore for checking when lsphp process will be started. Speed of start lsphp increased with semaphore using. This method avoid cycles of waiting for lsphp start. Default: On.
 
 ----
 
 #### **lsapi_reset_criu_on_apache_restart**
 
-**Syntax** : lsapi_reset_criu_on_apache_restart On/Off  
-**Default** : lsapi_reset_criu_on_apache_restart Off  
-**Context** : httpd.conf, virtualhost  
+**Syntax** : lsapi_reset_criu_on_apache_restart On/Off
+**Default** : lsapi_reset_criu_on_apache_restart Off
+**Context** : httpd.conf, virtualhost
 
-**Description** :  
-This option allows cleaning all CRIU images on Apache restart.  
-Setting lsapi_reset_criu_on_apache_restart to On means that on each Apache restart the CRIU images which are stored in directory specified by lsapi_criu_imgs_dir_path directive will be recreated on new request to domain(only after restart).  
+**Description** :
+This option allows cleaning all CRIU images on Apache restart.
+Setting lsapi_reset_criu_on_apache_restart to On means that on each Apache restart the CRIU images which are stored in directory specified by lsapi_criu_imgs_dir_path directive will be recreated on new request to domain(only after restart).
 If this option set to Off then CRIU images won’t be recreated on Apache restart.
 
 ----
 
 #### **lsapi_criu_debug**
 
-**Syntax**: lsapi_criu_debug On/Off  
-**Default**: lsapi_criu_debug Off  
-**Context**: httpd.conf, virtualhost  
+**Syntax**: lsapi_criu_debug On/Off
+**Default**: lsapi_criu_debug Off
+**Context**: httpd.conf, virtualhost
 
-**Description** :  
+**Description** :
 Enable/disable CRIU related debug logging.
 
 ----
@@ -7133,108 +7133,108 @@ Enable/disable CRIU related debug logging.
 
 #### **lsapi_process_phpini**
 
-**Syntax** : lsapi_process_phpini On/Off  
-**Default** : lsapi_process_phpini Off  
-**Context** : httpd.conf, virtualhost, directory  
+**Syntax** : lsapi_process_phpini On/Off
+**Default** : lsapi_process_phpini Off
+**Context** : httpd.conf, virtualhost, directory
 
-**Description** :  
+**Description** :
 Enable or disable phpini_* directive processing. Default value is Off.
 
 ---
 
 #### **lsapi_phpini**
 
-**Syntax** : lsapi_phpini [path]  
-**Default** : lsapi_phpini -  
-**Context** : httpd.conf, virtualhost, htaccess  
+**Syntax** : lsapi_phpini [path]
+**Default** : lsapi_phpini -
+**Context** : httpd.conf, virtualhost, htaccess
 
-**Description** :  
+**Description** :
 When lsapi_process_phpini option switched to Off, these values will be silently ignored. lsapi_phpini values with absolute filename of php.ini file can be inserted into .htaccess files in order to set custom php.ini which will override/complement settings from system default php.ini.
 
 ---
 
 #### **lsapi_phprc**
 
-**Syntax** : lsapi_phprc [No | Env | Auto | DocRoot]  
-**Default** : lsapi_phprc No  
-**Context** : httpd.conf, virtualhost  
+**Syntax** : lsapi_phprc [No | Env | Auto | DocRoot]
+**Default** : lsapi_phprc No
+**Context** : httpd.conf, virtualhost
 
 **Description** :
-The value of PHPRC env variable.  
-Special values are "No", "Env", "Auto" and "DocRoot".  
-Default value is "No" - without PHPRC at all.  
-"Auto" value stands for php.ini from DocumentRoot of the corresponding VirtualHost if it is present, or from user's home directory otherwise "DocRoot" value stands for php.ini from DocumentRoot of the corresponding VirtualHost.  
-"Env" value for using PHPRC from the environment, to set it with SetEnv config option, for example  
-lsapi_phprc No  
-lsapi_phprc Auto  
-lsapi_phprc DocRoot  
-lsapi_phprc Env  
+The value of PHPRC env variable.
+Special values are "No", "Env", "Auto" and "DocRoot".
+Default value is "No" - without PHPRC at all.
+"Auto" value stands for php.ini from DocumentRoot of the corresponding VirtualHost if it is present, or from user's home directory otherwise "DocRoot" value stands for php.ini from DocumentRoot of the corresponding VirtualHost.
+"Env" value for using PHPRC from the environment, to set it with SetEnv config option, for example
+lsapi_phprc No
+lsapi_phprc Auto
+lsapi_phprc DocRoot
+lsapi_phprc Env
 lsapi_phprc /etc/
 
 ---
 
 #### **lsapi_tmpdir**
 
-**Syntax** : lsapi_tmpdir [path]  
-**Default** : lsapi_tmpdir /tmp  
-**Context** : httpd.conf, virtualhost  
+**Syntax** : lsapi_tmpdir [path]
+**Default** : lsapi_tmpdir /tmp
+**Context** : httpd.conf, virtualhost
 
-**Description** :  
+**Description** :
 Set alternate request body temporary files directory.
 
 ---
 
 #### **lsapi_enable_user_ini**
 
-**Syntax** : lsapi_enable_user_ini On/Off  
-**Default** : lsapi_enable_user_ini Off  
-**Context** : httpd.conf, virtualhost  
+**Syntax** : lsapi_enable_user_ini On/Off
+**Default** : lsapi_enable_user_ini Off
+**Context** : httpd.conf, virtualhost
 
-**Description** :  
+**Description** :
 Enable .user.ini files for backend. Same as suphp, php-fpm and fcgid mechanism of .user.ini. Default value is Off.
 
 ---
 
 #### **lsapi_user_ini_homedir**
 
-**Syntax** : lsapi_user_ini_homedir On/Off  
-**Default** : lsapi_user_ini_homedir Off  
-**Context** : httpd.conf, virtualhost  
+**Syntax** : lsapi_user_ini_homedir On/Off
+**Default** : lsapi_user_ini_homedir Off
+**Context** : httpd.conf, virtualhost
 
-**Description** :  
+**Description** :
 If lsapi_enable_user_ini option is set to On, then enable/disable processing .user.ini file in home directory also. Default value is Off.
 
 ---
 
 #### **lsapi_keep_http200**
 
-**Syntax** : lsapi_keep_http200 On/Off  
-**Default** : lsapi_keep_http200 Off  
-**Context** : httpd.conf, .htaccess  
+**Syntax** : lsapi_keep_http200 On/Off
+**Default** : lsapi_keep_http200 Off
+**Context** : httpd.conf, .htaccess
 
-**Description** :  
+**Description** :
 If set to On, always keep backend's response status as mod_php does. If set to Off, response status can be overridden by Apache as suphp does (in case of call via ErrorDocument directive).
 
 ---
 
 #### **lsapi_mod_php_behaviour**
 
-**Syntax** : lsapi_mod_php_behaviour On/Off  
-**Default** : lsapi_mod_php_behaviour On  
-**Context** : httpd.conf, virtualhost, directory  
+**Syntax** : lsapi_mod_php_behaviour On/Off
+**Default** : lsapi_mod_php_behaviour On
+**Context** : httpd.conf, virtualhost, directory
 
-**Description** :  
+**Description** :
 On/Off - disable php_* directives, default On.
 
 ---
 
 #### **php_value, php_admin_value, php_flag, php_admin_flag**
 
-**Syntax** : [php_value|php_admin_value|php_flag|php_admin_flag]  
-**Default** :  
-**Context** : httpd.conf, virtualhost, htaccess  
+**Syntax** : [php_value|php_admin_value|php_flag|php_admin_flag]
+**Default** :
+**Context** : httpd.conf, virtualhost, htaccess
 
-**Description** :  
+**Description** :
 mod_php emulation.
 
 ---
@@ -7243,99 +7243,99 @@ mod_php emulation.
 
 #### **lsapi_use_suexec**
 
-**Syntax** : lsapi_use_suexec On/Off  
-**Default** : lsapi_use_suexec On  
-**Context** : httpd.conf  
+**Syntax** : lsapi_use_suexec On/Off
+**Default** : lsapi_use_suexec On
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 Use or not suexec to a target user.
 
 ---
 
 #### **lsapi_user_group**
 
-**Syntax** : lsapi_user_group [user_name] [group_name]  
-**Default** : -  
-**Context** : httpd.conf, virtualhost, directory  
+**Syntax** : lsapi_user_group [user_name] [group_name]
+**Default** : -
+**Context** : httpd.conf, virtualhost, directory
 
-**Description** :  
-Set user & group for requests.  
+**Description** :
+Set user & group for requests.
 
 ---
 
 #### **lsapi_uid_gid**
 
-**Syntax** : lsapi_uid_gid [uid] [gid]  
-**Default** : -  
-**Context** : httpd.conf, virtualhost, directory  
+**Syntax** : lsapi_uid_gid [uid] [gid]
+**Default** : -
+**Context** : httpd.conf, virtualhost, directory
 
-**Description** :  
+**Description** :
 Set user & group for request.
 
 ---
 
 #### **lsapi_use_default_uid**
 
-**Syntax** : lsapi_use_default_uid On/Off  
-**Default** : lsapi_use_default_uid On  
-**Context** : httpd.conf  
+**Syntax** : lsapi_use_default_uid On/Off
+**Default** : lsapi_use_default_uid On
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 Use default Apache UID/GID if no uid/gid set. Values: On/Off. If Off, and no UID/GID set, error 503 will be returned.
 
 ---
 
 #### **lsapi_target_perm**
 
-**Syntax** : lsapi_target_perm On/Off  
-**Default** : lsapi_target_perm Off  
-**Context** : httpd.conf  
+**Syntax** : lsapi_target_perm On/Off
+**Default** : lsapi_target_perm Off
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 Check target PHP script permissions. If set to On, lsapi will check that script is owned by the same user, as user under which it is being executed. Return 503 error if they don't match. Default: Off.
 
 ---
 
 #### **lsapi_paranoid**
 
-**Syntax** : lsapi_paranoid On/Off  
-**Default** : lsapi_paranoid Off  
-**Context** : httpd.conf  
+**Syntax** : lsapi_paranoid On/Off
+**Default** : lsapi_paranoid Off
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 Check or not permissions of target php scripts. Optional, default value is Off.
 
 ---
 
 #### **lsapi_check_document_root**
 
-**Syntax** : lsapi_check_document_root On/Off  
-**Default** : lsapi_check_document_root On  
-**Context** : httpd.conf  
+**Syntax** : lsapi_check_document_root On/Off
+**Default** : lsapi_check_document_root On
+**Context** : httpd.conf
 
-**Description** :  
+**Description** :
 Check or not owner of DOCUMENT_ROOT. Optional, default value is On.
 
 ---
 
 #### **lsapi_disable_forced_pwd_var**
 
-**Syntax** : lsapi_disable_forced_pwd_var On/Off  
-**Default** : lsapi_disable_forced_pwd_var Off  
-**Context** : httpd.conf, virtualhost  
+**Syntax** : lsapi_disable_forced_pwd_var On/Off
+**Default** : lsapi_disable_forced_pwd_var Off
+**Context** : httpd.conf, virtualhost
 
-**Description** :  
+**Description** :
 To disable addition of PWD variable. Default value is Off. If set to On, the PWD variable will not be added into a backend environment.
 
 ---
 
 #### **lsapi_max_resend_buffer**
 
-**Syntax** : lsapi_max_resend_buffer [number]tmp  
-**Default** : lsapi_max_resend_buffer 200  
-**Context** : httpd.conf, virtualhost  
+**Syntax** : lsapi_max_resend_buffer [number]tmp
+**Default** : lsapi_max_resend_buffer 200
+**Context** : httpd.conf, virtualhost
 
-**Description** :  
+**Description** :
 Maximum buffer in KiB to resend for request that has a body (like POST request body).
 
 
@@ -7376,21 +7376,21 @@ If apache runs under a username other than <span class="notranslate"> "apache" <
 <div class="notranslate">
 
 ```
-yum install liblsapi liblsapi-devel   
-cd ~$ wget [https://repo.cloudlinux.com/cloudlinux/sources/da/mod_lsapi.tar.gz](https://repo.cloudlinux.com/cloudlinux/sources/da/mod_lsapi.tar.gz)  
-tar zxvf mod_lsapi.tar.gz  
-cd mod-lsapi-0.1-37  
-cmake -DHTTPD_USER=<new user name> .  
+yum install liblsapi liblsapi-devel
+cd ~$ wget [https://repo.cloudlinux.com/cloudlinux/sources/da/mod_lsapi.tar.gz](https://repo.cloudlinux.com/cloudlinux/sources/da/mod_lsapi.tar.gz)
+tar zxvf mod_lsapi.tar.gz
+cd mod-lsapi-0.1-37
+cmake -DHTTPD_USER=<new user name> .
 make
 make install
 ```
 </div>
-This will:<br>  
+This will:<br>
 - Install: <span class="notranslate"> /usr/lib/apache/mod_lsapi. </span> so (or to another correct httpd modules path)<br>
 - Install: <span class="notranslate"> /usr/sbin/sulsphp </span>
 
 :::tip Note
-Starting from 1.1-80 version mod_lsapi uses Apache user name specified in the Apache config file along with user name precompiled with HTTPD_USER definition. So there is no need to change HTTPD_USER definition anymore. 
+Starting from 1.1-80 version mod_lsapi uses Apache user name specified in the Apache config file along with user name precompiled with HTTPD_USER definition. So there is no need to change HTTPD_USER definition anymore.
 :::
 
 **lsphp started under user apache/nobody**
@@ -7428,7 +7428,7 @@ make
 make install
 ```
 </div>
-will be installed<br>  
+will be installed<br>
 - Installing: <span class="notranslate"> /usr/lib/apache/mod_lsapi.so </span> (or another httpd modules path)<br>
 - Installing: <span class="notranslate"> /usr/sbin/sulsphp </span>
 
@@ -7437,9 +7437,9 @@ will be installed<br>
 <div class="notranslate">
 
 ```
-yum install liblsapi liblsapi-devel 
+yum install liblsapi liblsapi-devel
 cd ~
-wget https://repo.cloudlinux.com/cloudlinux/sources/da/mod_lsapi.tar.gz        
+wget https://repo.cloudlinux.com/cloudlinux/sources/da/mod_lsapi.tar.gz
 tar zxvf mod_lsapi.tar.gz
 cd mod-lsapi-0.1-XX
 cmake -DPARENT_NAME="<apache binary name>".
@@ -7623,7 +7623,7 @@ If it is empty:
  "items":
  ...
  -
- "include": '"/usr/local/apache/conf/conf.d/*.conf"' 
+ "include": '"/usr/local/apache/conf/conf.d/*.conf"'
  "listen":
 ```
 
@@ -7632,7 +7632,7 @@ If it is empty:
 <div class="notranslate">
 
 ```
-mkdir -p /usr/local/apache/conf/conf.d/;                                                                                 
+mkdir -p /usr/local/apache/conf/conf.d/;
 cp /usr/share/lve/modlscapi/confs/lsapi.conf /usr/local/apache/conf/conf.d/lsapi.conf
 ```
 </div>
@@ -7691,17 +7691,17 @@ The images of the processes will be saved even if Apache is restarted. But all i
 If php.ini or configuration file from php.d is changed, the images must be deleted manually.
 :::
 
-:::tip Note 
-CRIU (version lower than criu-lve-3.6-1) can't correctly freeze <span class="notranslate"> lsphp </span> with <span class="notranslate"> PrivateTmp </span> enabled. For correct work, <span class="notranslate"> PrivateTmp </span> must be disabled in <span class="notranslate"> httpd.service file </span> . 
+:::tip Note
+CRIU (version lower than criu-lve-3.6-1) can't correctly freeze <span class="notranslate"> lsphp </span> with <span class="notranslate"> PrivateTmp </span> enabled. For correct work, <span class="notranslate"> PrivateTmp </span> must be disabled in <span class="notranslate"> httpd.service file </span> .
 :::
 
-To disable it, copy <span class="notranslate"> _httpd.service_ </span> to <span class="notranslate"> _/etc/systemd/system_ </span> and change there <span class="notranslate"> PrivateTmp: 
+To disable it, copy <span class="notranslate"> _httpd.service_ </span> to <span class="notranslate"> _/etc/systemd/system_ </span> and change there <span class="notranslate"> PrivateTmp:
   </span>
 <div class="notranslate">
 
 ```
-cat httpd.service  
-............ 
+cat httpd.service
+............
 
 [Unit]
 Description=Apache web server managed by cPanel Easy
@@ -7712,13 +7712,13 @@ ConditionPathExists=!/etc/httpdisable
 [Service]Type=forking
 ExecStart=/usr/local/cpanel/scripts/restartsrv_httpd --no-verbose
 PIDFile=/var/run/apache2/httpd.pid
-PrivateTmp=false 
+PrivateTmp=false
 
 [Install]
-WantedBy=multi-user.target 
+WantedBy=multi-user.target
 ```
 </div>
-Or it would be technically better to provide a small override of service file rather than copying the whole new version in <span class="notranslate"> /etc/systemd/system </span> 
+Or it would be technically better to provide a small override of service file rather than copying the whole new version in <span class="notranslate"> /etc/systemd/system </span>
 
 [http://www.freedesktop.org/software/systemd/man/systemd.unit.html](http://www.freedesktop.org/software/systemd/man/systemd.unit.html)
 
@@ -7825,7 +7825,7 @@ cd; touch mod_lsapi_reset_me_criu.test.com
 ```
 </div>
 
-where _vhost.conf_ contains:  
+where _vhost.conf_ contains:
 <span class="notranslate">`ServerName criu.test.com`</span>
 
 This mode is enabled by default and creates a separate lsphp process for each virtual host.
@@ -7854,12 +7854,12 @@ The NGINX LSAPI Module is an extension for the [NGINX](https://www.nginx.com/) w
 
 **What is lsphp?**
 
-lsphp - PHP + LSAPI. What is PHP LSAPI? [LiteSpeed Server Application Programming Interface](https://www.litespeedtech.com/open-source/litespeed-sapi/php) 
-(LSAPI) is designed specifically for seamless, optimized communication between the LiteSpeed Web Server and third-party web applications. 
+lsphp - PHP + LSAPI. What is PHP LSAPI? [LiteSpeed Server Application Programming Interface](https://www.litespeedtech.com/open-source/litespeed-sapi/php)
+(LSAPI) is designed specifically for seamless, optimized communication between the LiteSpeed Web Server and third-party web applications.
 With NGINX LSAPI Module, this protocol is now available for NGINX.
 
-Using NGINX LSAPI Module, we have seen higher performance than NGINX with fastcgi+php-fpm, 
-easier installation than php-fpm and easier integration with any control panel. 
+Using NGINX LSAPI Module, we have seen higher performance than NGINX with fastcgi+php-fpm,
+easier installation than php-fpm and easier integration with any control panel.
 NGINX LSAPI Module means faster and more stable dynamic web pages.
 
 **Optional requirements**
@@ -8024,19 +8024,19 @@ server {
 
 In order for NGINX LSAPI Module to work lsapi.conf should be loaded to NGINX through [Include](https://nginx.org/en/docs/ngx_core_module.html#include) directive.
 
-For a more detailed description of the module directives please visit the [Configuration reference](./#configuration-references-2).  
+For a more detailed description of the module directives please visit the [Configuration reference](./#configuration-references-2).
 For the installation guide for NGINX LSAPI Module please visit [Installation](./#installation-3).
 
 #### Configuration references
 
 
 [NGINX LSAPI Module customization](./#nginx-lsapi-module-customization):
-* [lsapi_engine](./#lsapi-enabled)  
-* [lsapi_sock_path](./#lsapi-sock-path)  
-* [lsapi_per_user](./#lsapi-per-user-1)  
-* [lsapi_disable_reject_mode](./#lsapi-disable-reject-mode-1)  
-* [lsapi_terminate_backends_on_exit](./#lsapi-terminate-backends-on-exit)  
-* [lsapi_avoid_zombies](./#lsapi-avoid-zombies)  
+* [lsapi_engine](./#lsapi-enabled)
+* [lsapi_sock_path](./#lsapi-sock-path)
+* [lsapi_per_user](./#lsapi-per-user-1)
+* [lsapi_disable_reject_mode](./#lsapi-disable-reject-mode-1)
+* [lsapi_terminate_backends_on_exit](./#lsapi-terminate-backends-on-exit)
+* [lsapi_avoid_zombies](./#lsapi-avoid-zombies)
 
 [Tuning LSPHP backend](./#tuning-lsphp-backend-1):
 * [lsapi_set_env](./#lsapi-set-env-1)
@@ -8053,7 +8053,7 @@ For the installation guide for NGINX LSAPI Module please visit [Installation](./
 * [lsapi_backend_pgrp_max_crashes](./#lsapi-backend-pgrp-max-crashes-1)
 * [lsapi_backend_loglevel_info](./#lsapi-backend-loglevel-info-1)
 * [lsapi_backend_oom_score_adj](./#lsapi-backend-oom-score-adj-1)
- 
+
 [Connection pool mode](./#connection-pool-mode-1):
 * [lsapi_with_connection_pool](./#lsapi-with-connection-pool)
 * [lsapi_pool_size](./#lsapi-pool-size)
@@ -8090,39 +8090,39 @@ For the installation guide for NGINX LSAPI Module please visit [Installation](./
 
 #### **lsapi_engine**
 
-**Syntax** : lsapi_engine [on/off]  
-**Example** : lsapi_engine on;  
-**Default** : off  
-**Context** : main config, server config, local config.  
-**Type** : Mandatory  
+**Syntax** : lsapi_engine [on/off]
+**Example** : lsapi_engine on;
+**Default** : off
+**Context** : main config, server config, local config.
+**Type** : Mandatory
 
-**Description** :  
-Enable/disable LSAPI module for nginx, server, or local directory.  
+**Description** :
+Enable/disable LSAPI module for nginx, server, or local directory.
 
 ---
 
 #### **lsapi_sock_path**
 
 **Syntax** : lsapi_sock_path [path]
-**Example** : lsapi_sock_path /var/ngx_lsapi;  
-**Default** : `/var/ngx_lsapi`  
+**Example** : lsapi_sock_path /var/ngx_lsapi;
+**Default** : `/var/ngx_lsapi`
 **Context** : main config
-**Type** : Optional  
+**Type** : Optional
 
-**Description:**  
+**Description:**
 Path to backend lsphp sockets. By default `/var/ngx_lsapi`
 
 ---
 
 #### **lsapi_per_user**
 
-**Syntax** : lsapi_per_user [on/off]  
-**Example** : lsapi_per_user off;  
-**Default** : off  
+**Syntax** : lsapi_per_user [on/off]
+**Example** : lsapi_per_user off;
+**Default** : off
 **Context** : server config, location config
-**Type** : Optional  
+**Type** : Optional
 
-**Description** :  
+**Description** :
 Invoke the master lsPHP process not per VirtualHost, but per account.
 When On, invoke backend not per VirtualHost but per account.
 Default value is off.
@@ -8131,454 +8131,454 @@ Then these Virtual Hosts will have a dedicated backend process, while others wil
 
 ---
 
-#### **lsapi_disable_reject_mode**  
+#### **lsapi_disable_reject_mode**
 
-**Syntax** : lsapi_disable_reject_mode [on/off]  
-**Example** : lsapi_disable_reject_mode on;  
-**Default** : off  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_disable_reject_mode [on/off]
+**Example** : lsapi_disable_reject_mode on;
+**Default** : off
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
+**Description** :
 If a new HTTP request is coming to LSPHP daemon when all LSPHP workers are still busy, it can process this situation in two different ways. In REJECT mode LSPHP daemon will reject such requests immediately. Otherwise, in legacy mode, LSPHP daemon will put this request into an infinite queue, until one of LSPHP daemons becomes free. When a HTTP request is rejected in REJECT mode, mod_lsapi will write the following message into the NGINX error.log: `Connect to backend rejected`, and the client will receive a 507 HTTP response. By default, the LSPHP daemon in CloudLinux OS uses the REJECT mode. It can be switched off with this option.
 
 ---
 
-#### **lsapi_terminate_backends_on_exit**  
+#### **lsapi_terminate_backends_on_exit**
 
-**Syntax** : lsapi_terminate_backends_on_exit [on/off]  
-**Example** : lsapi_terminate_backends_on_exit on;  
-**Default** : on  
-**Context** : main config  
-**Type** : Optional  
+**Syntax** : lsapi_terminate_backends_on_exit [on/off]
+**Example** : lsapi_terminate_backends_on_exit on;
+**Default** : on
+**Context** : main config
+**Type** : Optional
 
-**Description** :  
+**Description** :
 nginx.conf, on - stop lsphp services on nginx restart, off - leave live started lsphp services on nginx restart (for php+opcache). The lsphp will not restart, even if NGINX gets restarted.
 
 ---
 
-#### **lsapi_avoid_zombies**  
+#### **lsapi_avoid_zombies**
 
-**Syntax** : lsapi_avoid_zombies [on/off]  
-**Example** : lsapi_avoid_zombies on;  
-**Default** : off  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_avoid_zombies [on/off]
+**Example** : lsapi_avoid_zombies on;
+**Default** : off
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
-Enable or disable a mechanism to avoid the creation of zombie processes by lsphp. The default value is Off.  
-
----
-
-#### **lsapi_starter_sock**  
-
-**Syntax** : lsapi_starter_sock [path]  
-**Example** : lsapi_starter_sock /var/run/lsapi-starter.sock;  
-**Default** : /var/ngx_lsapi/starter.sock  
-**Context** : main config  
-**Type** : Optional  
-
-**Description** :  
-This parameter configures the socket address for the lsphp backend spawner process.  
+**Description** :
+Enable or disable a mechanism to avoid the creation of zombie processes by lsphp. The default value is Off.
 
 ---
 
-#### **lsapi_starter_log**  
+#### **lsapi_starter_sock**
 
-**Syntax** : lsapi_starter_log [path]  
-**Example** : lsapi_starter_log /var/log/lsapi-starter.log;  
-**Default** : -  
-**Context** : main config  
-**Type** : Optional  
+**Syntax** : lsapi_starter_sock [path]
+**Example** : lsapi_starter_sock /var/run/lsapi-starter.sock;
+**Default** : /var/ngx_lsapi/starter.sock
+**Context** : main config
+**Type** : Optional
 
-**Description** :  
-This parameter configures the log file address for the lsphp backend spawner process.  
+**Description** :
+This parameter configures the socket address for the lsphp backend spawner process.
 
 ---
 
-#### **lsapi_log**  
+#### **lsapi_starter_log**
 
-**Syntax** : lsapi_log [path]  
-**Example** : lsapi_log /var/log/lsapi.log;  
-**Default** : -  
-**Context** : main config  
-**Type** : Optional  
+**Syntax** : lsapi_starter_log [path]
+**Example** : lsapi_starter_log /var/log/lsapi-starter.log;
+**Default** : -
+**Context** : main config
+**Type** : Optional
 
-**Description** :  
-This parameter configures the log file address for the NGINX LSAPI module context.  
-**Note** :  
+**Description** :
+This parameter configures the log file address for the lsphp backend spawner process.
+
+---
+
+#### **lsapi_log**
+
+**Syntax** : lsapi_log [path]
+**Example** : lsapi_log /var/log/lsapi.log;
+**Default** : -
+**Context** : main config
+**Type** : Optional
+
+**Description** :
+This parameter configures the log file address for the NGINX LSAPI module context.
+**Note** :
 This parameter only works if the NGINX LSAPI module is built with the NGX_LSAPI_CUSTOM_LOGGER flag. Otherwise, the NGINX logger will be used for LSAPI module logging.
 
 ---
 
 #### **Tuning LSPHP backend**
 
-#### **lsapi_set_env**  
+#### **lsapi_set_env**
 
-**Syntax** : lsapi_set_env [var] [value]  
-**Example**: lsapi_set_env TMP "/var/lsphp-tmp";  
-**Default** : -  
-**Context** : main config  
-**Type** : Optional  
+**Syntax** : lsapi_set_env [var] [value]
+**Example**: lsapi_set_env TMP "/var/lsphp-tmp";
+**Default** : -
+**Context** : main config
+**Type** : Optional
 
-**Description** :  
-Pass an environment variable to lsphp. By default the lsphp environment has only TEMP, TMP and PATH variables set.  
-Note: PATH env var default "/usr/local/bin:/usr/bin:/bin" cannot be changed because of security reasons.  
-
----
-
-#### **lsapi_set_env_path**  
-
-**Syntax** : lsapi_set_env_path [path(s)]  
-**Default** : lsapi_set_env_path /usr/local/bin:/usr/bin:/bin  
-**Context** : main config  
-**Type** : Optional  
-
-**Description** :  
-Change PATH variable in the environment of lsphp processes. Default path /usr/local/bin:/usr/bin:/bin will be used if not set.  
+**Description** :
+Pass an environment variable to lsphp. By default the lsphp environment has only TEMP, TMP and PATH variables set.
+Note: PATH env var default "/usr/local/bin:/usr/bin:/bin" cannot be changed because of security reasons.
 
 ---
 
-#### **lsapi_backend_children**  
+#### **lsapi_set_env_path**
 
-**Syntax** : lsapi_backend_children [number]  
-**Example** : lsapi_backend_children 300;  
-**Default** : 120  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_set_env_path [path(s)]
+**Default** : lsapi_set_env_path /usr/local/bin:/usr/bin:/bin
+**Context** : main config
+**Type** : Optional
 
-**Description** :  
+**Description** :
+Change PATH variable in the environment of lsphp processes. Default path /usr/local/bin:/usr/bin:/bin will be used if not set.
+
+---
+
+#### **lsapi_backend_children**
+
+**Syntax** : lsapi_backend_children [number]
+**Example** : lsapi_backend_children 300;
+**Default** : 120
+**Context** : server config
+**Type** : Optional
+
+**Description** :
 Sets the maximum number of simultaneously running child backend processes. Optional - a default directive value is equal to 120.
 
 ---
 
 #### **lsapi_backend_connect_tries**
 
-**Syntax** : lsapi_backend_connect_tries [number]  
-**Example** : lsapi_backend_connect_tries 20;  
-**Default** : 10  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_backend_connect_tries [number]
+**Example** : lsapi_backend_connect_tries 20;
+**Default** : 10
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
+**Description** :
 Number of retries for connections to the lsPHP daemon.
 
 ---
 
-#### **lsapi_backend_max_process_time**  
+#### **lsapi_backend_max_process_time**
 
-**Syntax** : lsapi_backend_max_process_time [number]  
-**Example** : lsapi_backend_max_process_time 300;  
-**Default** : 300  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_backend_max_process_time [number]
+**Example** : lsapi_backend_max_process_time 300;
+**Default** : 300
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
+**Description** :
 Sets the env variable LSAPI_MAX_PROCESS_TIME. Optional - default value is 300. Timeout to kill runaway processes.
 
 ---
 
-#### **lsapi_backend_common_own_log**  
+#### **lsapi_backend_common_own_log**
 
-**Syntax** : lsapi_backend_common_own_log [on/off]  
-**Example** : lsapi_backend_common_own_log on;  
-**Default** : off  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_backend_common_own_log [on/off]
+**Example** : lsapi_backend_common_own_log on;
+**Default** : off
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
+**Description** :
 It will be used only when lsapi_backend_use_own_log is set to On. On-backend processes of the all virtual hosts will share the common log file. Off - every virtual host will have its own backend log file.
 
 ---
 
-#### **lsapi_backend_use_own_log**  
+#### **lsapi_backend_use_own_log**
 
-**Syntax** : lsapi_backend_use_own_log [on/off]  
-**Example** : lsapi_backend_use_own_log on;  
-**Default** : off  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_backend_use_own_log [on/off]
+**Example** : lsapi_backend_use_own_log on;
+**Default** : off
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
+**Description** :
 Redirecting log output of backend processes from NGINX error.log to dedicated log file or files, depending on the value of the lsapi_backend_common_own_log option. If off, use the NGINX error log file for backend output, or a separate file otherwise.
 
 ---
 
-#### **lsapi_backend_pgrp_max_crashes**  
+#### **lsapi_backend_pgrp_max_crashes**
 
-**Syntax** : lsapi_backend_pgrp_max_crashes [number]  
-**Example** : lsapi_backend_pgrp_max_crashes 300;  
-**Default** : 300  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_backend_pgrp_max_crashes [number]
+**Example** : lsapi_backend_pgrp_max_crashes 300;
+**Default** : 300
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
+**Description** :
 Controls how many crashes of its worker processes a control process will detect before it exits. Should be more or equal to 0. In the case of a wrong format, a default value will be used. Optional, the default value is 0, which means an unlimited number of crashes.
 
 ---
 
-#### **lsapi_backend_pgrp_max_idle**  
+#### **lsapi_backend_pgrp_max_idle**
 
-**Syntax** : lsapi_backend_pgrp_max_idle [number]  
-**Example** : lsapi_backend_pgrp_max_idle 30;  
-**Default** : 30  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_backend_pgrp_max_idle [number]
+**Example** : lsapi_backend_pgrp_max_idle 30;
+**Default** : 30
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
+**Description** :
 Sets env variable LSAPI_PGRP_MAX_IDLE, in seconds. Controls how long a control process will wait for a new request before it exits. 0 stands for infinite. Optional, default value is 30. Should be more or equal to 0.
 
 ---
 
-#### **lsapi_backend_pgrp_max_reqs**  
+#### **lsapi_backend_pgrp_max_reqs**
 
-**Syntax** : lsapi_backend_pgrp_max_reqs [number]  
-**Example** : lsapi_backend_pgrp_max_reqs 0;  
-**Default** : 0  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_backend_pgrp_max_reqs [number]
+**Example** : lsapi_backend_pgrp_max_reqs 0;
+**Default** : 0
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
+**Description** :
 Controls how many requests a control process will process before it exits. Should be more or equal to 0. In the case of a wrong format, the default value will be used. Optional, the default value is 0, which means an unlimited number of requests.
 
 ---
 
-#### **lsapi_backend_loglevel_info**  
+#### **lsapi_backend_loglevel_info**
 
 **Syntax**: lsapi_backend_loglevel_info [on/off]
 **Example**: lsapi_backend_loglevel_info on;
 **Example**: off
 **Context**: server config, location config
-**Type** : Optional  
+**Type** : Optional
 
-**Description**:  
+**Description**:
 Controls which log level will be used to write PHP warnings and notices into NGINX’s error.log. Optional, the default value is `off`. In that case, the `warn` log level will be used. Otherwise, with `on` value, the `info` log level will be used.
 
 ---
 
-#### **lsapi_backend_oom_score_adj**  
+#### **lsapi_backend_oom_score_adj**
 
-**Syntax** : lsapi_backend_oom_score_adj [number]  
-**Example** : lsapi_backend_oom_score_adj 100;  
-**Default** : 0  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_backend_oom_score_adj [number]
+**Example** : lsapi_backend_oom_score_adj 100;
+**Default** : 0
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
+**Description** :
 This option can apply oom_score_adj values for PHP processes created by mod_lsapi. Value is an integer in the -1000 to 1000 range. The lower the value, the lower the chance that the process will be killed. When your server becomes low on free memory and an OOM killer is invoked, then it may be desirable for lsphp processes to be sacrificed to free up memory. To do this, you need to set oom_score_adj to a large value. For more information on setting a proper value for oom_score_adj, see the page https://man7.org/linux/man-pages/man5/proc.5.html
 
 ---
 
-#### **lsapi_dump_debug_info**  
+#### **lsapi_dump_debug_info**
 
-**Syntax** : lsapi_dump_debug_info [on/off]  
-**Example** : lsapi_dump_debug_info on;  
-**Default** : off  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_dump_debug_info [on/off]
+**Example** : lsapi_dump_debug_info on;
+**Default** : off
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
-Enable or not lsphp backend debug information dump.  
-
----
-
-#### **lsapi_backend_accept_notify**  
-
-**Syntax** : lsapi_backend_accept_notify [on/off]  
-**Example** : lsapi_backend_accept_notify on;  
-**Default** : off  
-**Context** : server config  
-**Type** : Optional  
-
-**Description** :  
-Switch LSAPI_ACCEPT_NOTIFY mode for lsphp. This option can be used both in Global and VirtualHost scopes. This mode is incompatible with PHP 4.4.  
+**Description** :
+Enable or not lsphp backend debug information dump.
 
 ---
 
-#### **lsapi_backend_coredump**  
+#### **lsapi_backend_accept_notify**
 
-**Syntax** : lsapi_backend_coredump [on/off]  
-**Example** : lsapi_backend_coredump on;  
-**Default** : off  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_backend_accept_notify [on/off]
+**Example** : lsapi_backend_accept_notify on;
+**Default** : off
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
+**Description** :
+Switch LSAPI_ACCEPT_NOTIFY mode for lsphp. This option can be used both in Global and VirtualHost scopes. This mode is incompatible with PHP 4.4.
+
+---
+
+#### **lsapi_backend_coredump**
+
+**Syntax** : lsapi_backend_coredump [on/off]
+**Example** : lsapi_backend_coredump on;
+**Default** : off
+**Context** : server config
+**Type** : Optional
+
+**Description** :
 env variable LSAPI_ALLOW_CORE_DUMP (On or Off). Pass LSAPI_ALLOW_CORE_DUMP to lsphp or not. If it is passed - a core dump on lsphp crash will be created. Off by default. By default LSAPI application will not leave a core dump file when crashed. If you want to have LSAPI PHP dump a core dump file, you should set this environment variable. If set, regardless of the value is has been set to, core dump files will be created under the directory that the PHP script is in.
 
 ---
 
-#### **lsapi_pwd_disabled**  
+#### **lsapi_pwd_disabled**
 
-**Syntax** : lsapi_pwd_disabled [on/off]  
-**Example** : lsapi_pwd_disabled on;  
-**Default** : off  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_pwd_disabled [on/off]
+**Example** : lsapi_pwd_disabled on;
+**Default** : off
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
-To disable the addition of the PWD variable. The default value is Off. If set to On, the PWD variable will not be added to a backend environment.  
+**Description** :
+To disable the addition of the PWD variable. The default value is Off. If set to On, the PWD variable will not be added to a backend environment.
 
 ---
 
-#### **lsapi_handler**  
+#### **lsapi_handler**
 
-**Syntax** : lsapi_handler [string]  
-**Example** : lsapi_handler application/x-httpd-lsphp;  
-**Default** : -  
-**Context** : server config  
-**Type** : Mandatory  
+**Syntax** : lsapi_handler [string]
+**Example** : lsapi_handler application/x-httpd-lsphp;
+**Default** : -
+**Context** : server config
+**Type** : Mandatory
 
-**Description** :  
-Sets LSPHP handler for server (virtual host) configuration.  
+**Description** :
+Sets LSPHP handler for server (virtual host) configuration.
 
 ---
 
 #### **Connection pool mode**
 
-#### **lsapi_with_connection_pool**  
+#### **lsapi_with_connection_pool**
 
-**Syntax** : lsapi_with_connection_pool [on/off]  
-**Example** : lsapi_with_connection_pool off;  
-**Default** : on  
-**Context** : main config  
-**Type** : Optional  
+**Syntax** : lsapi_with_connection_pool [on/off]
+**Example** : lsapi_with_connection_pool off;
+**Default** : on
+**Context** : main config
+**Type** : Optional
 
-**Description** :  
-Enable/disable LSAPI connection pool mode.  
+**Description** :
+Enable/disable LSAPI connection pool mode.
 
 ---
 
 #### **lsapi_backend_max_idle**
 
-**Syntax** : lsapi_backend_max_idle [number]  
-**Example** : lsapi_backend_max_idle 300;  
-**Default** : 300  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_backend_max_idle [number]
+**Example** : lsapi_backend_max_idle 300;
+**Default** : 300
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
+**Description** :
 It is relevant only with lsapi_with_connection_pool option switched on. Controls how long a worker process will wait for a new request before it exits. 0 stands for infinite. Should be more or equal to 0. In the case of a wrong format the default value will be used. Optional, default value is 300.
 
 ---
 
 #### **lsapi_backend_max_reqs**
 
-**Synt-backendax**-1 : lsapi_backend_max_reqs [number] -backend 
-**-1Example** : lsapi_backend_max_reqs 20000;  
--backend**Default-1** : 10000  
-**Context** : server config  
-**Type** : Optional  
+**Synt-backendax**-1 : lsapi_backend_max_reqs [number] -backend
+**-1Example** : lsapi_backend_max_reqs 20000;
+-backend**Default-1** : 10000
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
+**Description** :
 It is relevant only with lsapi_with_connection_pool option switched on. Controls how many requests a worker process will process before it exits. Should be more than 0. In the case of a wrong format the default value will be used. Optional, default value is 10000.
 
 ---
 
-#### **lsapi_pool_size**  
+#### **lsapi_pool_size**
 
-**Syntax** : lsapi_pool_size [number]  
-**Example** : lsapi_pool_size 20;  
-**Default** : 50  
-**Context** : main config  
-**Type** : Optional  
+**Syntax** : lsapi_pool_size [number]
+**Example** : lsapi_pool_size 20;
+**Default** : 50
+**Context** : main config
+**Type** : Optional
 
-**Description** :  
-The parameter sets the connection pool size for each virtual host.  
+**Description** :
+The parameter sets the connection pool size for each virtual host.
 
 ---
 
 #### **CRIU support**
 
-#### **lsapi_criu**  
+#### **lsapi_criu**
 
-**Syntax** : lsapi_criu [on/off]  
-**Example** : lsapi_criu on;  
-**Default** : off  
-**Context** : main config  
-**Type** : Optional  
+**Syntax** : lsapi_criu [on/off]
+**Example** : lsapi_criu on;
+**Default** : off
+**Context** : main config
+**Type** : Optional
 
-**Description** :  
-Enable/disable CRIU for lsphp freezing. Default: Off.  
-
----
-
-#### **lsapi_criu_socket_path**  
-
-**Syntax** : lsapi_criu_socket_path [path]  
-**Example** : lsapi_criu_socket_path /var/run/criu/criu_service.socket;  
-**Default** : /var/run/criu/criu_service.socket  
-**Context** : main config  
-**Type** : Optional  
-
-**Description** :  
-Set path to socket for communication with criu service.  
+**Description** :
+Enable/disable CRIU for lsphp freezing. Default: Off.
 
 ---
 
-#### **lsapi_criu_imgs_dir_path**  
+#### **lsapi_criu_socket_path**
 
-**Syntax** : lsapi_criu_imgs_dir_path [path]  
-**Example** : lsapi_criu_imgs_dir_path /var/ngx_lsapi/criu;  
-**Default** : /var/ngx_lsapi/criu  
-**Context** : main config  
-**Type** : Optional  
+**Syntax** : lsapi_criu_socket_path [path]
+**Example** : lsapi_criu_socket_path /var/run/criu/criu_service.socket;
+**Default** : /var/run/criu/criu_service.socket
+**Context** : main config
+**Type** : Optional
 
-**Description** :  
+**Description** :
+Set path to socket for communication with criu service.
+
+---
+
+#### **lsapi_criu_imgs_dir_path**
+
+**Syntax** : lsapi_criu_imgs_dir_path [path]
+**Example** : lsapi_criu_imgs_dir_path /var/ngx_lsapi/criu;
+**Default** : /var/ngx_lsapi/criu
+**Context** : main config
+**Type** : Optional
+
+**Description** :
 Path to the folder where images of frozen PHP will be stored. Should be a path.
 
 ---
 
-#### **lsapi_criu_use_shm**  
+#### **lsapi_criu_use_shm**
 
-**Syntax** : lsapi_criu_use_shm [off/signals]  
-**Example** : lsapi_criu_use_shm signals;  
-**Default** : off  
-**Context** : main config  
-**Type** : Optional  
+**Syntax** : lsapi_criu_use_shm [off/signals]
+**Example** : lsapi_criu_use_shm signals;
+**Default** : off
+**Context** : main config
+**Type** : Optional
 
-**Description** :  
+**Description** :
 The method of request counting. Off - use shared memory. Signals - use signals from child processes to parents. Default: off
 
 ---
 
 #### **lsapi_reset_criu_on_restart**
 
-**Syntax** : lsapi_reset_criu_on_restart [on/off]  
-**Example** : lsapi_reset_criu_on_restart off;  
-**Default** : off  
-**Context** : main config  
-**Type** : Optional  
+**Syntax** : lsapi_reset_criu_on_restart [on/off]
+**Example** : lsapi_reset_criu_on_restart off;
+**Default** : off
+**Context** : main config
+**Type** : Optional
 
-**Description** :  
-This option allows cleaning all CRIU images on NGINX restart.  
+**Description** :
+This option allows cleaning all CRIU images on NGINX restart.
 Setting lsapi_reset_criu_on_restart to on means that on each NGINX restart the CRIU images, which are stored in the directory specified by lsapi_criu_imgs_dir_path directive, will be recreated upon a new request to domain (only after restart).
 
 ----
 
 #### **lsapi_criu_debug**
 
-**Syntax**: lsapi_criu_debug [on/off]  
-**Example**: lsapi_criu_debug off;  
-**Default** : off  
-**Context** : main config  
-**Type** : Optional   
+**Syntax**: lsapi_criu_debug [on/off]
+**Example**: lsapi_criu_debug off;
+**Default** : off
+**Context** : main config
+**Type** : Optional
 
-**Description** :  
+**Description** :
 Enable/disable CRIU related debug logging.
 
 ---
 
-#### **lsapi_backend_initial_start**  
+#### **lsapi_backend_initial_start**
 
-**Syntax** : lsapi_backend_initial_start [number]  
-**Example** : lsapi_backend_initial_start 15;    
-**Default** : 0  
-**Context** : main config  
-**Type** : Optional  
+**Syntax** : lsapi_backend_initial_start [number]
+**Example** : lsapi_backend_initial_start 15;
+**Default** : 0
+**Context** : main config
+**Type** : Optional
 
-**Description** :  
-Number of requests to virtualhost, when lsphp will be freezed. Default: 0 - means disable freezing.  
+**Description** :
+Number of requests to virtualhost, when lsphp will be freezed. Default: 0 - means disable freezing.
 
 ---
 
@@ -8586,223 +8586,223 @@ Number of requests to virtualhost, when lsphp will be freezed. Default: 0 - mean
 
 #### **lsapi_process_phpini**
 
-**Syntax** : lsapi_process_phpini [on/off]  
-**Example** : lsapi_process_phpini on;  
-**Default** : off  
+**Syntax** : lsapi_process_phpini [on/off]
+**Example** : lsapi_process_phpini on;
+**Default** : off
 **Context** : server config, location config
-**Type** : Optional  
+**Type** : Optional
 
-**Description** :  
+**Description** :
 Enable or disable phpini_* directive processing. Default value is off.
 
 ---
 
-#### **lsapi_phpini**  
+#### **lsapi_phpini**
 
-**Syntax** : lsapi_phpini [value]  
-**Example**: lsapi_phpini /usr/home/lsapiuser/public_html/php.ini;  
-**Default** : -  
-**Context** : server config, location  
-**Type** : Optional  
+**Syntax** : lsapi_phpini [value]
+**Example**: lsapi_phpini /usr/home/lsapiuser/public_html/php.ini;
+**Default** : -
+**Context** : server config, location
+**Type** : Optional
 
-**Description** :  
-Sets custom php.ini within server or location configuration. Absolute file path is required.  
+**Description** :
+Sets custom php.ini within server or location configuration. Absolute file path is required.
 When lsapi_process_phpini configuration directive is switched to Off, the value for the lsapi_phpini will be silently ignored.
 
 ---
 
-#### **lsapi_phprc**  
+#### **lsapi_phprc**
 
-**Syntax** : lsapi_phprc [No | Env | Auto | DocRoot]  
-**Example** : lsapi_phprc No;  
-**Default** : No  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_phprc [No | Env | Auto | DocRoot]
+**Example** : lsapi_phprc No;
+**Default** : No
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
-The value of PHPRC env variable.  
-Special values are "No", "Env", "Auto" and "DocRoot".  
-Default value is "No" - without PHPRC at all.    
-The "Auto" value stands for php.ini from DocumentRoot of the corresponding VirtualHost if it is present, or from the user's home directory otherwise "DocRoot" value stands for php.ini from DocumentRoot of the corresponding VirtualHost.  
-"Env" value for using PHPRC from the environment, to set it with SetEnv config option, for example:  
-lsapi_phprc No;  
-lsapi_phprc Auto;  
-lsapi_phprc DocRoot;  
-lsapi_phprc Env;  
-lsapi_phprc /etc/;  
+**Description** :
+The value of PHPRC env variable.
+Special values are "No", "Env", "Auto" and "DocRoot".
+Default value is "No" - without PHPRC at all.
+The "Auto" value stands for php.ini from DocumentRoot of the corresponding VirtualHost if it is present, or from the user's home directory otherwise "DocRoot" value stands for php.ini from DocumentRoot of the corresponding VirtualHost.
+"Env" value for using PHPRC from the environment, to set it with SetEnv config option, for example:
+lsapi_phprc No;
+lsapi_phprc Auto;
+lsapi_phprc DocRoot;
+lsapi_phprc Env;
+lsapi_phprc /etc/;
 
 ---
 
-#### **lsapi_tmpdir**  
+#### **lsapi_tmpdir**
 
-**Syntax** : lsapi_tmpdir [path]  
-**Example** : lsapi_tmpdir /usr/tmp;  
-**Default** : /tmp  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_tmpdir [path]
+**Example** : lsapi_tmpdir /usr/tmp;
+**Default** : /tmp
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
-Set an alternate request body temporary files directory.  
+**Description** :
+Set an alternate request body temporary files directory.
 
 ---
 
 #### **lsapi_enable_user_ini**
 
-**Syntax** : lsapi_enable_user_ini [on/off]  
-**Example** : lsapi_enable_user_ini off;  
-**Default** : off  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_enable_user_ini [on/off]
+**Example** : lsapi_enable_user_ini off;
+**Default** : off
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
+**Description** :
 Enable .user.ini files for backend. Same as suphp, php-fpm and fcgid mechanism of .user.ini. Default value is off.
 
 ---
 
-#### **lsapi_user_ini_homedir**  
+#### **lsapi_user_ini_homedir**
 
-**Syntax** : lsapi_user_ini_homedir [on/off]  
-**Example** : lsapi_user_ini_homedir on;  
-**Default** : off  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_user_ini_homedir [on/off]
+**Example** : lsapi_user_ini_homedir on;
+**Default** : off
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
+**Description** :
 If the lsapi_enable_user_ini option is set to On, then enable/disable processing .user.ini file in the home directory also. The default value is Off.
 
 ---
 
 #### **lsapi_mod_php_behaviour**
 
-**Syntax** : lsapi_mod_php_behaviour [on/off]  
-**Example** : lsapi_mod_php_behaviour off;  
-**Default** : on  
-**Context** : server config, location config  
-**Type** : Optional  
+**Syntax** : lsapi_mod_php_behaviour [on/off]
+**Example** : lsapi_mod_php_behaviour off;
+**Default** : on
+**Context** : server config, location config
+**Type** : Optional
 
-**Description** :  
+**Description** :
 on/off - disable php_* directives, default On.
 
 ---
 
-#### **lsapi_param**  
+#### **lsapi_param**
 
-**Syntax** : lsapi_param [var] [value]  
-**Example**: lsapi_param PHP_ADMIN_VALUE "memory_limit=1024M";  
-**Default** : -  
-**Context** : server config, location config  
-**Type** : Optional  
+**Syntax** : lsapi_param [var] [value]
+**Example**: lsapi_param PHP_ADMIN_VALUE "memory_limit=1024M";
+**Default** : -
+**Context** : server config, location config
+**Type** : Optional
 
-**Description** :  
-Sets a parameter that should be passed to the LSPHP handler. The value can contain text, variables, and their combinations.  
-Supported directives:  
-PHP_ADMIN_VALUE  
-PHP_VALUE  
-PHP_ADMIN_FLAG  
-PHP_FLAG  
-Examples:  
-lsapi_param PHP_ADMIN_VALUE "memory_limit=1024M \n max_execution_time=600";  
-lsapi_param PHP_FLAG "display_startup_errors=on";  
-lsapi_param PHP_ADMIN_FLAG "html_errors=on";  
-lsapi_param PHP_VALUE "max_file_uploads=20";  
-lsapi_param QUERY_STRING $query_string;  
-lsapi_param REQUEST_METHOD $request_method;  
-lsapi_param CONTENT_TYPE $content_type;  
-lsapi_param CONTENT_LENGTH $content_length;  
+**Description** :
+Sets a parameter that should be passed to the LSPHP handler. The value can contain text, variables, and their combinations.
+Supported directives:
+PHP_ADMIN_VALUE
+PHP_VALUE
+PHP_ADMIN_FLAG
+PHP_FLAG
+Examples:
+lsapi_param PHP_ADMIN_VALUE "memory_limit=1024M \n max_execution_time=600";
+lsapi_param PHP_FLAG "display_startup_errors=on";
+lsapi_param PHP_ADMIN_FLAG "html_errors=on";
+lsapi_param PHP_VALUE "max_file_uploads=20";
+lsapi_param QUERY_STRING $query_string;
+lsapi_param REQUEST_METHOD $request_method;
+lsapi_param CONTENT_TYPE $content_type;
+lsapi_param CONTENT_LENGTH $content_length;
 
 ---
 
 #### **Security**
 
-#### **lsapi_use_suexec**  
+#### **lsapi_use_suexec**
 
-**Syntax** : lsapi_use_suexec [on/off]  
-**Example** : lsapi_use_suexec on;  
-**Default** : on  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_use_suexec [on/off]
+**Example** : lsapi_use_suexec on;
+**Default** : on
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
-Enable or disable suexec usage with a target user.  
-
----
-
-#### **lsapi_user**  
-
-**Syntax** : lsapi_user [username] [group]  
-**Example** : lsapi_user testlsapi testlsapi;  
-**Default** : -  
-**Context** : server config, local config  
-**Type** : Mandatory  
-
-**Description** :  
-Set user & group for requests.  
-This parameter can take only one argument for username or two arguments for username and group.  
+**Description** :
+Enable or disable suexec usage with a target user.
 
 ---
 
-#### **lsapi_paranoid**  
+#### **lsapi_user**
 
-**Syntax** : lsapi_paranoid [on/off]  
-**Example** : lsapi_paranoid on;  
-**Default** : off  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_user [username] [group]
+**Example** : lsapi_user testlsapi testlsapi;
+**Default** : -
+**Context** : server config, local config
+**Type** : Mandatory
 
-**Description** :  
-Enable or disable permission checking for the target php scripts.  
-
----
-
-#### **lsapi_check_owner**  
-
-**Syntax** : lsapi_check_owner [on/off]  
-**Example** : lsapi_check_owner on;  
-**Default** : off  
-**Context** : server config  
-**Type** : Optional  
-
-**Description** :  
-Enable or disable checking the owner of the target PHP scripts.  
+**Description** :
+Set user & group for requests.
+This parameter can take only one argument for username or two arguments for username and group.
 
 ---
 
-#### **lsapi_check_document_root**  
+#### **lsapi_paranoid**
 
-**Syntax** : lsapi_check_document_root [on/off]  
-**Example** : lsapi_check_document_root on;  
-**Default** : off  
-**Context** : server config  
-**Type** : Optional  
+**Syntax** : lsapi_paranoid [on/off]
+**Example** : lsapi_paranoid on;
+**Default** : off
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
-Enable or disable checking the owner of DOCUMENT_ROOT.  
-
----
-
-#### **lsapi_check_script**  
-
-**Syntax** : lsapi_check_script [on/off]  
-**Example** : lsapi_check_script on;  
-**Default** : off  
-**Context** : server config  
-**Type** : Optional  
-
-**Description** :  
-Enable or disable checking the owner of target php scripts before sending the request to the lsphp backend. Optional, the default value is On.  
+**Description** :
+Enable or disable permission checking for the target php scripts.
 
 ---
 
-#### **lsapi_uid_gid**  
+#### **lsapi_check_owner**
 
-**Syntax** : lsapi_uid_gid [uid] [gid]  
-**Example** : lsapi_uid_gid 1001 1001;  
-**Default** : -  
-**Context** : local config  
-**Type** : Optional  
+**Syntax** : lsapi_check_owner [on/off]
+**Example** : lsapi_check_owner on;
+**Default** : off
+**Context** : server config
+**Type** : Optional
 
-**Description** :  
-Set user & group for requests.  
+**Description** :
+Enable or disable checking the owner of the target PHP scripts.
+
+---
+
+#### **lsapi_check_document_root**
+
+**Syntax** : lsapi_check_document_root [on/off]
+**Example** : lsapi_check_document_root on;
+**Default** : off
+**Context** : server config
+**Type** : Optional
+
+**Description** :
+Enable or disable checking the owner of DOCUMENT_ROOT.
+
+---
+
+#### **lsapi_check_script**
+
+**Syntax** : lsapi_check_script [on/off]
+**Example** : lsapi_check_script on;
+**Default** : off
+**Context** : server config
+**Type** : Optional
+
+**Description** :
+Enable or disable checking the owner of target php scripts before sending the request to the lsphp backend. Optional, the default value is On.
+
+---
+
+#### **lsapi_uid_gid**
+
+**Syntax** : lsapi_uid_gid [uid] [gid]
+**Example** : lsapi_uid_gid 1001 1001;
+**Default** : -
+**Context** : local config
+**Type** : Optional
+
+**Description** :
+Set user & group for requests.
 
 ---
 
@@ -8870,17 +8870,17 @@ The images of the processes will be saved even if NGINX is restarted. However, a
 If php.ini or the configuration file from php.d is changed, the images must be deleted manually.
 :::
 
-:::tip Note 
-CRIU (version lower than criu-lve-3.6-1) can't correctly freeze <span class="notranslate"> lsphp </span> with <span class="notranslate"> PrivateTmp </span> enabled. For correct functionality, <span class="notranslate"> PrivateTmp </span> must be disabled in <span class="notranslate"> nginx.service file </span> . 
+:::tip Note
+CRIU (version lower than criu-lve-3.6-1) can't correctly freeze <span class="notranslate"> lsphp </span> with <span class="notranslate"> PrivateTmp </span> enabled. For correct functionality, <span class="notranslate"> PrivateTmp </span> must be disabled in <span class="notranslate"> nginx.service file </span> .
 :::
 
-To disable it, copy <span class="notranslate"> _nginx.service_ </span> to <span class="notranslate"> _/etc/systemd/system_ </span> and change there <span class="notranslate"> PrivateTmp: 
+To disable it, copy <span class="notranslate"> _nginx.service_ </span> to <span class="notranslate"> _/etc/systemd/system_ </span> and change there <span class="notranslate"> PrivateTmp:
   </span>
 <div class="notranslate">
 
 ```
-cat nginx.service  
-............ 
+cat nginx.service
+............
 
 [Unit]
 Description=The nginx HTTP and reverse proxy server
@@ -8903,7 +8903,7 @@ PrivateTmp=false
 WantedBy=multi-user.target
 ```
 </div>
-Alternatively, it could be technically preferable to provide a small override of the service file, rather than copying the whole new version in <span class="notranslate"> /etc/systemd/system </span> 
+Alternatively, it could be technically preferable to provide a small override of the service file, rather than copying the whole new version in <span class="notranslate"> /etc/systemd/system </span>
 
 [http://www.freedesktop.org/software/systemd/man/systemd.unit.html](http://www.freedesktop.org/software/systemd/man/systemd.unit.html)
 
@@ -9010,7 +9010,7 @@ cd; touch mod_lsapi_reset_me_criu.test.com
 ```
 </div>
 
-where _vhost.conf_ contains:  
+where _vhost.conf_ contains:
 <span class="notranslate">`server_name criu.test.com;`</span>
 
 This mode is enabled by default and creates a separate lsphp process for each virtual host.
@@ -9254,7 +9254,7 @@ mod_hostinglimist has variable for Apache CustomLog format string <span class="n
 
 **How to use**:
 
-LogFormat 
+LogFormat
 
 <div class="notranslate">
 
@@ -9443,35 +9443,35 @@ This directive allows to list handlers which will be intercepted and placed into
 **Examples**
 
 * Match requests handled by cgi-script handler:
-  
+
   <div class="notranslate">
-  
+
   ```
-  AllowedHandlers cgi-script 
+  AllowedHandlers cgi-script
   ```
   </div>
 
 * Match all requests:
-  
+
   <div class="notranslate">
-  
+
   ```
   AllowedHandlers *
   ```
   </div>
-  
+
 * Match all requests that handled by handler that contains PHP:
-  
+
   <div class="notranslate">
-  
+
   ```
   AllowedHandlers %php%
   ```
   </div>
 * Match all requests handled by handler that starts with PHP:
-  
+
   <div class="notranslate">
-  
+
   ```
   AllowedHandlers %^php%
   ```
@@ -9556,7 +9556,7 @@ The message that will be displayed by default is:
 ```
 Resource Limit Is Reached.
 
-The website is temporarily unable to serve your request as it exceeded resource limit. 
+The website is temporarily unable to serve your request as it exceeded resource limit.
 
 Please try again later.
 ```
@@ -9648,8 +9648,8 @@ Specifies LVE ID for particular directory.
 <div class="notranslate">
 
 ```
-mod_hostinglimits: use GroupID instead of UID 
-mod_hostinglimits: found apr extension version 2 
+mod_hostinglimits: use GroupID instead of UID
+mod_hostinglimits: found apr extension version 2
 mod_hostinglimits: apr_lve_environment_init_group check ok
 ```
 </div>
@@ -9987,7 +9987,7 @@ service httpd restart
 </div>
 DirectAdmin:
 <div class="notranslate">
- 
+
 ```
 cd /usr/local/directadmin/custombuild
 ./build update
@@ -10006,7 +10006,7 @@ For reading information saved by module use the following script (the script is 
 ```
 #!/bin/bash
 
-httpd=httpd 
+httpd=httpd
 
 for pid in `/usr/bin/pgrep $httpd`; do
     for tid in `ls /proc/$pid/task`; do
@@ -10074,8 +10074,8 @@ Based on httpd 2.2.16 basic for Cloudlinux OS 6, httpd 2.4.6 basic for CloudLinu
 <div class="notranslate">
 
 ```
-switch_suexec -h  
-............  
+switch_suexec -h
+............
 
 USE_BIZ - DOCUMENT ROOT /biz/ MIN_UID 500 MIN_GID 100 CALLER apache
 USE_HOSTING - DOCUMENT ROOT /hosting/ MIN_UID 500 MIN_GID 100 CALLER apache
@@ -10118,8 +10118,8 @@ Result of both methods:
 <div class="notranslate">
 
 ```
-cat /etc/sysconfig/alt-suexec  
-............  
+cat /etc/sysconfig/alt-suexec
+............
 
 USE_HOME
 ```
@@ -10128,9 +10128,9 @@ USE_HOME
 Here is standard suEXEC for CloudLinux OS 6 clean server:
 <div class="notranslate">
 
-``` 
-/usr/sbin/suexec -V  
-............  
+```
+/usr/sbin/suexec -V
+............
 
 -D AP_DOC_ROOT="/var/www"
 -D AP_GID_MIN=100
@@ -10146,9 +10146,9 @@ Here is standard suEXEC for CloudLinux OS 6 clean server:
 Here is output of new suEXEC after <span class="notranslate"> USE_HOME </span> installtion:
 <div class="notranslate">
 
-``` 
-/usr/sbin/suexec -V  
-............  
+```
+/usr/sbin/suexec -V
+............
 
 -D AP_DOC_ROOT="/home/"
 -D AP_GID_MIN=100
@@ -10190,7 +10190,7 @@ If you need suEXEC with custom parameters absent in current set of alt-suexec, p
 
 ### cPanel Nginx and application selectors
 
-Recently, cPanel added support for the [Nginx](https://documentation.cpanel.net/display/CKB/Nginx) web server and for [Python](https://documentation.cpanel.net/display/CKB/How+to+Install+a+Python+WSGI+Application) and [Node.js](https://documentation.cpanel.net/display/CKB/How+to+Install+a+Node.js+Application) applications. 
+Recently, cPanel added support for the [Nginx](https://documentation.cpanel.net/display/CKB/Nginx) web server and for [Python](https://documentation.cpanel.net/display/CKB/How+to+Install+a+Python+WSGI+Application) and [Node.js](https://documentation.cpanel.net/display/CKB/How+to+Install+a+Node.js+Application) applications.
 
 We have checked the compatibility of ea-nginx and cPanel application Selectors with CloudLinux OS LVE and CageFS.
 All tests passed successfully and all processes started by ea-nginx and cPanel selectors are launched inside LVE and CageFS.
@@ -10248,7 +10248,7 @@ If we are talking about shared hosting where different accounts are launched on 
 The DirectAdmin and CloudLinux OS (for httpd, httpd24-httpd and cPanel EasyApache 4) both provide a patched version of suexec. For other distributions you can use patches available here:
 [https://repo.cloudlinux.com/cloudlinux/sources/da/cl-apache-patches.tar.gz](https://repo.cloudlinux.com/cloudlinux/sources/da/cl-apache-patches.tar.gz)
 
-1. Besides the ability to run CGI programs under user IDs, suexec with CloudLinux OS patch adds the ability to run that script under CageFS. 
+1. Besides the ability to run CGI programs under user IDs, suexec with CloudLinux OS patch adds the ability to run that script under CageFS.
   :::tip NOTE
   Therefore, this module is necessary for the proper work of PHP Selector.
   :::
@@ -10288,7 +10288,7 @@ The <span class="notranslate">`mod_suexec`</span> installation process varies de
 1. Install `mod_suexec` through YUM package manager as follows:
 
   <div class="notranslate">
-  
+
   ```
   yum install ea-apache24-mod_suexec
   ```
@@ -10301,8 +10301,8 @@ The <span class="notranslate">`mod_suexec`</span> installation process varies de
 2. Now, when the module is installed, restart Apache:
 
   <div class="notranslate">
-  
-  ``` 
+
+  ```
   service httpd restart
   ```
   </div>
@@ -10327,7 +10327,7 @@ The <span class="notranslate">`mod_suexec`</span> installation process varies de
   ![](/images/cloudlinuxos/cloudlinux_os_components/mod_suexec_admin_ui_3.webp)
 
 5. Wait while <span class="notranslate">_Provision_</span> will be finished.
-   
+
    :::tip Note
    If you use CageFS + PHP Selector, you should run the <span class="notranslate">`cagefsctl --force-update`</span> command.
    :::

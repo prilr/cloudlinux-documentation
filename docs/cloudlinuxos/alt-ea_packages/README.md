@@ -5,8 +5,8 @@
 
 ## What are alt/ea packages?
 
-alt/ea packages are software packages or assemblies of software components developed and distributed by the CloudLinux software provider. 
-These packages typically consist of a set of tools, libraries, and utilities that enhance or supplement the functionality of the operating system. 
+alt/ea packages are software packages or assemblies of software components developed and distributed by the CloudLinux software provider.
+These packages typically consist of a set of tools, libraries, and utilities that enhance or supplement the functionality of the operating system.
 "alt" and "ea" stand for "alternative" and "easyapache" respectively.
 
 EA PHP versions are provided by EasyApache 4. These PHP versions are included in cPanel installation and can be managed by Multi PHP Manager.
@@ -64,7 +64,7 @@ The information will be added later.
 
 ## alt-python/ruby/nodejs End Of Life
 
-CloudLinux provides additional security support time of 
+CloudLinux provides additional security support time of
 php, python, ruby and nodejs after the end of support from the vendor.
 Below are tables with information about the time of security support from the vendor and from CloudLinux.
 

@@ -103,7 +103,7 @@ You should see something like 2.6.32-896.16.1.lve1.4.53.el6.x86_64. The kernel s
 <div class="notranslate">
 
 ```
-lsmod|grep lve  
+lsmod|grep lve
 
 lve                    46496  0
 ```
@@ -122,7 +122,7 @@ You need to reboot the server, after you set this option to make the changes liv
 ### Controlling LVE limits
 
 The best way to control LVE limits is using <span class="notranslate">LVE Manager</span> in your favorite control panel. Alternatively, you can use command line tool `lvectl` to control limits.
-The limits are saved in <span class="notranslate">`/etc/container/ve.cfg`</span> 
+The limits are saved in <span class="notranslate">`/etc/container/ve.cfg`</span>
 
 Example:
 
@@ -148,9 +148,9 @@ Example:
 ```
 </div>
 
-Sets <span class="notranslate">CPU</span> limit to 25%, <span class="notranslate">IO</span> limit to 1024KB/s, <span class="notranslate">virtual memory</span> limit to 1GB (memory limit is set as a number of 4096 bytes pages), <span class="notranslate">physical memory</span> limit to 1GB, <span class="notranslate"> CPU</span> cores per LVE to 1, maximum entry processes to 200 and no limit for number of processes for all LVEs. It also sets the limit of 30% and number of processes limit to 5 for LVE with ID 532. 
+Sets <span class="notranslate">CPU</span> limit to 25%, <span class="notranslate">IO</span> limit to 1024KB/s, <span class="notranslate">virtual memory</span> limit to 1GB (memory limit is set as a number of 4096 bytes pages), <span class="notranslate">physical memory</span> limit to 1GB, <span class="notranslate"> CPU</span> cores per LVE to 1, maximum entry processes to 200 and no limit for number of processes for all LVEs. It also sets the limit of 30% and number of processes limit to 5 for LVE with ID 532.
 
-:::tip Note  
+:::tip Note
 In cPanel, setting a value to be inherited from the LVE_DEFAULT package will not be applied to the current LVE package
 :::
 
@@ -162,10 +162,10 @@ One of the best way to monitor current usage is [lvetop](/cloudlinuxos/command-l
 <div class="notranslate">
 
 ```
-lvetop  
+lvetop
 
          ID     EP    PNO    TNO    CPU    MEM    I/O
-         test    1     2            2     2%    728     0   
+         test    1     2            2     2%    728     0
 ```
 </div>
 
@@ -174,11 +174,11 @@ You can also check the content of <span class="notranslate">`/proc/lve/list`</sp
 <div class="notranslate">
 
 ```
-cat /proc/lve/list  
+cat /proc/lve/list
 
 4:LVE        EP        lCPU        lIO        CPU        MEM        IO        lMEM        lEP        nCPU        fMEM        fEP
 0        0        75        25        0        0        0        262144        20        2        0        0
-500        0        75        25        0        0        0        4294967 20        3        2        1        
+500        0        75        25        0        0        0        4294967 20        3        2        1
 700        1        75        25        1403247        202        0        262144        20        2        0        0
 ```
 </div>
@@ -236,7 +236,7 @@ When LVE goes over physical memory limit, CloudLinux OS will first free up memor
 
 #### Disable Page Cache accounting
 
-Since kmod-lve 2.0-53 (for CL8) and 2.1-17 (for CL9) we have released the new sysctl param `kernel.memstat_nocache`. 
+Since kmod-lve 2.0-53 (for CL8) and 2.1-17 (for CL9) we have released the new sysctl param `kernel.memstat_nocache`.
 
 By default the LVE kernel module includes page cache amount when it accounts a physical memory consumption per-LVE. It can lead to the following case:
 ![](/images/cloudlinuxos/limits/PhysicalMemoryUsageDisablePageCacheAccounting.webp)
@@ -257,7 +257,7 @@ sysctl -w kernel.memstat_nocache=1
 This option is enabled by default for new customers since the release of kmod-lve 2.0-53 (for CL8) and 2.1-17 (for CL9).
 :::
 
-:::tip Note: 
+:::tip Note:
 Kernel memory accounting is disabled by default on CloudLinux OS 7/8/9 systems due to incompatibility with the kmodlve kernel module. This feature may trigger long timeouts in the kernel in highly loaded systems that can lead to kernel crashes. CloudLinux OS 7 kernel is compiled without it, while in the 8 and 9 systems we use `cgroup.memory=nokmem` kernel parameter in the CL’s tuned profiles and you can enable it by changing our profile (may be overwritten after update) or supporting your own one.
 :::
 
@@ -359,7 +359,7 @@ Supported on cPanel, Plesk, and DirectAdmin control panels
 * You can set <span class="notranslate"> inodes </span> limits using <span class="notranslate"> LVE Manager </span> , the same way you would set any other LVE Limits:
 
 ::: tip More about the `edquota` utility usage
-The default grace period is seven days. It means a user or a group will be able to use resources (block size or inodes after the soft limit) for seven days. After seven days they will be denied to use of any additional resources.  
+The default grace period is seven days. It means a user or a group will be able to use resources (block size or inodes after the soft limit) for seven days. After seven days they will be denied to use of any additional resources.
 
 To set a grace period for a user:
 ```
@@ -533,7 +533,7 @@ also Apache processes/threads, SSH sessions and etc, which enter into LVE.
  </div>
 
 PMEM LVE limit should not be lower than 512 MB.
-    
+
 Validation does not affect limits operation in any way. Even if invalid limits have been set, they will be applied for users/resellers.
 
 Commands that support validation:
@@ -570,16 +570,16 @@ This command supports limits validation both for packages existing in the system
 1.    a) When EP limit for a package is greater than a custom NPROC limit for a user included in this package.
 
  **OR**
- 
+
  b) when NPROC limit for a package is less than a custom EP limit for a user included in this package.
- 
+
 
 2.    a) When default EP limit for a hoster is greater than a custom NPROC limit for a user/package which inherits the default limit.
 
  **OR**
- 
+
  b) When default NPROC limit for a hoster is less than a custom EP limit for a user/package which inherits the default limit.
- 
+
 
 3. When using the following commands:
 
@@ -590,7 +590,7 @@ This command supports limits validation both for packages existing in the system
 
 #### Existing limits validation
 
- 
+
 The automatic validation using <span class="notranslate">`cldiag`</span> utility by cron job is enabled on a server by default. You can disable it in the <span class="notranslate">`/etc/sysconfig/cloudlinux`</span> config file using <span class="notranslate">`ENABLE_CLDIAG`</span> option (**Warning!** This option disables all automatic checks using cldiag!) When calling this utility automatically by cron, it checks all limits existing on the server and send an administrator a report with limits check results. You can use the following command to validate existing limits: <span class="notranslate">`cldiag --check-lve-limits`</span>.
 
 
@@ -636,7 +636,7 @@ Please note that mod_lsapi does not work when php-fpm is enabled because php-fpm
 
 ## Reseller limits
 
-**Reseller limits** is a feature that allows hosters to limit the resources each reseller can operate. Reseller limits put a restriction on the cumulative resources this reseller and his end-users can use at any given moment in time.  
+**Reseller limits** is a feature that allows hosters to limit the resources each reseller can operate. Reseller limits put a restriction on the cumulative resources this reseller and his end-users can use at any given moment in time.
 
 Reseller limits feature also enables hosters to give their resellers controls over the end-user’s resources. Resellers can assign limits to their end-users as they want, even if they are higher than the limits assigned to the reseller. The reseller’s end-users will not be limited by the reseller limits unless their **cumulative usage** goes above the limits the hoster assigned to their reseller.
 
@@ -657,11 +657,11 @@ To understand the quirks of how Reseller Limits operate, we need to look more cl
 
 ![](/images/cloudlinuxos/limits/ResellerLimits-diagram.webp)
 
-Reseller himself (green box on the scheme) is a virtual entity. When a hoster enables reseller limits, the entity itself cannot hit the limits. There is usually an end-user with the same username as the reseller that acts as a regular reseller’s end-user. When the hoster sets Reseller limits, he limits the group of end-users he owns, including the reseller's end-user with the same username.  
+Reseller himself (green box on the scheme) is a virtual entity. When a hoster enables reseller limits, the entity itself cannot hit the limits. There is usually an end-user with the same username as the reseller that acts as a regular reseller’s end-user. When the hoster sets Reseller limits, he limits the group of end-users he owns, including the reseller's end-user with the same username.
 
-Resellers can configure their end-users limits differently. There are several scenarios when Reseller limits will get activated:  
+Resellers can configure their end-users limits differently. There are several scenarios when Reseller limits will get activated:
 
-- A reseller can assign limits to their end-users that are higher than the limits hoster assigned to this reseller. In this case, the end-user will be limited by reseller limit when he reaches it. 
+- A reseller can assign limits to their end-users that are higher than the limits hoster assigned to this reseller. In this case, the end-user will be limited by reseller limit when he reaches it.
 - A reseller can assign limits to their end-users that are lower than the limits hoster assigned to this reseller. In this case, the end-user will be limited by his limit and not by the reseller limits when he reaches it.
 - Reseller limits will get activated when all reseller’s resources are consumed by his users at any given moment.
 
@@ -675,16 +675,16 @@ As you probably have already understood, the reseller will technically be able t
     * CloudLinux OS 6 Hybrid: supported starting from **3.10.0-714.10.2.lve1.5.3.el6h** kernel.
     * CloudLinux OS 7: supported starting from **3.10.0-714.10.2.lve1.5.3.el7** kernel.
     * CloudLinux OS 7 Hybrid: supported
-    * CloudLinux OS 8: supported 
+    * CloudLinux OS 8: supported
 3. lvemanager package version **3.0-18+** and later installed. If you don’t have it, update your system
 
 ### Configuration
 
-#### Enabling Reseller limits 
+#### Enabling Reseller limits
 
 If you have decided to jump on board and enable Reseller limits for your resellers you should do the following:
 
-1. Make sure that you run CloudLinux OS with the kernel and lvemanager that meets the [necessary requirements](/cloudlinuxos/limits/#requirements). 
+1. Make sure that you run CloudLinux OS with the kernel and lvemanager that meets the [necessary requirements](/cloudlinuxos/limits/#requirements).
 2. Log in with a hoster access.
 3. You can create a new reseller account or configure an existing reseller account to have Reseller limits enabled. Consult your control panel documentation on how to do that.
 4. For cPanel servers when creating an account, make sure to tick two checkboxes **Make this account a reseller** and **Make the account own itself** in the _Reseller Settings_ box.
@@ -698,12 +698,12 @@ Selecting **Make the account own itself** makes the reseller full owner of all h
 
 ![](/images/cloudlinuxos/limits/ResellerLimits-enabling.webp)
 
-::: tip Note 
+::: tip Note
 Managing Reseller limits are not available for Solo and Admin editions. More at [Cloudlinux OS editions](/introduction/#cloudlinux-os-editions)
 :::
- 
- :::tip 
-When you move a user from one reseller to another on DirectAdmin you need to manually change its package because the packages aren’t moved together with users. If you don’t reassign the package, the limits for the user you have moved will be reset to default. 
+
+ :::tip
+When you move a user from one reseller to another on DirectAdmin you need to manually change its package because the packages aren’t moved together with users. If you don’t reassign the package, the limits for the user you have moved will be reset to default.
 :::
 
 :::tip Note
@@ -730,7 +730,7 @@ It is possible that you still have some questions left unanswered about Reseller
 ## WEB interface resource limiting modes
 
 CloudLinux provides flexible resource limiting modes for user processes started from the web interface (e.g., Node.js, Ruby, and Python Selectors). The configuration allows administrators to control how LVE limits are applied to web commands, with automatic fallback mechanisms to ensure consistent resource management across different environments.
-    
+
 Also, there is a short list of processes, that runs without CageFS in every modes. They are not affecting security, but we are working on removing them from excludes.
 
 The web_resource_limit_mode parameter controls resource limiting behavior and can be added to any section of `/etc/sysconfig/cloudlinux` for convenience and better organization. Configuration files ignore section boundaries, so the parameter can be placed in existing sections or new custom sections.
@@ -750,7 +750,7 @@ web_resource_limit_mode = all
 [custom_section]
 web_resource_limit_mode = unlimited
 ```
-    
+
 Possible parameter values:
 
 * `all`: the default option. All processes will run inside CageFS and with LVE limits being applied.

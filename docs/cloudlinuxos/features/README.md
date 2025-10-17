@@ -329,7 +329,7 @@ available [here](https://docs.cloudlinux.com/cloudlinux_os_components/#general-i
 Installation on cPanel servers with EasyApache 4:
 
 ```
-apt install liblsapi liblsapi-dev 
+apt install liblsapi liblsapi-dev
 apt install ea-apache24-mod-lsapi
 /usr/bin/switch_mod_lsapi --setup
 service httpd restart
@@ -338,7 +338,7 @@ service httpd restart
 Installation on servers with no panel:
 
 ```
-apt install liblsapi liblsapi-dev 
+apt install liblsapi liblsapi-dev
 apt install mod-lsapi
 /usr/bin/switch_mod_lsapi --setup
 service apache2 restart
@@ -355,7 +355,7 @@ In case the site responds with the error: 503 Service unavailable.
 1. Be sure that /opt has drwxr-xr-x permissions. It can be fixed with the following command:
 
 ```
-$ chmod 755 /opt 
+$ chmod 755 /opt
 ```
 
 2. Change the default folder for mod_lsapi socket:
