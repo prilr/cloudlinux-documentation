@@ -62,7 +62,8 @@ without any need for them to change their scripts.
 This component is not available in the CloudLinux OS Admin edition.
 :::
 
-MySQL Governor tracks CPU and disk IO usage for every user in real time and throttles MySQL queries by using LVE limits. By using the [dbtop](/command-line_tools/#dbtop) utility, it is possible to see the database usage on a per-customer basis, ensuring that the system admin always know what is going on.
+MySQL Governor tracks CPU and disk IO usage for every user in real time and throttles MySQL queries by using LVE limits.
+By using the [dbtop](/command-line_tools/#dbtop) utility, it is possible to see the database usage on a per-customer basis, ensuring that the system administrator always knows what is going on.
 
 [See more](/cloudlinuxos/cloudlinux_os_components/#mysql-governor).
 
@@ -76,7 +77,7 @@ popular versions of PHP, with more than 120 PHP extensions to choose from.
 **Ruby Selector**
 
 Ruby Selector allows end users to choose the Ruby version for applications and install additional modules
-to the application environment. Ruby Selector uses `mod_passenger` for delivering optimum performance.
+to the application environment. Ruby Selector uses `mod_passenger` to deliver optimal performance.
 
 [See more](/cloudlinuxos/cloudlinux_os_components/#ruby-selector).
 
@@ -133,7 +134,7 @@ Currently, the following versions are available and supported:
 |CloudLinux OS 7 | Apr 1, 2015 | Jun 30, 2024 (ELS until June 30, 2026) |
 |CloudLinux OS 8 | Mar 17, 2020 | May 31, 2029 |
 |CloudLinux OS 9 | Jan 17, 2023 | May 31, 2032 |
-|CloudLinux OS 10 | Oct 17, 2025 | ??? |
+|CloudLinux OS 10 | Oct 17, 2025 | May 31, 2035 |
 
 :::tip
 We retain the ability to produce critical updates for CL6 for at least the next 3 months. This period may extend to 6 or 12 months, depending on emerging necessities. More [here](https://blog.cloudlinux.com/end-of-life-announcement-for-cloudlinux-os-6).

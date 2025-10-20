@@ -258,7 +258,10 @@ This option is enabled by default for new customers since the release of kmod-lv
 :::
 
 :::tip Note:
-Kernel memory accounting is disabled by default on CloudLinux OS 7/8/9 systems due to incompatibility with the kmodlve kernel module. This feature may trigger long timeouts in the kernel in highly loaded systems that can lead to kernel crashes. CloudLinux OS 7 kernel is compiled without it, while in the 8 and 9 systems we use `cgroup.memory=nokmem` kernel parameter in the CL’s tuned profiles and you can enable it by changing our profile (may be overwritten after update) or supporting your own one.
+Kernel memory accounting is disabled by default on CloudLinux OS systems due to an incompatibility with the kmodlve kernel module.
+This feature may trigger long timeouts in the kernel in highly loaded systems that can lead to kernel crashes.
+CloudLinux OS 7 kernel is compiled without it, while in CL8+ we use the `cgroup.memory=nokmem` kernel parameter in the CloudLinux tuned profiles.
+You can enable it by modifying our tuned profile (which may be overwritten after an update) or creating your own.
 :::
 
 ### Troubleshooting

@@ -1,6 +1,7 @@
 # CloudLinux OS kernel
 
-This documentation describes specific features of the CloudLinux kernel. In other cases the kernel has the same features and innovations as any similar RHEL kernel.
+This documentation describes specific features of the CloudLinux kernel.
+Other than that, the kernel has the same features and innovations as any similar RHEL kernel.
 More information about the actual kernel changes and releases can be obtained from our [changelog](https://changelog.cloudlinux.com/).
 
 * [LTS kernel](./#lts-kernel)
@@ -23,19 +24,23 @@ More information about the actual kernel changes and releases can be obtained fr
 
 ## LTS kernel
 
-In CL9 we don’t have our own kernel, instead we use AlmaLinux’s one which gets regular upstream updates.
+::: tip LTS kernel availability
+LTS kernel is not yet available for CloudLinux OS 10.
+:::
 
-For stability purposes we have also prepared the LTS (Long Term Support) kernel which is older than AlmaLinux by upstream version but has all security fixes / high scored CVEs.
+In CL9+ we don't have our own kernel. Instead, we use the AlmaLinux kernel, which gets regular upstream updates.
 
-We recommend this kernel as it minimizes changes while maintaining comprehensive CVE coverage.
+For stability purposes, we also offer the LTS (Long Term Support) kernel, which is older than AlmaLinux by upstream version, but has all security fixes / high-scored CVEs.
 
-Also, this kernel is available for CL8 serving as an analogue of Hybrid kernel (CL9 LTS kernel + CL8 system).
+We recommend this kernel, as it minimizes changes while maintaining comprehensive CVE coverage.
+
+Also, this kernel is available for CL8, serving as an alternative to the Hybrid kernel (CL9 LTS kernel + CL8 system).
 
 ### How To Install
 
 The LTS kernel is compatible with CL8 / CL9 systems.
 
-Install the LTS kernel main packages
+Install the LTS kernel main packages:
 
 ```
 dnf install kernel-lts
@@ -86,7 +91,13 @@ This will:
 
 ## Hybrid Kernels
 
-Hybrid kernels give you the ability to take advantage of the benefits and features available in newer kernels without having to completely upgrade to another version of the operating system. Example - for the CloudLinux 7 kernel, based on version 3.10, you can install a hybrid kernel (same as on CloudLinux 8), which is based on version 4.18. This provides more kernel options, memory and overall optimization, as well as a positive impact on system performance.
+::: tip Hybrid kernel availability
+Hybrid kernels are only available for CloudLinux OS 6 and 7.
+:::
+
+Hybrid kernels allow you to take advantage of the benefits and features available in newer kernels without having to completely upgrade to another version of the operating system.
+For example, for the CloudLinux 7 kernel, based on version 3.10, you can install a hybrid kernel (same as on CloudLinux 8), which is based on version 4.18.
+This provides more kernel options, memory and overall optimization, as well as a positive impact on system performance.
 
 #### How to migrate from the normal kernel to hybrid one
 
@@ -1125,17 +1136,23 @@ Visit the [Kernel Panic Receiver project GitHub page](https://github.com/cloudli
 
 To send required kernel logs from the clients' machines to _Kernel Panic Receiver_, we configure the default Linux kernel feature called _netconsole_.
 
+#### For CloudLinux OS 6-9
+
 The configuration is done by the `initscripts` package, starting from the following versions:
 
 * For CloudLinux OS 6: `9.03.61-1.cloudlinux`
 * For CloudLinux OS 7: `9.49.49-1.cloudlinux`
-* For CloudLinux OS 8: `10.00.4-1.cloudlinux`
+* For CloudLinux OS 8-9: `10.00.4-1.cloudlinux`
 
 To update the `initscripts` package, run the following command:
 
 ```
 yum update initscripts --enablerepo=cloudlinux-updates-testing
 ```
+
+#### For CloudLinux OS 10
+
+The configuration is handled by the `tuned-profiles-cloudlinux` package as a separate service, instead of the `initscripts/netconsole-service` package.
 
 When a kernel panic occurs, the _netconsole_ module sends logs to our server as plain text via the UDP protocol.
 
@@ -1144,6 +1161,8 @@ When a kernel panic occurs, the _netconsole_ module sends logs to our server as 
 The _netconsole_ sends only OOPs-related messages from the kernel ring buffer. It doesn't transfer any sensitive data, such as usernames, encryption keys, paths, etc. So, there are no security problems you should worry about.
 
 ### Disabling the feature
+
+#### For CloudLinux OS 6-9
 
 If you don't want to send us the data, you can turn the _netconsole_ service off (we don't recommend it, though).
 To disable transferring the data, just comment the `SYSLOGADDR` parameter in the _netconsole_ config file (`/etc/sysconfig/netconsole`):
@@ -1159,6 +1178,10 @@ And stop the _netconsole_ service by running the following command:
 ```
 service netconsole stop
 ```
+
+#### For CloudLinux OS 10
+
+The _netconsole_ functionality is managed by the service provided by the `tuned-profiles-cloudlinux` package. To disable it, stop the corresponding service.
 
 :::tip Note
 _Netconsole_ is used only for Kernel Panic Receiver, so disabling it doesn't lead to issues with other CloudLinux OS services.

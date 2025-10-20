@@ -38,14 +38,18 @@ You can check the entire list here: [Hardware enablement considerations in adopt
 
 ## Software Compatibility
 
-CloudLinux OS is designed to maintain full binary compatibility with CentOS and Red Hat Enterprise Linux (RHEL). This means that any software, applications, or scripts that run on CentOS or RHEL can run on CloudLinux OS without modification. The operating system ensures broad compatibility with the vast ecosystem of Linux software, providing a seamless and stable environment for hosting providers and users transitioning from other enterprise Linux distributions. This compatibility extends to package management, system libraries, and core functionalities, making CloudLinux OS a reliable drop-in replacement that supports the same software stack as its counterparts.
+CloudLinux OS is designed to maintain full binary compatibility with CentOS and Red Hat Enterprise Linux (RHEL).
+
+This means that any software, applications, or scripts that run on CentOS or RHEL can run on CloudLinux OS without modification. The operating system ensures broad compatibility with the vast ecosystem of Linux software, providing a seamless and stable environment for hosting providers and users transitioning from other enterprise Linux distributions.
+
+This compatibility extends to package management, system libraries, and core functionality, making CloudLinux OS a reliable drop-in replacement that supports the same software stack as its counterparts.
 
 ### ZFS
 
 CloudLinux 8+ provides limited support for ZFS, to the same degree as other RHEL-like distributions. More precisely, that means:
 
 1.  CloudLinux doesn't ship any prebuilt packages of `kmod-zfs` or `zfs-dkms`, etc. But it doesn't restrict customers from using [packages built by the OpenZFS Team](https://openzfs.github.io/openzfs-docs/Getting%20Started/RHEL-based%20distro/index.html) as they are known to be compatible and work fine on CloudLinux and AlmaLinux. In fact, we know that some of our customers are already using them for quite some time.
-    1.  The most recent CloudLinux conversion script (`cldeploy`) does not prevent the conversion of the system with `zfs` modules loaded
+    1.  The current CloudLinux conversion script (`cldeploy`) does not prevent the conversion of the system with `zfs` modules loaded
 1.  CloudLinux tries to keep kABI mostly compatible with RHEL's, so in case ZFS works with the RHEL-like kernel, but not with a similar CloudLinux one, we will accept tickets to fix that
 1.  Because ZFS is known to have some lag in adapting to kernel changes, we consider it the customer's responsibility to test the upgradeability of the environment to the most recent kernels and ZFS versions before upgrading the entire fleet.
 1.  Most CloudLinux features, like CageFS, should work fine with ZFS-backed mount points, and if not, we will try our best to provide fixes according to severity and demand
@@ -56,52 +60,61 @@ LVE IO Limits (as well as generic cgroups limits) don't work because the ZFS dat
 :::
 
 
-## Getting License
+## Getting a license
 
-You will need a valid activation key - trial or paid - to be able to use your CloudLinux OS server.
+You will need a valid activation key, trial or paid, to be able to use your CloudLinux OS server.
 
-### Getting Trial License
+### Getting a trial license
 
-The trial activation key can be used to convert your server to CloudLinux OS.
+A trial activation key can be used to convert your server to CloudLinux OS.
 
 :::tip Note
-The trial license subscription will work for 30 days.
+A trial activation key will be valid for 30 days.
 :::
 
-If you have any issues getting activation key or if you have any questions regarding using your
-trial subscription – contact [sales@cloudlinux.com](mailto:sales@cloudlinux.com) and we will help.
+If you have any issues getting an activation key or if you have any questions regarding using your
+trial subscription, contact [sales@cloudlinux.com](mailto:sales@cloudlinux.com) and we will help.
 
-To get the activation key:
+To get an activation key, follow these steps:
 
 1. Register with CloudLinux Network: [https://cln.cloudlinux.com/console/register/customer](https://cln.cloudlinux.com/console/register/customer) (skip it if you already registered)
 2. You will receive an email with activation link
 3. Login at [https://cln.cloudlinux.com/console/auth/login](https://cln.cloudlinux.com/console/auth/login)
-4. Choose the appropriate [CloudLinux edition](/introduction/) that fits your needs.
+4. Choose the appropriate [CloudLinux edition](/introduction/) that suits your needs.
 5. Click on `Get Trial Activation Key`.
 
-You will get a key that looks like: `12314-d34463a182fede4f4d7e140f1841bcf2`.
+You will get an activation key that looks like this: `12314-d34463a182fede4f4d7e140f1841bcf2`.
 
 ## Converting existing servers
 
-Sometimes it is required to convert already existing servers with **`CentOS`** or **`AlmaLinux`** and make them **`CloudLinux OS`**.
+Sometimes it's required to convert already existing servers with CentOS or AlmaLinux and make them CloudLinux OS.
 
-It is easy to convert your existing installation through the cldeploy script. The process takes a few minutes and replaces just a handful of RPMs.
+For CloudLinux OS 10, it's the primary installation method.
+
+It's easy to convert your existing installation through the `cldeploy` script.
+The process takes a few minutes and replaces just a handful of packages.
 
 :::warning
-Unlike [Fresh installation](#installing-new-servers), converting immediately requires a CloudLinux OS license.
-Please refer to the [guide](#license-activation) to get an activation key.
+Unlike [new server installation](#installing-new-servers),
+converting an existing server requires a CloudLinux OS license to be provided.
+Please refer to the [guide](#getting-a-license) to get an activation key.
 :::
 
 ### Requirements
 
-Currently supported OS for conversion:
+Currently supported operating systems for conversion:
 * CentOS 7
-* AlmaLinux OS 8, AlmaLinux OS 9
+* AlmaLinux OS 8-10
 * RockyLinux (installation only, no uninstall option)
 
-:::warning Unsupported OS for conversion:
+:::warning Unsupported operating systems for conversion
 * CentOS 8
 * CentOS Stream
+:::
+
+:::warning SELinux
+SELinux is not supported on CloudLinux OS 6 and 7.
+SELinux is supported on CloudLinux OS 8+, but might not work or be compatible with control panels and various components.
 :::
 
 Supported control panels:
@@ -112,27 +125,27 @@ Supported control panels:
 * InterWorx ([Documentation](https://appendix.interworx.com/current/nodeworx/plugins/install-use-cloudlinux-plugin-interworx.html))
 * Webuzo ([Documentation](https://webuzo.com/docs/installing-webuzo/install-cloudlinux-os/))
 
-:::warning Other control panels:
+:::warning Other control panels
 Control panels not mentioned in the list of supported panels have native integration or integration done by the developer of the panel.
 We cannot guarantee the stability or correct operation of CloudLinux components on such panels.
 :::
 
-:::warning Warning:
-Some CloudLinux components may not be supported by the control panel itself or the control panel can have its own analog of such a component.
+:::warning Control panel compatibility
+Some CloudLinux components may not be supported by the control panel itself or the control panel can have its own equivalent of such a component.
 You can verify this information when reviewing the system requirements for installing a specific CloudLinux component.
 :::
 
 
-#### Note: CentOS 8 is EOL
+#### CentOS 8 is EOL
 
 CentOS 8 reached End Of Life (EOL) on December 31st, 2021.
-If you would like to convert from CentOS 8 to CloudLinux OS 8, do the following:
+If you would like to convert from CentOS 8 to CloudLinux OS 8, follow these steps:
 
 * Convert CentOS 8 to AlmaLinux 8 using [almalinux-deploy](https://github.com/AlmaLinux/almalinux-deploy)
 * Convert AlmaLinux 8 to CloudLinux 8 using [cldeploy](/cloudlinux_installation/#cldeploy-explained)
 
 
-### Downloading and running conversion script
+### Downloading and running the conversion script
 
 #### Key-based activation
 
@@ -162,35 +175,37 @@ sh cldeploy -i --to-admin-edition
 ```
 
 ### Next steps
-After successful conversion, reboot your system by running the following command:
+After a successful conversion, reboot your system:
 
 ```
 reboot
 ```
 
-Once you reboot - your server should be running with CloudLinux OS LVE kernel.
+Once you reboot, your server should be running with CloudLinux OS LVE kernel.
 
-You may check the booted kernel with the following command:
+#### Checking the booted kernel
+
+:::tip Note
+This information applies only to CloudLinux OS 8 and below.
+CloudLinux OS 9 and above use the non-modified AlmaLinux kernel.
+:::
+
+You can check the booted kernel with the following command:
 
 ```
 uname -r
 ```
 
 :::warning Note
-If after rebooting you do not see the CloudLinux kernel (the kernel has the abbreviation LVE in its name)
-then please consider check our [knowledge base](https://cloudlinux.zendesk.com/hc/en-us/) or
+If after rebooting you don't see the CloudLinux kernel (the kernel has the abbreviation LVE in its name)
+then please consider checking our [knowledge base](https://cloudlinux.zendesk.com/hc/en-us/) or
 contact [support](https://cloudlinux.zendesk.com/hc/en-us/requests/new).
 :::
 
-:::warning Note
-SELinux is not supported on CloudLinux OS 6 and 7. SELinux is supported on CloudLinux OS 8+,
-but might not work or be compatible with control panels and various components.
-:::
+#### Automatic hybridization
 
-:::tip Note
-At the end of conversion from CentOS 7.x to CloudLinux OS 7,
-the cldeploy script converts CloudLinux OS 7 to [CloudLinux OS 7 Hybrid](/cloudlinuxos/cloudlinux_os_kernel/#hybrid-kernels).
-:::
+At the end of converting from CentOS 7.x to CloudLinux OS 7,
+the script converts CloudLinux OS 7 to [CloudLinux OS 7 Hybrid](/cloudlinuxos/cloudlinux_os_kernel/#hybrid-kernels).
 
 Automatic hybridization will be performed for the AMD processors with the following CPU families:
 
@@ -244,12 +259,12 @@ If you receive any troubles during the conversion process,
 please feel free to search our [knowledge base](https://cloudlinux.zendesk.com/hc/en-us)
 or contact our support and attach the conversion log (/var/log/cldeploy.log).
 
-### How to enable secure boot for CloudLinux 9
+### How to enable Secure Boot for CloudLinux 9+
 
 #### Overview
-CloudLinux 9 uses a non-modified AlmaLinux 9 kernel.\
-To make secure boot work with CloudLinux's kernel module you need to enroll the CloudLinux secure boot key to your server.\
-This procedure shows how to do it
+CloudLinux 9 and above use a non-modified AlmaLinux kernel.
+To make Secure Boot work with CloudLinux's kernel module, you need to enroll the CloudLinux secure boot key onto your server.
+The following procedure shows how to do it.
 
 #### Requirements
 * UEFI support
@@ -257,7 +272,7 @@ This procedure shows how to do it
 * Access to server's BIOS options menu and boot screen
 
 :::tip **Note!**
-Starting from kernel 5.14.0-362.8.1.el9_3 and kmod_lve-2.1-20 the secure boot is available without importing CloudLinux key.
+Starting from kernel 5.14.0-362.8.1.el9_3 and kmod_lve-2.1-20 Secure Boot is available without importing the CloudLinux key.
 :::
 
 #### Procedure
@@ -295,15 +310,15 @@ Select **`Yes/OK`**\
 * Select **`Reboot`** (Older versions may say **`Continue boot`**)\
 ![Step 6](/images/cloudlinuxos/cloudlinux_installation/cl9_secureboot/6.webp)
 
-* Now you can enable Secure Boot in BIOS options menu
+You can now enable Secure Boot in the BIOS options menu.
 
 #### Useful Commands
 * `mokutil --sb-state` (to check current Secure Boot state);
 * `mokutil --list-enrolled` (to show list of enrolled keys).
 
-#### If you wish to remove the CloudLinux key from the MOK list, follow the instructions below
+#### Remove the CloudLinux key from the MOK list
 :::warning Warning
-Do not delete the key when secure boot is enabled - server will be unable to boot
+Do not delete the key when Secure Boot is enabled - server will be unable to boot
 :::
 
 1. Disable Secure Boot
@@ -357,11 +372,13 @@ Here's what the cldeploy script does during uninstallation:
 * mod_hostinglimits RPM is removed.
 
 :::tip Note
-**cldeploy doesn't remove the kernel** to prevent condition when server has no kernels and wouldn't boot. Instead, script provide the instructions on how you could remove it manually later, when it is safe to do so.
+**cldeploy doesn't remove the kernel** to prevent situations where the server has no kernels and won't boot.
+Instead, the script provides instructions on how you could remove it manually later, when it is safe to do so.
 :::
 
-On cPanel servers, rebuild of Apache with EasyApache will complete the conversion back, but doesn't have to be performed immediately.<sup> *</sup>
-On DirectAdmin servers, rebuild of Apache with custombuild will complete the conversion back, but doesn't have to be performed immediately.
+On cPanel servers, rebuilding Apache with EasyApache will complete the reversion, but doesn't have to be performed immediately.
+
+On DirectAdmin servers, rebuilding Apache with custombuild will complete the reversion, but doesn't have to be performed immediately.
 
 More information is also available here: [Uninstall CloudLinux](/cloudlinuxos/cloudlinux_installation/#uninstalling).
 
@@ -383,6 +400,11 @@ For IP-based licenses, use the following command instead:
 ```
 clnreg_ks --force
 ```
+:::
+
+:::warning CloudLinux OS 10
+CloudLinux OS 10 ISOs are not available.
+Please use the [conversion procedure](/cloudlinuxos/cloudlinux_installation/#converting-existing-servers) on AlmaLinux 10 to create new CloudLinux OS 10 servers.
 :::
 
 ### Downloading ISO
@@ -583,6 +605,11 @@ yum install rhn-setup
 * [Alibaba Cloud](https://download.cloudlinux.com/cloudlinux/images/#ali-tab)
 * [Xen](/cloudlinux_installation/#installing-new-servers)
 * [CloudLinux Azure Images](./#cloudlinux-azure-images)
+
+:::warning CloudLinux OS 10
+CloudLinux OS 10 images are not available.
+Please use the [conversion procedure](/cloudlinuxos/cloudlinux_installation/#converting-existing-servers) on AlmaLinux 10 to create new CloudLinux OS 10 servers.
+:::
 
 ### CloudLinux Azure Images
 
@@ -1431,18 +1458,19 @@ timeout=5
 6. Reboot and check that you are running CloudLinux OS . <span class="notranslate">`uname -r`</span> should show something like: <span class="notranslate">`2.6.18-294.8.1.el5.lve0.7.33`</span>.
 
 
-## Switch license
+## Switching to a different license type
 
-You can convert your existing CloudLinux OS installation to CloudLinux OS Legacy (Shared).
+You can convert your existing CloudLinux OS installation to a different license type, such as CloudLinux OS Legacy (Shared).
 
-1. Obtain new key from [CLN](https://cln.cloudlinux.com)
-2. Run `rhnreg_ks --force --activationkey=<new_key>`
+1. Obtain a new activation key from [CLN](https://cln.cloudlinux.com)
+2. Run `rhnreg_ks --force --activationkey=<new_activation_key>`
 
-You can pass `--migrate-silently` argument to skip confirmation.
+You can pass the `--migrate-silently` argument to skip the confirmation prompt.
 
 ## Uninstalling
 
-You can always uninstall CloudLinux OS. In this case, the system will be converted back to AlmaLinux or CentOS* (Depends on what system the conversion was done from).
+You can always uninstall CloudLinux OS.
+In this case, the system will be converted back to AlmaLinux or CentOS* (depending on the system the conversion was done from).
 
 :::warning
 CentOS Linux 8 reached End Of Life (EOL) on December 31st, 2021. You can still uninstall CloudLinux and return to CentOS 8, but we don't guarantee stable operation of the system and its repositories after this action.

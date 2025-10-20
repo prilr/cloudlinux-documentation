@@ -4113,24 +4113,24 @@ After installing native PHP, please run the `cloudlinux-selector setup --interpr
 The mark `x` stands for a supported version.
 :::
 
-|             | Cloudlinux 6 | Cloudlinux 7 | Cloudlinux 8 | Cloudlinux 9 |
-|:-----------:|:------------:|:------------:|:------------:|:------------:|
-| alt-php 5.1 |       x      |       x      |       x      |       –      |
-| alt-php 5.2 |       x      |       x      |       x      |       x      |
-| alt-php 5.3 |       x      |       x      |       x      |       x      |
-| alt-php 5.4 |       x      |       x      |       x      |       x      |
-| alt-php 5.5 |       x      |       x      |       x      |       x      |
-| alt-php 5.6 |       x      |       x      |       x      |       x      |
-| alt-php 7.0 |       x      |       x      |       x      |       x      |
-| alt-php 7.1 |       x      |       x      |       x      |       x      |
-| alt-php 7.2 |       x      |       x      |       x      |       x      |
-| alt-php 7.3 |       x      |       x      |       x      |       x      |
-| alt-php 7.4 |       x      |       x      |       x      |       x      |
-| alt-php 8.0 |       x      |       x      |       x      |       x      |
-| alt-php 8.1 |       x      |       x      |       x      |       x      |
-| alt-php 8.2 |       x      |       x      |       x      |       x      |
-| alt-php 8.3 |       x      |       x      |       x      |       x      |
-| alt-php 8.4 |       –      |       x      |       x      |       x      |
+|             | Cloudlinux 6  | Cloudlinux 7  | Cloudlinux 8  | Cloudlinux 9  | Cloudlinux 10 |
+|:-----------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
+| alt-php 5.1 |       x       |       x       |       x       |       –       |       –       |
+| alt-php 5.2 |       x       |       x       |       x       |       x       |       –       |
+| alt-php 5.3 |       x       |       x       |       x       |       x       |       –       |
+| alt-php 5.4 |       x       |       x       |       x       |       x       |       –       |
+| alt-php 5.5 |       x       |       x       |       x       |       x       |       –       |
+| alt-php 5.6 |       x       |       x       |       x       |       x       |       –       |
+| alt-php 7.0 |       x       |       x       |       x       |       x       |       –       |
+| alt-php 7.1 |       x       |       x       |       x       |       x       |       –       |
+| alt-php 7.2 |       x       |       x       |       x       |       x       |       –       |
+| alt-php 7.3 |       x       |       x       |       x       |       x       |       –       |
+| alt-php 7.4 |       x       |       x       |       x       |       x       |       –       |
+| alt-php 8.0 |       x       |       x       |       x       |       x       |       –       |
+| alt-php 8.1 |       x       |       x       |       x       |       x       |       –       |
+| alt-php 8.2 |       x       |       x       |       x       |       x       |       –       |
+| alt-php 8.3 |       x       |       x       |       x       |       x       |       –       |
+| alt-php 8.4 |       –       |       x       |       x       |       x       |       –       |
 
 ### Installation and update
 
@@ -5629,19 +5629,19 @@ OpenLiteSpeed is not compatible with Python Selector due to lack of `.htaccess` 
 
 ### Supported versions
 
-| CloudLinux 6  | CloudLinux 7  | CloudLinux 8  | CloudLinux 9  |
-|---------------|---------------|---------------|---------------|
-| alt-python 2.7 | alt-python 2.7 | alt-python 2.7 | alt-python 2.7 |
-| alt-python 3.3 | alt-python 3.3 | alt-python 3.3 | alt-python 3.3 |
-| alt-python 3.4 | alt-python 3.4 | alt-python 3.4 | alt-python 3.4 |
-| alt-python 3.5 | alt-python 3.5 | alt-python 3.5 | alt-python 3.5 |
-| alt-python 3.6 | alt-python 3.6 | alt-python 3.6 | alt-python 3.6 |
-| alt-python 3.7 | alt-python 3.7 | alt-python 3.7 | alt-python 3.7 |
-| alt-python 3.8 | alt-python 3.8 | alt-python 3.8 | alt-python 3.8 |
-| alt-python 3.9 | alt-python 3.9 | alt-python 3.9 | alt-python 3.9 |
-| alt-python 3.11| alt-python 3.10| alt-python 3.10| alt-python 3.10|
-|               | alt-python 3.11| alt-python 3.11| alt-python 3.11|
-|               | alt-python 3.12| alt-python 3.12| alt-python 3.12|
+| CloudLinux 6   | CloudLinux 7   | CloudLinux 8   | CloudLinux 9   | CloudLinux 10  |
+|----------------|----------------|----------------|----------------|----------------|
+| alt-python 2.7 | alt-python 2.7 | alt-python 2.7 | alt-python 2.7 |                |
+| alt-python 3.3 | alt-python 3.3 | alt-python 3.3 | alt-python 3.3 |                |
+| alt-python 3.4 | alt-python 3.4 | alt-python 3.4 | alt-python 3.4 |                |
+| alt-python 3.5 | alt-python 3.5 | alt-python 3.5 | alt-python 3.5 |                |
+| alt-python 3.6 | alt-python 3.6 | alt-python 3.6 | alt-python 3.6 |                |
+| alt-python 3.7 | alt-python 3.7 | alt-python 3.7 | alt-python 3.7 |                |
+| alt-python 3.8 | alt-python 3.8 | alt-python 3.8 | alt-python 3.8 |                |
+| alt-python 3.9 | alt-python 3.9 | alt-python 3.9 | alt-python 3.9 |                |
+| alt-python 3.11| alt-python 3.10| alt-python 3.10| alt-python 3.10|                |
+|                | alt-python 3.11| alt-python 3.11| alt-python 3.11|                |
+|                | alt-python 3.12| alt-python 3.12| alt-python 3.12|                |
 
 ### Installation
 
@@ -5847,21 +5847,21 @@ See also [Ruby Selector CLI tools](/cloudlinuxos/command-line_tools/#ruby-select
 
 ### Supported versions
 
-| CloudLinux 6     | CloudLinux 7     | CloudLinux 8     | CloudLinux 9     |
-| ---------------- | ---------------- | ---------------- | ---------------- |
-| alt‑nodejs 6.x   | alt‑nodejs 6.x   | alt‑nodejs 6.x   | alt‑nodejs 6.x   |
-| alt‑nodejs 8.x   | alt‑nodejs 8.x   | alt‑nodejs 8.x   | alt‑nodejs 8.x   |
-| alt‑nodejs 9.x   | alt‑nodejs 9.x   | alt‑nodejs 9.x   | alt‑nodejs 9.x   |
-| alt‑nodejs 10.x  | alt‑nodejs 10.x  | alt‑nodejs 10.x  | alt‑nodejs 10.x  |
-| alt‑nodejs 11.x  | alt‑nodejs 11.x  | alt‑nodejs 11.x  | alt‑nodejs 11.x  |
-| alt‑nodejs 12.x  | alt‑nodejs 12.x  | alt‑nodejs 12.x  | alt‑nodejs 12.x  |
-| alt‑nodejs 14.x  | alt‑nodejs 14.x  | alt‑nodejs 14.x  | alt‑nodejs 14.x  |
-| —                | alt‑nodejs 16.x  | alt‑nodejs 16.x  | alt‑nodejs 16.x  |
-| —                | alt‑nodejs 18.x  | alt‑nodejs 18.x  | alt‑nodejs 18.x  |
-| —                | alt‑nodejs 19.x  | alt‑nodejs 19.x  | alt‑nodejs 19.x  |
-| —                | alt‑nodejs 20.x  | alt‑nodejs 20.x  | alt‑nodejs 20.x  |
-| —                | -                | alt‑nodejs 22.x  | alt‑nodejs 22.x  |
-| —                | -                | alt‑nodejs 24.x  | alt‑nodejs 24.x  |
+| CloudLinux 6     | CloudLinux 7     | CloudLinux 8     | CloudLinux 9     | CloudLinux 10    |
+| ---------------- | ---------------- | ---------------- | ---------------- | ---------------- |
+| alt‑nodejs 6.x   | alt‑nodejs 6.x   | alt‑nodejs 6.x   | alt‑nodejs 6.x   | —                |
+| alt‑nodejs 8.x   | alt‑nodejs 8.x   | alt‑nodejs 8.x   | alt‑nodejs 8.x   | —                |
+| alt‑nodejs 9.x   | alt‑nodejs 9.x   | alt‑nodejs 9.x   | alt‑nodejs 9.x   | —                |
+| alt‑nodejs 10.x  | alt‑nodejs 10.x  | alt‑nodejs 10.x  | alt‑nodejs 10.x  | —                |
+| alt‑nodejs 11.x  | alt‑nodejs 11.x  | alt‑nodejs 11.x  | alt‑nodejs 11.x  | —                |
+| alt‑nodejs 12.x  | alt‑nodejs 12.x  | alt‑nodejs 12.x  | alt‑nodejs 12.x  | —                |
+| alt‑nodejs 14.x  | alt‑nodejs 14.x  | alt‑nodejs 14.x  | alt‑nodejs 14.x  | —                |
+| —                | alt‑nodejs 16.x  | alt‑nodejs 16.x  | alt‑nodejs 16.x  | —                |
+| —                | alt‑nodejs 18.x  | alt‑nodejs 18.x  | alt‑nodejs 18.x  | —                |
+| —                | alt‑nodejs 19.x  | alt‑nodejs 19.x  | alt‑nodejs 19.x  | —                |
+| —                | alt‑nodejs 20.x  | alt‑nodejs 20.x  | alt‑nodejs 20.x  | —                |
+| —                | -                | alt‑nodejs 22.x  | alt‑nodejs 22.x  | —                |
+| —                | -                | alt‑nodejs 24.x  | alt‑nodejs 24.x  | —                |
 
 #### **Requirements**
 
