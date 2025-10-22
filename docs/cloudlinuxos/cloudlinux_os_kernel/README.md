@@ -92,7 +92,7 @@ This will:
 ## Hybrid Kernels
 
 ::: tip Hybrid kernel availability
-Hybrid kernels are only available for CloudLinux OS 6 and 7.
+Hybrid kernels are only available for CloudLinux OS 7.
 :::
 
 Hybrid kernels allow you to take advantage of the benefits and features available in newer kernels without having to completely upgrade to another version of the operating system.
@@ -125,13 +125,6 @@ hybrid-to-normal
 ```
 :::
 
-#### Known limitations and issues of hybrid kernels
-
-**CloudLinux OS 6 Hybrid kernel**
-
-1. We do not remove Hybrid kernel after migration from Hybrid to the normal channel, but we remove <span class="notranslate"> linux-firmware </span> package which is needed to boot Hybrid kernel. This is because <span class="notranslate"> CloudLinux OS </span> 6 does not allow to remove the package of currently running kernel. Thus please don't reboot the server back to Hybrid kernel after you remove it.
-
-2. Kernel module signature isn't checking for now, as 3.10 kernel is using x509 certificates to generate keys and CloudLinux OS 6 cannot detect signatures created in such way.
 
 ## SecureLinks and Link Traversal Protection
 
@@ -401,14 +394,13 @@ This command is available within CageFS.
 
 **Requirements**
 
-<span class="notranslate"> CloudLinux OS </span> 6 (requires Hybrid kernel) or 7
+<span class="notranslate"> CloudLinux OS 7</span>
 Kernel Version: 3.10.0-427.36.1.lve1.4.47
 
 **Installation and configuration**
 
 To install <span class="notranslate"> cloudlinux-fchange </span> system run:
 
-_CloudLinux OS 7:_
 <div class="notranslate">
 
 ```
@@ -416,14 +408,6 @@ yum install cloudlinux-fchange --enablerepo=cloudlinux-updates-testing
 ```
 </div>
 
-_CloudLinux OS 6 Hybrid:_
-
-<div class="notranslate">
-
-```
-yum install cloudlinux-fchange --enablerepo=cloudlinux-hybrid-testing
-```
-</div>
 Configuration file can be found in <span class="notranslate">/etc/sysconfig/cloudlinux-fchange </span>
 
 Database containing list of modified files is located at <span class="notranslate">/var/lve/cloudlinux-fchange.db </span> by default.
@@ -433,7 +417,6 @@ Database containing list of modified files is located at <span class="notranslat
 After successful installation the event collecting daemon starts automatically, providing all <span class="notranslate"> kernel-exposed </span> data are in place.
 
 To start daemon:
-<span class="notranslate">_CloudLinux OS 7:_ </span>
 
 <div class="notranslate">
 
@@ -442,31 +425,12 @@ systemctl start cloudlinux-file-change-collector
 ```
 </div>
 
-_CloudLinux OS 6 Hybrid:_
-
-<div class="notranslate">
-
-```
-service cloudlinux-file-change-collector start
-```
-</div>
 To stop daemon:
-<span class="notranslate"> </span>
-_CloudLinux OS 7:_
 
 <div class="notranslate">
 
 ```
 systemctl stop cloudlinux-file-change-collector
-```
-</div>
-
-_CloudLinux OS 6 Hybrid:_
-
-<div class="notranslate">
-
-```
-service cloudlinux-file-change-collector stop
 ```
 </div>
 
@@ -832,10 +796,6 @@ to apply `/etc/fstab` changes.
 Nevertheless, we recommend to manage procfs mount options via `/etc/sysctl.conf` as described above for backward compatibility.
 
 ::: tip Note
-There is a known issue on CloudLinux OS 6 systems. User cannot see full /proc inside CageFS even when this user is in “super” group, that should see full /proc. This issue does not affect users with CageFS disabled. CloudLinux OS 7 is not affected.
-:::
-
-::: tip Note
 Starting from lve-utils 3.0-21.2, lve_namespaces service can read parameters from the /etc/sysctl.d/90-cloudlinux.conf.
 :::
 
@@ -867,7 +827,7 @@ On Cloudlinux OS 8, changing the `/etc/fstab` file for setting `/proc` remountin
 Since CL7 kernel it’s recommended to use the native sysctl parameter `yama.ptrace_scope`. For details refer to the [official documentation](https://docs.kernel.org/admin-guide/LSM/Yama.html#ptrace-scope).
 :::
 
-Starting with kernel 3.10.0-427.18.s2.lve1.4.21 ( <span class="notranslate"> CloudLinux  OS </span> 7) and 2.6.32-673.26.1.lve1.4.17 ( <span class="notranslate"> CloudLinux OS </span> 6) we re-implemented <span class="notranslate"> ptrace block </span> to protect against <span class="notranslate"> ptrace </span> family of vulnerabilities. It prevents end user from using any <span class="notranslate"> ptrace </span> related functionality, including such commands as <span class="notranslate"> strace, lsof </span> or <span class="notranslate"> gdb </span> .
+Starting with kernel 3.10.0-427.18.s2.lve1.4.21 ( <span class="notranslate"> CloudLinux OS </span> 7) we re-implemented <span class="notranslate"> ptrace block </span> to protect against <span class="notranslate"> ptrace </span> family of vulnerabilities. It prevents end user from using any <span class="notranslate"> ptrace </span> related functionality, including such commands as <span class="notranslate"> strace, lsof </span> or <span class="notranslate"> gdb </span> .
 
 By default, <span class="notranslate"> CloudLinux OS </span> doesn't prevent <span class="notranslate"> ptrace </span> functionality.
 
@@ -919,13 +879,13 @@ This is needed only for CloudLinux OS 6 and <span class="notranslate"> Hybrid </
 ## Umask behavior
 
 :::tip Note
-CloudLinux OS 6, CloudLinux OS 6 hybrid, CloudLinux OS 7, CloudLinux OS 7 hybrid kernels.
+CloudLinux OS 7, CloudLinux OS 7 hybrid kernels
 :::
 
 Starting from the kernel module **lve-kmod-2.0-10**, the behavior of umask is changed.
 
 Now, when entering LVE task's original umask value is preserved, instead of using LVE's umask value.
-This behavior is typical for all kernels: CloudLinux OS 6, CloudLinux OS 6 hybrid, CloudLinux OS 7, CloudLinux OS 7 hybrid kernels.
+This behavior is typical for all kernels: CloudLinux OS 7, CloudLinux OS 7 hybrid kernels.
 
 ## IO limits latency
 
@@ -936,7 +896,7 @@ By defining <span class="notranslate"> IO latency, you can make sure that no pro
 
 This option is <span class="notranslate"> OFF by default. </span>
 
-_For CloudLinux OS 6 , CloudLinux OS 7, CloudLinux OS 8 (kmodlve 2.1-2 and later):_
+_For CloudLinux OS 7, CloudLinux OS 8 (kmodlve 2.1-2 and later):_
 
 To enable <span class="notranslate"> IO </span> Limits latency and set it to 10 seconds:
 <div class="notranslate">
@@ -979,7 +939,7 @@ echo 2000000000 > /sys/module/iolimits/**parameters/latency
 
 CloudLinux OS kernel provides real time usage data in file.
 
-All the statistics can be read from that file in real time. Depending on your kernel version you will get either Version 6 of the file, or version 4 of the file.
+All the statistics can be read from that file in real time. Depending on your kernel version, you will get either version 6 or version 4 of the file.
 You can detect the version by reading the first line of the file. It should look like:
 
 6:LVE... for version 6
@@ -989,7 +949,7 @@ First line presents headers for the data.
 Second line shows default limits for the server, with all other values being 0.
 The rest of the lines present limits & usage data on per <span class="notranslate"> LVE </span> bases.
 
-Version 6 (CL6 & hybrid kernels):
+Version 6 file example:
 <div class="notranslate">
 
 ```
@@ -1047,7 +1007,7 @@ More info on <span class="notranslate"> flashcache </span> : [https://github.com
 
 ## OOM killer for LVE processes
 
-When <span class="notranslate">LVE</span> reaches its memory limit, the processes inside that <span class="notranslate"> LVE </span> are killed by <span class="notranslate"> OOM Killer </span> and appropriate message is written to <span class="notranslate"> /var/log/messages </span> . When any <span class="notranslate"> LVE </span> hits huge number of memory limits in short period of time, then <span class="notranslate"> OOM Killer </span> could cause system overload. Starting from kernel 2.6.32-673.26.1.lve1.4.15 ( <span class="notranslate"> CloudLinux OS </span> 6) and from kernel 3.10.0-427.18.2.lve1.4.14 ( <span class="notranslate"> CloudLinux OS </span> 7) heavy <span class="notranslate"> OOM Killer </span> could be disabled. If so - lightweight <span class="notranslate"> SIGKILL </span> will be used instead.
+When <span class="notranslate">LVE</span> reaches its memory limit, the processes inside that <span class="notranslate"> LVE </span> are killed by <span class="notranslate"> OOM Killer </span> and appropriate message is written to <span class="notranslate"> /var/log/messages </span> . When any <span class="notranslate"> LVE </span> hits huge number of memory limits in short period of time, then <span class="notranslate"> OOM Killer </span> could cause system overload. Starting from kernel 3.10.0-427.18.2.lve1.4.14 ( <span class="notranslate"> CloudLinux OS </span> 7) heavy <span class="notranslate"> OOM Killer </span> could be disabled. If so - lightweight <span class="notranslate"> SIGKILL </span> will be used instead.
 
 :::tip Note
 It is recommended to disable OOM killer for LVE processes and use SIGKILL instead
@@ -1136,11 +1096,10 @@ Visit the [Kernel Panic Receiver project GitHub page](https://github.com/cloudli
 
 To send required kernel logs from the clients' machines to _Kernel Panic Receiver_, we configure the default Linux kernel feature called _netconsole_.
 
-#### For CloudLinux OS 6-9
+#### For CloudLinux OS 7-9
 
 The configuration is done by the `initscripts` package, starting from the following versions:
 
-* For CloudLinux OS 6: `9.03.61-1.cloudlinux`
 * For CloudLinux OS 7: `9.49.49-1.cloudlinux`
 * For CloudLinux OS 8-9: `10.00.4-1.cloudlinux`
 
@@ -1162,7 +1121,7 @@ The _netconsole_ sends only OOPs-related messages from the kernel ring buffer. I
 
 ### Disabling the feature
 
-#### For CloudLinux OS 6-9
+#### For CloudLinux OS 7-9
 
 If you don't want to send us the data, you can turn the _netconsole_ service off (we don't recommend it, though).
 To disable transferring the data, just comment the `SYSLOGADDR` parameter in the _netconsole_ config file (`/etc/sysconfig/netconsole`):
