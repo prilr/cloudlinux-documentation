@@ -234,6 +234,32 @@ In case of disk cache – if a user is starting to lack physical memory, the mem
 
 When LVE goes over physical memory limit, CloudLinux OS will first free up memory used for disk cache, and if that is not enough, it will kill some of the processes within that LVE, and increment fPMEM counter. This will usually cause web server to serve 500 and 503 errors. Physical memory limit is a much better way to limit memory for shared hosting.
 
+#### Physical memory lower bound
+
+CloudLinux OS allows administrators to configure a lower bound (minimum value) for physical memory (PMEM) limits to prevent setting limits that are too low and could cause application instability. When a lower bound is configured, any attempt to set a PMEM limit below this threshold will be rejected with an error message. This helps ensure that hosting accounts always have sufficient memory allocated for basic application requirements, preventing performance issues and unexpected application failures. The lower bound is enforced system-wide and applies to all limit-setting operations, whether performed through command-line tools or control panel integrations.
+
+You can configure the PMEM lower bound using the <span class="notranslate">`lvectl`</span> command:
+
+<div class="notranslate">
+
+```
+lvectl --set-pmem-lower-bound 512M
+```
+</div>
+
+Alternatively, you can use the <span class="notranslate">`cloudlinux-limits`</span> command:
+
+<div class="notranslate">
+
+```
+cloudlinux-limits set --pmem-lower-bound 512M --json
+```
+</div>
+
+The lower bound value accepts standard memory format notations (e.g., <span class="notranslate">`512M`</span>, <span class="notranslate">`1G`</span>, <span class="notranslate">`2048M`</span>).
+
+The configured PMEM lower bound value is stored in the <span class="notranslate">`/etc/sysconfig/limits_lower_bounds`</span> configuration file.
+
 #### Disable Page Cache accounting
 
 Since kmod-lve 2.0-53 (for CL8) and 2.1-17 (for CL9) we have released the new sysctl param `kernel.memstat_nocache`.
