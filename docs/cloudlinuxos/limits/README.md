@@ -236,7 +236,9 @@ When LVE goes over physical memory limit, CloudLinux OS will first free up memor
 
 #### Physical memory lower bound
 
-CloudLinux OS allows administrators to configure a lower bound (minimum value) for physical memory (PMEM) limits to prevent setting limits that are too low and could cause application instability. When a lower bound is configured, any attempt to set a PMEM limit below this threshold will be rejected with an error message. This helps ensure that hosting accounts always have sufficient memory allocated for basic application requirements, preventing performance issues and unexpected application failures. The lower bound is enforced system-wide and applies to all limit-setting operations, whether performed through command-line tools or control panel integrations.
+CloudLinux OS allows administrators to configure a lower bound (minimum value) for physical memory (PMEM) limits to prevent setting limits that are too low and could cause application instability. When a lower bound is configured, any attempt to set a PMEM limit below this threshold will be rejected with an error message displayed by CLI tool or CloudLinux Manager UI. This helps ensure that hosting accounts always have sufficient memory allocated for basic application requirements, preventing performance issues and unexpected application failures. The lower bound is enforced **system-wide** and applies to all limit-setting operations, whether performed through command-line tools or control panel integrations.
+
+By default, the PMEM lower bound is not configured.
 
 You can configure the PMEM lower bound using the <span class="notranslate">`lvectl`</span> command:
 
