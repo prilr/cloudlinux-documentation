@@ -5608,7 +5608,7 @@ See also [PHP Selector CLI tools](/command-line_tools/#php-selector).
 ### Bundled PHP extensions
 
 You can find this information in the corresponding section of the TuxCare documentation:
-[List of extensions supported by the ALT&EA team for each version of PHP](https://docs.cloudlinux.com/cloudlinuxos/alt-ea_packages/#bundled-php-extensions)
+[List of extensions supported by the ALT&EA team for each version of PHP](https://docs.tuxcare.com/els-for-runtimes/php/#php-extensions-list)
 
 
 ## Python Selector
