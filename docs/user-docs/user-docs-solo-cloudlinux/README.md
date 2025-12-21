@@ -387,13 +387,22 @@ To control server loads you can activate the *Control Heartbeat* function and re
 
 
 #### One-click AccelerateWP Add-ons
-**Varnish**
 
-When the server uses Varnish, you need to activate the add-on for implementing clearing Varnish cache when AccelerateWP clears site cache.
+##### MaxCache activation steps 
 
-**WebP Compatibility**
+:::tip 
+The **MAx Cache** feature requires AccelerateWP version **3.20.0.3-1.1-33** or higher. Please make sure you are using the latest version of the plugin. 
+:::
+:::tip
+Only available on the servers where MAx Cache Apache module is installed. 
+:::
 
-If your site uses the WebP plugin you can activate AccelerateWP WebP Compatibility add-on to achieve browser compatibility with your WebP images.
+To turn on MAx Cache: 
+1. In the WordPress Admin Dashboard, navigate to **AccelerateWP** -> **Settings** -> **Add-Ons**. 
+2. Click on the toggle next to the **MAx Cache** feature to activate it. 
+3. Directives for the Apache module "maxcache_module" will be added to .htaccess, which will automatically enable cache serving using Apache.
+
+![](/images/user-docs/user-docs-solo-cloudlinux/awp-maxcache-addons.png)
 
 
 #### CDN
