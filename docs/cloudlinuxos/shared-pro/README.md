@@ -1283,6 +1283,611 @@ S.5....T.    /opt/cpanel/ea-php80/root/usr/lib64/php/modules/mbstring.so
 yum reinstall ea-php80-php-mbstring
 ```
 
+## MAx Cache documentation 
+
+### Overview 
+
+`mod_maxcache` is an Apache 2.4 module that directly serves static cache files without requiring any mod_rewrite rules in `.htaccess`. The module handles the entire cache lookup internally - computing the cache path, checking for file existence, and serving the static HTML directly.
+
+This design eliminates per-request regex compilation in `.htaccess`, resulting in significantly faster cache delivery. The module is fully compatible with AccelerateWP's cache directory layout and can be used by any caching plugin that follows similar conventions.
+
+AccelerateWP uses this module to serve the correct static page without invoking PHP or writing complex RewriteRule-based configurations. This document summarizes the module's directives and describes how any page cache plugin can integrate with the same capabilities. 
+
+:::warning Note:
+MAx Cache is currently supported on cPanel control panels only. 
+:::
+
+### MAx Cache Installation
+
+To install MAx Cache, run the following commands: 
+
+```
+yum install accelerate-wp cloudlinux-site-optimization-module libmaxcache --enablerepo=cloudlinux-updates-testing 
+```
+```
+yum install ea-apache24-mod_maxcache --enablerepo-cl-ea4-testing
+``` 
+
+### MAx Cache Activation Guide 
+
+Use the following commands to manage MAx Cache on your server via the cloudlinux-awp-admin tool. 
+
+:::tip Note on Prerequisites
+**Important:** For either command to work, the AccelerateWP plugin must be installed and up-to-date on the WordPress sites you are targeting. Old versions of the plugin do not support the current configuration.
+:::
+
+#### 1. Bulk Activation (Server-Wide) 
+
+Use this command to enable MAx Cache for all compatible websites on the server at once. 
+```
+cloudlinux-awp-admin maxcache enable --all 
+```
+
+**What this does:**
+
+* **Mass Deployment:** Activates the MAx Cache feature directly on every compatible WordPress site hosted on the server.
+* **Prerequisite:** Ensure the **AccelerateWP plugin** is updated on the target sites before running this. The configuration requires the latest plugin version to apply successfully. 
+
+#### 2. Single Site Activation 
+
+Use this command to enable MAx Cache for a specific WordPress installation. 
+```
+cloudlinux-awp-admin maxcache --enable --user {USERNAME} --domain {USERDOMAIN} 
+```
+
+**Parameters:** 
+
+* `--user {USERNAME}`: Replace `{USERNAME}` with the system username of the account (e.g., `john`).
+* `--domain {USERDOMAIN}`: Replace `{USERDOMAIN}` with the specific domain name (e.g., `example.com`). 
+
+### Module Directives 
+
+#### MaxCache 
+
+* **Syntax**: `MaxCache On|Off`
+* **Default**: Off
+* **Context**: server config, virtual host, directory, .htaccess
+* **Description**: Master enable/disable switch for all module features. When disabled, the module performs no processing and immediately declines the request. When enabled, the module evaluates eligibility and serves cache files when found.
+* **Example**: 
+```
+<IfModule maxcache_module>
+    MaxCache On
+</IfModule>
+``` 
+
+#### MaxCachePath
+
+* **Syntax**: `MaxCachePath <template>`
+* **Default**: none (required for cache serving)
+* **Context**: .htaccess only
+* **Description**: Defines the cache file path template using placeholders. This directive is required for the module to serve cache files. The template describes the full path under the document root where cache files are stored.
+* **Placeholders**: 
+
+| Placeholder | Description | Example Value |
+|---|---|---|
+| `{HTTP_HOST}` | Request hostname | `example.com` |
+| `{REQUEST_URI}` | Request URI (trailing slashes trimmed) | `/article` |
+| `{USER_SUFFIX}` | Per-user directory suffix | `-admin-abc123` or empty |
+| `{USER_SHARED_SUFFIX}` | Shared logged-in suffix | `-loggedin-abc123` or empty |
+| `{QS_SUFFIX}` | Query string suffix | `#color=red` or empty |
+| `{MOBILE_SUFFIX}` | Mobile device suffix | `-mobile` or empty |
+| `{SSL_SUFFIX}` | HTTPS suffix | `-https` or empty |
+| `{WEBP_SUFFIX}` | WebP suffix | `-webp` or empty |
+| `{DYNAMIC_COOKIE_SUFFIX}` | Dynamic cookies suffix | `-usd-en` or empty |
+| `{GZIP_SUFFIX}` | Gzip suffix | `_gzip` or empty |
+* **Example** (standard cache layout): 
+```
+MaxCachePath /wp-content/cache/{HTTP_HOST}{USER_SUFFIX}{REQUEST_URI}{QS_SUFFIX}/index{MOBILE_SUFFIX}{SSL_SUFFIX}{WEBP_SUFFIX}{DYNAMIC_COOKIE_SUFFIX}.html{GZIP_SUFFIX}
+``` 
+This produces cache file paths like:
+* `/wp-content/cache/example.com/article/index-https-webp.html_gzip`
+* `/wp-content/cache/example.com-admin-secret/index-mobile-https.html` 
+
+#### MaxCacheOptions
+
+* **Syntax**: `MaxCacheOptions [+-]TabletAsMobile [+-]SkipCacheOnMobile [+-]ExportVars`
+* **Default**: `-TabletAsMobile -SkipCacheOnMobile -ExportVars`
+* **Context**: server config, virtual host, directory, .htaccess
+* **Options**: 
+
+| Option | Description |
+|---|---|
+| `TabletAsMobile` | Treat tablets as mobile devices for both the `-mobile` filename suffix (when `{MOBILE_SUFFIX}` is used) and the `SkipCacheOnMobile` gate. Without `SkipCacheOnMobile`, this option still matters: it changes whether tablets use the `-mobile` cache variant. |
+| `SkipCacheOnMobile` | Never serve cached content to mobile devices (and tablets, if `TabletAsMobile` is also enabled). |
+| `ExportVars` | Export `CL_DEVICE_TYPE` and `CL_SUPPORTS_WEBP` to subprocess_env| 
+
+* **Description**: Fine-tunes mobile/tablet behavior. The `ExportVars` option provides environment variables for use in `RewriteRule`: `%{ENV:CL_DEVICE_TYPE}` and `%{ENV:CL_SUPPORTS_WEBP}`. We recommend to simply use `MaxCachePath` instead.
+* **Example**: 
+```
+# Treat tablets as mobile
+MaxCacheOptions +TabletAsMobile
+
+# Skip cache for all mobile devices
+MaxCacheOptions +SkipCacheOnMobile +TabletAsMobile 
+``` 
+
+#### MaxCacheExcludeURI 
+
+* **Syntax**: `MaxCacheExcludeURI "<regex>"`
+* **Default**: none
+* **Context**: server config, virtual host, directory, .htaccess
+* **Description**: Excludes requests whose URI matches the given regex pattern (case-insensitive). Multiple directives can be specified; if any pattern matches, the request is not served from cache. 
+    * **Important**: Unlike RewriteCond rules that use `!` for negation, this directive uses **positive matching** — URIs that match are excluded. 
+    * **Performance tip**: Using `MaxCacheExcludeURI` patterns like `/(?:wp-content|wp-includes)/` is more efficient than wrapping directives in `<If "%{REQUEST_URI} !~ ...">` blocks. The module checks URI exclusions early and declines immediately, avoiding further processing.
+* **Example**:
+```
+# Exclude wp-content, wp-includes, feeds, embeds, and REST API (single efficient pattern)
+MaxCacheExcludeURI "/(?:wp-content|wp-includes)/|/(?:.+/)?feed(?:/(?:.+/?)?)?$|/(?:.+/)?embed/|/(index.php/)?(.*)wp-json(/.*|$)"
+
+# Exclude WooCommerce cart and checkout
+MaxCacheExcludeURI "^/(cart|checkout|my-account)(/|$)"
+``` 
+
+#### MaxCacheExcludeUA 
+
+* **Syntax**: `MaxCacheExcludeUA "<regex>"`
+* **Default**: none
+* **Context**: server config, virtual host, directory, .htaccess
+* **Description**: Excludes requests from User-Agents that match the given regex pattern (case-insensitive). Commonly used to exclude bots that should see fresh content.
+* **Example**:
+```
+# Exclude Facebook and WhatsApp crawlers
+MaxCacheExcludeUA "^(facebookexternalhit|WhatsApp).*"
+``` 
+
+#### MaxCacheExcludeCookie 
+
+* **Syntax**: `MaxCacheExcludeCookie "<regex>"`
+* **Default**: none
+* **Context**: server config, virtual host, directory, .htaccess
+* **Description**: Excludes requests whose raw `Cookie` header matches the given regex pattern (case-insensitive). Used to bypass cache for logged-in users or users with specific session cookies.
+* **Example**: 
+```
+# Exclude logged-in users, password-protected posts, etc.
+MaxCacheExcludeCookie "(wordpress_logged_in_.+|wp-postpass_|wptouch_switch_toggle|comment_author_|comment_author_email_)" 
+``` 
+
+#### MaxCacheMandatoryCookies 
+
+* **Syntax**: `MaxCacheMandatoryCookies <cookie1> [<cookie2> ...]`
+* **Default**: none
+* **Context**: server config, virtual host, directory, .htaccess
+* **Description**: Declares cookie names that **must be present** in the request for cache serving to occur. If any mandatory cookie is missing, the request falls back to PHP. Useful for gated content or opt-in caching scenarios.
+* **Example**:  
+```
+# Only serve cache if user has accepted cookies
+MaxCacheMandatoryCookies cookie_consent 
+``` 
+
+#### MaxCacheDynamicCookies 
+
+* **Syntax**: `MaxCacheDynamicCookies <token> [<token> ...]`
+* **Default**: none
+* **Context**: server config, virtual host, directory, .htaccess
+* **Description**: Declares cookie names whose values become part of the cache filename via `{DYNAMIC_COOKIE_SUFFIX}`. Supports both scalar cookies (`currency`) and nested cookies (`preferences[language]`).
+* **Normalization**:
+    * Cookie values are sanitized to `[A-Za-z0-9_-]` (others become `-`)
+    * Result is lowercased
+    * Underscores are converted to hyphens
+    * Each value is prefixed with `-`
+* **Example**:
+```
+# Cache varies by currency and language
+MaxCacheDynamicCookies currency language
+
+# Request with Cookie: currency=USD; language=en_US
+# Results in suffix: -usd-en-us
+# Full filename: index-https-usd-en-us.html
+```
+
+#### MaxCacheQSAllowedParams 
+
+* **Syntax**: `MaxCacheQSAllowedParams <param1> [<param2> ...]`
+* **Default**: none
+* **Context**: server config, virtual host, directory, .htaccess
+* **Description**: Declares query parameters that enable query-string cache variants. When at least one allowlisted parameter is present, the module:
+    * Removes any keys listed in `MaxCacheQSIgnoredParams`
+    * Sorts remaining keys ascending
+    * Builds a normalized query string
+    * Appends `#<normalized_query>` to the cache directory path via `{QS_SUFFIX}`
+    * If no allowlisted parameter is present, requests with query strings are not served from cache (fall back to PHP).
+* **Example:**
+```
+# Allow caching for search and pagination
+MaxCacheQSAllowedParams s paged
+
+# Request: /search/?s=hello&page=2
+# Cache path includes: #paged=2&s=hello
+```
+
+#### MaxCacheQSIgnoredParams
+
+* **Syntax**: `MaxCacheQSIgnoredParams <param1> [<param2> ...]`
+* **Default**: none
+* **Context**: server config, virtual host, directory, .htaccess
+* **Description**: Declares query parameters that are removed from the cache key. These parameters never affect cache variants—they're stripped before the query string is normalized.
+* **Example**:
+```
+# Ignore tracking parameters
+MaxCacheQSIgnoredParams utm_source utm_medium utm_campaign fbclid gclid
+
+# Request: /products/?color=red&utm_source=google
+# Cache key uses only: #color=red
+```
+
+#### MaxCacheIgnoreHeaders
+
+* **Syntax**: `MaxCacheIgnoreHeaders "Header-Name: Substring"`
+* **Default**: none
+* **Context**: server config, virtual host, directory, .htaccess
+* **Description**: Skip cache serving for requests carrying specific headers. The header value is checked for substring match.
+* **Example**:
+```
+# Don't serve cache for AJAX requests
+MaxCacheIgnoreHeaders "X-Requested-With: XMLHttpRequest"
+```
+
+#### MaxCacheLoggedHash
+
+* **Syntax**: `MaxCacheLoggedHash "<secret_key>"`
+* **Default**: none
+* **Context**: server config, virtual host, directory, .htaccess
+* **Description**: Sets the secret key used for logged-in user cache directories.
+* **Example**:
+```
+MaxCacheLoggedHash "your-secret-key"
+``` 
+
+### Integration Guide for Plugin Developers 
+
+This guide walks you through integrating `mod_maxcache` with your caching plugin. We'll start with the absolute basics and progressively add features until we reach a battle-tested production configuration. 
+
+:::tip Philosophy:  
+Each step builds on the previous one. Copy the final configuration that matches your needs, or follow along to understand how each piece works. 
+:::
+
+#### Step 1: Basic Caching
+The simplest possible configuration — just two lines to start serving cached pages:
+```
+<IfModule maxcache_module>
+    MaxCache On
+    MaxCachePath /wp-content/cache/{HTTP_HOST}{REQUEST_URI}/index.html
+</IfModule>
+```
+
+**What this does**:
+* Serves `/wp-content/cache/example.com/about-us/index.html` for requests to `https://example.com/about-us/`
+* Falls through to PHP if the cache file doesn't exist
+
+**Cache path breakdown**: 
+| Request | Cache File |
+|---|---|
+| `https://example.com/`  | `/wp-content/cache/example.com/index.html` |
+| `https://example.com/blog/`  | `/wp-content/cache/example.com/blog/index.html` |
+| `https://example.com/products/widget`/ | `/wp-content/cache/example.com/products/widget/index.html` | 
+
+####  Step 2: HTTPS Awareness with {SSL_SUFFIX} 
+
+Most sites serve different content (or at least different URLs) over HTTP vs HTTPS. Add `{SSL_SUFFIX}` to create separate cache files: 
+```
+<IfModule maxcache_module>
+    MaxCache On
+    MaxCachePath /wp-content/cache/{HTTP_HOST}{REQUEST_URI}/index{SSL_SUFFIX}.html
+</IfModule>
+```
+**What changes**:
+* HTTPS requests → `index-https.html`
+* HTTP requests → `index.html`
+
+| Request | Cache File |
+|---|---|
+| `https://example.com/` | `.../example.com/index-https.html` |
+| `http://example.com/` | `.../example.com/index.html` |
+
+#### Step 3: Mobile-Optimized Caching with {MOBILE_SUFFIX} 
+
+Serve different cached pages to mobile devices—critical for sites with responsive designs that differ significantly between desktop and mobile: 
+```
+<IfModule maxcache_module>
+    MaxCache On
+    MaxCachePath /wp-content/cache/{HTTP_HOST}{REQUEST_URI}/index{MOBILE_SUFFIX}{SSL_SUFFIX}.html
+</IfModule>
+``` 
+**What changes**:
+* Desktop requests → `index-https.html`
+* Mobile requests → `index-mobile-https.html`
+
+The module uses intelligent User-Agent detection to identify mobile devices. No configuration needed — it just works.
+
+| Device | Request | Cache File |
+|---|---|---|
+| Desktop | `https://example.com/` | `index-https.html` |
+| iPhone | `https://example.com/` | `index-mobile-https.html` |
+| iPad | `https://example.com/` | `index-https.html` (tablets = desktop by default) |
+
+:::tip Tip: 
+Want tablets treated as mobile? Add `MaxCacheOptions +TabletAsMobile` 
+:::
+
+#### Step 4: Gzip Compression Support 
+
+Serve pre-compressed cache files for faster delivery. Just add the gzip suffix: 
+
+```
+<IfModule maxcache_module>
+    MaxCache On
+    MaxCachePath /wp-content/cache/{HTTP_HOST}{REQUEST_URI}/index{MOBILE_SUFFIX}{SSL_SUFFIX}.html{GZIP_SUFFIX}
+</IfModule>
+```
+
+**What changes**:
+* Cache files now end with `.html_gzip` for browser which support gzip encoding
+* Apache serves these with proper `Content-Encoding: gzip` headers
+* Browsers decompress automatically — users see faster load times
+* Clients without gzip support still get non-compressed `.html` cache files
+
+#### Step 5: Protecting Dynamic Content with Exclusions 
+
+Not everything should be cached. Add exclusion rules to bypass the cache for dynamic content: 
+```
+<IfModule maxcache_module>
+    MaxCache On
+
+    # Bypass cache for feeds, embeds, REST API, and WordPress internals
+    MaxCacheExcludeURI "/(?:.+/)?feed(?:/(?:.+/?)?)?$|/(?:.+/)?embed/|/(?:wp-content|wp-includes)/|/(index.php/)?(.*)wp-json(/.*|$)"
+
+    MaxCachePath /wp-content/cache/{HTTP_HOST}{REQUEST_URI}/index{MOBILE_SUFFIX}{SSL_SUFFIX}.html{GZIP_SUFFIX}
+</IfModule> 
+```
+
+**What this excludes**:
+
+| Pattern | Matches |
+|---|---|
+| `/feed/` | RSS/Atom feeds at any level |
+| `/embed/` | Embed endpoints |
+| `/wp-content/`, `/wp-includes/` | Static assets (let Apache handle directly) |
+| `/wp-json/` | REST API calls |
+
+:::tip 
+Why positive matching? Unlike RewriteCond's `!` negation, `MaxCacheExcludeURI` uses positive matching — patterns that match are _excluded_. This is more intuitive: "exclude URIs that look like this." 
+:::
+
+#### Step 6: Handling Bots and Crawlers 
+
+Some bots need fresh content. Exclude them by User-Agent:
+```
+<IfModule maxcache_module>
+    MaxCache On
+
+    MaxCacheExcludeURI "/(?:.+/)?feed(?:/(?:.+/?)?)?$|/(?:.+/)?embed/|/(?:wp-content|wp-includes)/|/(index.php/)?(.*)wp-json(/.*|$)"
+
+    # Facebook and WhatsApp crawlers should see fresh content for link previews
+    MaxCacheExcludeUA "^(facebookexternalhit|WhatsApp).*"
+
+    MaxCachePath /wp-content/cache/{HTTP_HOST}{REQUEST_URI}/index{MOBILE_SUFFIX}{SSL_SUFFIX}.html{GZIP_SUFFIX}
+</IfModule>
+```
+
+#### Step 7: Logged-In Users and Session Cookies 
+
+Exclude users with active sessions—they need dynamic, personalized content:
+```
+<IfModule maxcache_module>
+    MaxCache On
+
+    MaxCacheExcludeURI "/(?:.+/)?feed(?:/(?:.+/?)?)?$|/(?:.+/)?embed/|/(?:wp-content|wp-includes)/|/(index.php/)?(.*)wp-json(/.*|$)"
+    MaxCacheExcludeUA "^(facebookexternalhit|WhatsApp).*"
+
+    # Bypass cache for logged-in users and special sessions
+    MaxCacheExcludeCookie "(wordpress_logged_in_.+|wp-postpass_|wptouch_switch_toggle|comment_author_|comment_author_email_)"
+
+    MaxCachePath /wp-content/cache/{HTTP_HOST}{REQUEST_URI}/index{MOBILE_SUFFIX}{SSL_SUFFIX}.html{GZIP_SUFFIX}
+</IfModule> 
+```
+**Cookies that bypass cache**:
+| Cookie Pattern | Meaning |
+|---|---|
+| `wordpress_logged_in_*` | Logged-in WordPress users |
+| `wp-postpass_*` | Password-protected post access |
+| `wptouch_switch_toggle` | Mobile theme switcher |
+| `comment_author_*` | Users who've commented (name/email remembered) |
+
+#### Step 8: Query String Intelligence with {QS_SUFFIX} 
+
+By default, URLs with query strings bypass the cache. But some query strings _should_ be cached — like search results or paginated content. 
+``` 
+<IfModule maxcache_module>
+    MaxCache On
+
+    # Cache these query parameters (search, pagination, language)
+    MaxCacheQSAllowedParams lang s permalink_name lp-variation-id
+
+    MaxCacheExcludeURI "/(?:.+/)?feed(?:/(?:.+/?)?)?$|/(?:.+/)?embed/|/(?:wp-content|wp-includes)/|/(index.php/)?(.*)wp-json(/.*|$)"
+    MaxCacheExcludeUA "^(facebookexternalhit|WhatsApp).*"
+    MaxCacheExcludeCookie "(wordpress_logged_in_.+|wp-postpass_|wptouch_switch_toggle|comment_author_|comment_author_email_)"
+
+    # Add {QS_SUFFIX} to include query string in cache path
+    MaxCachePath /wp-content/cache/{HTTP_HOST}{REQUEST_URI}{QS_SUFFIX}/index{MOBILE_SUFFIX}{SSL_SUFFIX}.html{GZIP_SUFFIX}
+</IfModule> 
+```
+**How query strings become cache paths:**
+| Request | Cache Directory |
+|---|---|
+| `/?s=hello` | `.../example.com#s=hello/` |
+| `/?lang=en&s=test` | `.../example.com#lang=en&s=test/` |
+| `/?random=xyz` | ❌ _Not cached (param not in allowlist)_ |
+
+:::tip Key insight:  
+Only requests with at least one allowed parameter get cached. Unknown query strings fall through to PHP.
+:::
+
+#### Step 9: Stripping Tracking Parameters 
+
+Marketing tools add tracking parameters (utm_source, fbclid, etc.) that create cache pollution. Strip them: 
+``` 
+<IfModule maxcache_module>
+    MaxCache On
+
+    MaxCacheQSAllowedParams lang s permalink_name lp-variation-id
+
+    # These parameters are stripped before computing the cache key
+    MaxCacheQSIgnoredParams utm_source utm_medium utm_campaign fbclid gclid
+
+    MaxCacheExcludeURI "/(?:.+/)?feed(?:/(?:.+/?)?)?$|/(?:.+/)?embed/|/(?:wp-content|wp-includes)/|/(index.php/)?(.*)wp-json(/.*|$)"
+    MaxCacheExcludeUA "^(facebookexternalhit|WhatsApp).*"
+    MaxCacheExcludeCookie "(wordpress_logged_in_.+|wp-postpass_|wptouch_switch_toggle|comment_author_|comment_author_email_)"
+
+    MaxCachePath /wp-content/cache/{HTTP_HOST}{REQUEST_URI}{QS_SUFFIX}/index{MOBILE_SUFFIX}{SSL_SUFFIX}.html{GZIP_SUFFIX}
+</IfModule>
+```
+
+**The magic:**
+| Request | Effective Cache Key |
+|---|---|
+| `/?s=hello&utm_source=google` | `#s=hello (utm_source stripped)` |
+| `/?fbclid=abc123` | ❌ _Falls to PHP (no allowed params remain)_ |
+| `/?s=test&gclid=xyz&lang=en` | `#lang=en&s=test (gclid stripped, sorted)` |
+
+#### Step 10: Behavior Fine-Tuning with `MaxCacheOptions`
+Control mobile handling and enable environment variable export:
+```
+<IfModule maxcache_module>
+    MaxCache On
+
+    # -SkipCacheOnMobile: Serve cache to mobile (default)
+    # -TabletAsMobile: Tablets use desktop cache (default)
+    MaxCacheOptions -SkipCacheOnMobile -TabletAsMobile
+
+    MaxCacheQSAllowedParams lang s permalink_name lp-variation-id
+    MaxCacheQSIgnoredParams utm_source utm_medium utm_campaign fbclid gclid
+
+    MaxCacheExcludeURI "/(?:.+/)?feed(?:/(?:.+/?)?)?$|/(?:.+/)?embed/|/(?:wp-content|wp-includes)/|/(index.php/)?(.*)wp-json(/.*|$)"
+    MaxCacheExcludeUA "^(facebookexternalhit|WhatsApp).*"
+    MaxCacheExcludeCookie "(wordpress_logged_in_.+|wp-postpass_|wptouch_switch_toggle|comment_author_|comment_author_email_)"
+
+    MaxCachePath /wp-content/cache/{HTTP_HOST}{REQUEST_URI}{QS_SUFFIX}/index{MOBILE_SUFFIX}{SSL_SUFFIX}.html{GZIP_SUFFIX}
+</IfModule>
+```
+
+**Options explained:**
+| Option | Effect |
+|---|---|
+| `-SkipCacheOnMobile` | Mobile devices ARE served from cache (default) |
+| `+SkipCacheOnMobile` | Mobile devices always hit PHP |
+| `-TabletAsMobile` | Tablets use desktop cache variant (default) |
+| `+TabletAsMobile` | Tablets use mobile cache variant |
+| `+ExportVars` | Provides `%{ENV:CL_DEVICE_TYPE}` and `%{ENV:CL_SUPPORTS_WEBP}` for use in `.htaccess`. Use only if you rely on `RewriteRule` to build up cache file paths (not recommended) | 
+
+#### Production-Ready Configuration 
+
+Here's the complete, battle-tested configuration with comprehensive tracking parameter coverage: 
+```
+<IfModule maxcache_module>
+    MaxCache On
+    MaxCacheOptions -SkipCacheOnMobile -TabletAsMobile
+
+    MaxCacheQSAllowedParams lang s permalink_name lp-variation-id
+
+    MaxCacheQSIgnoredParams utm_source utm_medium utm_campaign utm_expid utm_term utm_content utm_id utm_source_platform utm_creative_format utm_marketing_tactic mtm_source mtm_medium mtm_campaign mtm_keyword mtm_cid mtm_content pk_source pk_medium pk_campaign pk_keyword pk_cid pk_content fb_action_ids fb_action_types fb_source fbclid campaignid adgroupid adid gclid age-verified ao_noptimize usqp cn-reloaded _ga sscid gclsrc _gl mc_cid mc_eid _bta_tid _bta_c trk_contact trk_msg trk_module trk_sid gdfms gdftrk gdffi _ke _kx redirect_log_mongo_id redirect_mongo_id sb_referer_host mkwid pcrid ef_id s_kwcid msclkid dm_i epik pp gbraid wbraid ssp_iabi ssp_iaba gad vgo_ee gad_source gad_campaignid onlywprocket srsltid gadid fbadid
+
+    MaxCacheExcludeURI "/(?:.+/)?feed(?:/(?:.+/?)?)?$|/(?:.+/)?embed/|/(?:wp-content|wp-includes)/|/(index.php/)?(.*)wp-json(/.*|$)"
+    MaxCacheExcludeUA "^(facebookexternalhit|WhatsApp).*"
+    MaxCacheExcludeCookie "(wordpress_logged_in_.+|wp-postpass_|wptouch_switch_toggle|comment_author_|comment_author_email_)"
+
+    MaxCachePath /wp-content/cache/{HTTP_HOST}{REQUEST_URI}{QS_SUFFIX}/index{MOBILE_SUFFIX}{SSL_SUFFIX}.html{GZIP_SUFFIX}
+</IfModule> 
+```
+**What's in that massive `MaxCacheQSIgnoredParams` list?**
+| Category | Parameters |
+|---|---|
+| Google Analytics | `utm_*`, `gclid`, `gclsrc`, `_ga`, `_gl`, `gad*` |
+| Facebook | `fb_*`, `fbclid`, `fbadid` |
+| Microsoft | `msclkid`, `s_kwcid` |
+| Matomo | `mtm_*`, `pk_*` |
+| Email Marketing | `mc_cid`, `mc_eid`, `_bta_*`, `trk_*`, `_ke`, `_kx` |
+| Affiliate/Misc | `epik`, `gbraid`, `wbraid`, `srsltid`, and more | 
+
+#### Bonus: Advanced Configurations 
+
+##### Per-User Cache for Logged-In Users 
+
+Enable caching for logged-in users with per-user cache directories: 
+```
+<IfModule maxcache_module>
+    MaxCache On
+
+    # Must match your plugin's secret_cache_key option
+    MaxCacheLoggedHash "your-secret-key-here"
+
+    # Remove wordpress_logged_in_ from exclusions to enable per-user cache
+    MaxCacheExcludeCookie "(wp-postpass_|wptouch_switch_toggle|comment_author_|comment_author_email_)"
+
+    # {USER_SUFFIX} creates per-user directories like: example.com-alice-abc123/
+    MaxCachePath /wp-content/cache/{HTTP_HOST}{USER_SUFFIX}{REQUEST_URI}/index{MOBILE_SUFFIX}{SSL_SUFFIX}.html{GZIP_SUFFIX}
+</IfModule> 
+```
+
+##### Dynamic Cookie Variations (Currency/Language) 
+
+Cache different versions based on cookie values: 
+```
+<IfModule maxcache_module>
+    MaxCache On
+
+    # Cache varies by these cookie values
+    MaxCacheDynamicCookies currency language
+
+    # {DYNAMIC_COOKIE_SUFFIX} adds -usd-en style suffixes
+    MaxCachePath /wp-content/cache/{HTTP_HOST}{REQUEST_URI}/index{MOBILE_SUFFIX}{SSL_SUFFIX}{DYNAMIC_COOKIE_SUFFIX}.html{GZIP_SUFFIX}
+</IfModule> 
+```
+**Result**: `Cookie: currency=USD; language=en` → `index-https-usd-en.html_gzip` 
+
+### Cache Path Construction 
+
+For a complete understanding, here's how the module builds cache paths: 
+
+1. Eligibility checks (in order):
+    - Is `MaxCache` On?
+    - Is request method `GET`?
+    - For query strings: is at least one `MaxCacheQSAllowedParams` key present? (if not, request is declined)
+    - Do any `MaxCacheIgnoreHeaders` match?
+    - Do any `MaxCacheExcludeURI` patterns match?
+    - Do any `MaxCacheExcludeUA` patterns match?
+    - Do any `MaxCacheExcludeCookie` patterns match?
+    - Are all `MaxCacheMandatoryCookies` present?
+    - Is `MaxCacheOptions +SkipCacheOnMobile` enabled and device is mobile/tablet?
+
+2. Template evaluation (lazy, only if eligible):
+    - Parse `MaxCachePath` into segments
+    - Evaluate each placeholder as needed
+    - Build complete cache URI
+
+3. File lookup:
+    - Construct filesystem path: `<DocumentRoot><cache_uri>`
+    - Check if file exists and is a regular file
+    - If found: rewrite request to serve static file
+    - If not found: decline (request falls through to PHP) 
+
+### Performance Notes 
+
+The module is designed for maximum performance:
+* **No RewriteRule parsing**: The module handles cache logic internally, avoiding per-request regex compilation in `.htaccess`
+* **Lazy evaluation**: Template placeholders are only evaluated for eligible requests
+* **Regex caching**: Exclusion patterns are compiled once and cached across requests
+* **Early exit**: Non-cacheable requests (wrong method, excluded, etc.) exit quickly without file I/O
+
+Benchmarks show significant improvements over RewriteRule-based caching, especially for high-traffic sites with complex `.htaccess` configurations. 
+
+### AccelerateWP plugin limitation 
+
+MAx Cache will not work in AccelerateWP when:
+* The site is a WordPress Multisite (the MAx Cache .htaccess block is skipped).
+* The site language is Korean (ko_KR) (the MAx Cache .htaccess block is skipped).
+* Using the AccelerateWP PHP filter to replace dots with underscores.
+* Using the AccelerateWP PHP filter forces the full path to cache files instead of using DOCUMENT_ROOT.
+
 ## Centralized Monitoring
 
 ### Description
