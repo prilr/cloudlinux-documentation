@@ -4116,10 +4116,10 @@ The mark `x` stands for a supported version.
 |             | Cloudlinux 6  | Cloudlinux 7  | Cloudlinux 8  | Cloudlinux 9  | Cloudlinux 10 |
 |:-----------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
 | alt-php 5.1 |       x       |       x       |       x       |       –       |       –       |
-| alt-php 5.2 |       x       |       x       |       x       |       x       |       x       |
-| alt-php 5.3 |       x       |       x       |       x       |       x       |       x       |
-| alt-php 5.4 |       x       |       x       |       x       |       x       |       x       |
-| alt-php 5.5 |       x       |       x       |       x       |       x       |       x       |
+| alt-php 5.2 |       x       |       x       |       x       |       x       |       –       |
+| alt-php 5.3 |       x       |       x       |       x       |       x       |       –       |
+| alt-php 5.4 |       x       |       x       |       x       |       x       |       –       |
+| alt-php 5.5 |       x       |       x       |       x       |       x       |       –       |
 | alt-php 5.6 |       x       |       x       |       x       |       x       |       x       |
 | alt-php 7.0 |       x       |       x       |       x       |       x       |       x       |
 | alt-php 7.1 |       x       |       x       |       x       |       x       |       x       |
