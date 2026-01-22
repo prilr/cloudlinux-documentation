@@ -28,10 +28,6 @@ export default [
         title: "End-user Documents",
         description: "Documentation section for end-users on Cloudlinux OS.",
         link: "/user-docs/user-docs-shared-pro-cloudlinux/",
-    },
-    {
-        title: "Website Isolation",
-        description: "A security feature that provides domain-level isolation within CageFS.",
-        link: "/cloudlinuxos/website_isolation/",
     }
 ]
+
