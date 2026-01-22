@@ -1,5 +1,5 @@
-import {provide} from "vue";
-import {defineClientConfig} from "@vuepress/client";
+import { provide } from "vue";
+import { defineClientConfig } from "@vuepress/client";
 import mitt from 'mitt';
 
 import Layout from "./theme/layouts/Layout.vue";
@@ -15,10 +15,12 @@ import social from "./config-client/social";
 import Chat from "./components/Chat.vue";
 import CodeTabs from "./components/CodeTabs.vue";
 import CodeWithCopy from "./components/CodeWithCopy.vue";
+import GlobalCopyCode from "./components/GlobalCopyCode.vue";
 
 export default defineClientConfig({
     rootComponents: [
         Chat,
+        GlobalCopyCode,
     ],
     async enhance({ app }) {
         app.config.globalProperties.$eventBus = mitt();
@@ -69,7 +71,7 @@ export default defineClientConfig({
             productsList: ['CloudLinux', 'Imunify', 'TuxCare'],
             productsTitle: 'Products',
             productsURLs: ['https://docs.cloudlinux.com', 'https://docs.imunify360.com', 'https://docs.tuxcare.com'],
-            
+
             //social links for footer
             social,
 
