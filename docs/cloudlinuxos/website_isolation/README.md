@@ -37,6 +37,16 @@ When Website Isolation is enabled for a domain:
 Website Isolation currently supports LSAPI and CGI handlers only. FPM and FCGI support is planned for future releases
 :::
 
+#### Compatible Control Panels
+| Handler                  | Status                       |
+| -------                  | ---------------------------- |
+| cPanel                   | ✅ Supported                 |
+| Plesk                    | 🔜 Coming in future releases |
+| DirectAdmin              | 🔜 Coming in future releases |
+| Integration Scripts*     | ✅ Supported                 |
+
+*[Control Panel Integration](/cloudlinuxos/control_panel_integration/#control-panel-api-integration)
+
 ***
 
 ### Quick Start
@@ -152,8 +162,9 @@ site1.com,site2.com
 * The domain must exist and be associated with a valid user account
 * Must be run with root privileges
 
-> \[!NOTE]
-> Currently, this command requires root execution. Future releases may allow end users to enable isolation for their own domains.
+:::tip Note
+Currently, this command requires root execution. Future releases may allow end users to enable isolation for their own domains.
+:::
 
 **What happens when isolation is enabled:**
 
