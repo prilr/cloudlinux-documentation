@@ -1522,15 +1522,7 @@ yum remove lve kmod*lve*
 
 Kernel package and related LVE packages should be deleted and the required kernel will be installed.
 
-Before the reboot, the following command should be executed for restoring Apache and httpd.conf without mod_hostinglimits.
-
-**For EasyApache 3:**
-
-```
-/scripts/easyapache --build
-```
-
-**For EasyApache 4:**
+Before the reboot, the following command should be executed for restoring Apache and httpd.conf without mod_hostinglimits:
 
 ```
 /usr/local/bin/ea_install_profile --install /etc/cpanel/ea4/profiles/cpanel/default.json
