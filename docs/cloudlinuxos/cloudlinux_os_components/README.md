@@ -5730,7 +5730,21 @@ Ruby Selector works only on cPanel/WHM servers.
 
 ### Supported versions
 
-![](/images/cloudlinuxos/cloudlinux_os_components/Ruby_supported_versions.webp)
+| CloudLinux 6 | CloudLinux 7 | CloudLinux 8 | CloudLinux 9 | CloudLinux 10 |
+| ------------ | ------------ | ------------ | ------------ | ------------- |
+| alt-ruby18   | alt-ruby18   | alt-ruby18   | alt-ruby22   | alt-ruby22    |
+| alt-ruby19   | alt-ruby19   | alt-ruby19   | alt-ruby23   |               |
+| alt-ruby20   | alt-ruby20   | alt-ruby20   | alt-ruby24   |               |
+| alt-ruby21   | alt-ruby21   | alt-ruby21   | alt-ruby25   |               |
+| alt-ruby22   | alt-ruby22   | alt-ruby22   | alt-ruby26   |               |
+| alt-ruby23   | alt-ruby23   | alt-ruby23   | alt-ruby27   |               |
+| alt-ruby24   | alt-ruby24   | alt-ruby24   | alt-ruby30   |               |
+| alt-ruby25   | alt-ruby25   | alt-ruby25   | alt-ruby31   |               |
+| alt-ruby26   | alt-ruby26   | alt-ruby26   | alt-ruby32   |               |
+| alt-ruby27   | alt-ruby27   | alt-ruby27   |              |               |
+|              | alt-ruby30   | alt-ruby30   |              |               |
+|              | alt-ruby31   | alt-ruby31   |              |               |
+|              | alt-ruby32   | alt-ruby32   |              |               |
 
 
 ### Installation and update
